@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bihar Police - Malkhana Register</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #1e3c72;
+            font-size: 12px;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .header-text {
+            flex: 1;
+        }
+
+        .header-text h1 {
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+
+        .header-text p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            padding: 30px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(56, 239, 125, 0.4);
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            max-width: 900px;
+            margin: 20px auto;
+            border-radius: 15px;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .modal-header h2 {
+            color: #1e3c72;
+            font-size: 24px;
+        }
+
+        .close {
+            font-size: 32px;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            padding: 10px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 14px;
+        }
+
+        tbody tr {
+            transition: all 0.3s;
+        }
+
+        tbody tr:hover {
+            background: #f5f7ff;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 13px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .btn-edit {
+            background: #ffa726;
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background: #fb8c00;
+            transform: translateY(-2px);
+        }
+
+        .btn-delete {
+            background: #ef5350;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #e53935;
+            transform: translateY(-2px);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 18px;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 60px;
+            color: #999;
+            font-size: 18px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-card h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .stat-card p {
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header-text h1 {
+                font-size: 24px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                BIHAR<br>POLICE
+            </div>
+            <div class="header-text">
+                <h1>मालखाना रजिस्टर प्रबंधन प्रणाली</h1>
+                <p>Malkhana Register Management System</p>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="stats" id="stats">
+                <div class="stat-card">
+                    <h3>कुल रिकॉर्ड / Total Records</h3>
+                    <p id="totalRecords">0</p>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="btn btn-primary" onclick="openModal()">
+                    ➕ नया रिकॉर्ड जोड़ें / Add New Record
+                </button>
+                <button class="btn btn-success" onclick="loadRecords()">
+                    🔄 रीफ्रेश / Refresh
+                </button>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="🔍 खोजें (FIR No, Police Station, Officer, Property Type...)" onkeyup="searchRecords()">
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Entry No</th>
+                            <th>FIR No</th>
+                            <th>Police Station</th>
+                            <th>Case Section</th>
+                            <th>Property Description</th>
+                            <th>Property Type</th>
+                            <th>Quantity/Weight</th>
+                            <th>Identification Mark</th>
+                            <th>Seal Number</th>
+                            <th>Date of Seizure</th>
+                            <th>Seized By Officer</th>
+                            <th>Received Date</th>
+                            <th>Register No</th>
+                            <th>Storage Location</th>
+                            <th>Issued Date</th>
+                            <th>Issued To</th>
+                            <th>Return Date</th>
+                            <th>Disposal Type</th>
+                            <th>Disposal Date</th>
+                            <th>Remarks</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <tr>
+                            <td colspan="21" class="loading">Loading records...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="recordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">नया रिकॉर्ड जोड़ें / Add New Record</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <form id="recordForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Entry No *</label>
+                        <input type="number" id="entry_no" required>
+                    </div>
+                    <div class="form-group">
+                        <label>FIR No</label>
+                        <input type="text" id="case_fir_no">
+                    </div>
+                    <div class="form-group">
+                        <label>Police Station</label>
+                        <input type="text" id="police_station">
+                    </div>
+                    <div class="form-group">
+                        <label>Case Section</label>
+                        <input type="text" id="case_section">
+                    </div>
+                    <div class="form-group">
+                        <label>Property Type</label>
+                        <input type="text" id="property_type">
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity/Weight</label>
+                        <input type="text" id="quantity_weight">
+                    </div>
+                    <div class="form-group">
+                        <label>Identification Mark</label>
+                        <input type="text" id="identification_mark">
+                    </div>
+                    <div class="form-group">
+                        <label>Seal Number</label>
+                        <input type="text" id="seal_number">
+                    </div>
+                    <div class="form-group">
+                        <label>Date of Seizure</label>
+                        <input type="date" id="date_of_seizure">
+                    </div>
+                    <div class="form-group">
+                        <label>Seized By Officer</label>
+                        <input type="text" id="seized_by_officer">
+                    </div>
+                    <div class="form-group">
+                        <label>Received Date (Malkhana)</label>
+                        <input type="date" id="received_date_malkhana">
+                    </div>
+                    <div class="form-group">
+                        <label>Malkhana Register No</label>
+                        <input type="text" id="malkhana_register_no">
+                    </div>
+                    <div class="form-group">
+                        <label>Storage Location</label>
+                        <input type="text" id="storage_location">
+                    </div>
+                    <div class="form-group">
+                        <label>Issued Date</label>
+                        <input type="date" id="issued_date">
+                    </div>
+                    <div class="form-group">
+                        <label>Issued To</label>
+                        <input type="text" id="issued_to">
+                    </div>
+                    <div class="form-group">
+                        <label>Return Date</label>
+                        <input type="date" id="return_date">
+                    </div>
+                    <div class="form-group">
+                        <label>Final Disposal Type</label>
+                        <input type="text" id="final_disposal_type">
+                    </div>
+                    <div class="form-group">
+                        <label>Disposal Date</label>
+                        <input type="date" id="disposal_date">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Property Description</label>
+                    <textarea id="property_description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Remarks</label>
+                    <textarea id="remarks"></textarea>
+                </div>
+                <div style="display: flex; gap: 15px; margin-top: 20px;">
+                    <button type="submit" class="btn btn-success" style="flex: 1;">💾 Save Record</button>
+                    <button type="button" class="btn" style="flex: 1; background: #999; color: white;" onclick="closeModal()">❌ Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'https://malkhanabackend.vercel.app/api/malkhana';
+        let isEditMode = false;
+        let editingEntryNo = null;
+        let allRecords = [];
+
+        // Load records on page load
+        window.onload = function() {
+            loadRecords();
+        };
+
+        async function loadRecords() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '<tr><td colspan="21" class="loading">Loading records...</td></tr>';
+
+            try {
+                const response = await fetch(API_BASE);
+                const result = await response.json();
+
+                if (result.success) {
+                    allRecords = result.data;
+                    displayRecords(allRecords);
+                    updateStats(allRecords.length);
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="21" class="no-data">Error loading records</td></tr>';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                tbody.innerHTML = '<tr><td colspan="21" class="no-data">Failed to connect to server</td></tr>';
+            }
+        }
+
+        function displayRecords(records) {
+            const tbody = document.getElementById('tableBody');
+            
+            if (records.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="21" class="no-data">No records found</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = records.map(record => `
+                <tr>
+                    <td><strong>${record.entry_no}</strong></td>
+                    <td>${record.case_fir_no || '-'}</td>
+                    <td>${record.police_station || '-'}</td>
+                    <td>${record.case_section || '-'}</td>
+                    <td>${record.property_description || '-'}</td>
+                    <td>${record.property_type || '-'}</td>
+                    <td>${record.quantity_weight || '-'}</td>
+                    <td>${record.identification_mark || '-'}</td>
+                    <td>${record.seal_number || '-'}</td>
+                    <td>${record.date_of_seizure ? new Date(record.date_of_seizure).toLocaleDateString('en-IN') : '-'}</td>
+                    <td>${record.seized_by_officer || '-'}</td>
+                    <td>${record.received_date_malkhana ? new Date(record.received_date_malkhana).toLocaleDateString('en-IN') : '-'}</td>
+                    <td>${record.malkhana_register_no || '-'}</td>
+                    <td>${record.storage_location || '-'}</td>
+                    <td>${record.issued_date ? new Date(record.issued_date).toLocaleDateString('en-IN') : '-'}</td>
+                    <td>${record.issued_to || '-'}</td>
+                    <td>${record.return_date ? new Date(record.return_date).toLocaleDateString('en-IN') : '-'}</td>
+                    <td>${record.final_disposal_type || '-'}</td>
+                    <td>${record.disposal_date ? new Date(record.disposal_date).toLocaleDateString('en-IN') : '-'}</td>
+                    <td>${record.remarks || '-'}</td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn-small btn-edit" onclick="editRecord(${record.entry_no})">✏️ Edit</button>
+                            <button class="btn-small btn-delete" onclick="deleteRecord(${record.entry_no})">🗑️ Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function updateStats(count) {
+            document.getElementById('totalRecords').textContent = count;
+        }
+
+        function openModal() {
+            isEditMode = false;
+            editingEntryNo = null;
+            document.getElementById('modalTitle').textContent = 'नया रिकॉर्ड जोड़ें / Add New Record';
+            document.getElementById('recordForm').reset();
+            document.getElementById('entry_no').disabled = false;
+            document.getElementById('recordModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('recordModal').style.display = 'none';
+        }
+
+        async function editRecord(entryNo) {
+            try {
+                const response = await fetch(`${API_BASE}/${entryNo}`);
+                const result = await response.json();
+
+                if (result.success) {
+                    const record = result.data;
+                    isEditMode = true;
+                    editingEntryNo = entryNo;
+                    
+                    document.getElementById('modalTitle').textContent = 'रिकॉर्ड संपादित करें / Edit Record';
+                    document.getElementById('entry_no').value = record.entry_no;
+                    document.getElementById('entry_no').disabled = true;
+                    document.getElementById('case_fir_no').value = record.case_fir_no || '';
+                    document.getElementById('police_station').value = record.police_station || '';
+                    document.getElementById('case_section').value = record.case_section || '';
+                    document.getElementById('property_description').value = record.property_description || '';
+                    document.getElementById('property_type').value = record.property_type || '';
+                    document.getElementById('quantity_weight').value = record.quantity_weight || '';
+                    document.getElementById('identification_mark').value = record.identification_mark || '';
+                    document.getElementById('seal_number').value = record.seal_number || '';
+                    document.getElementById('date_of_seizure').value = record.date_of_seizure ? record.date_of_seizure.split('T')[0] : '';
+                    document.getElementById('seized_by_officer').value = record.seized_by_officer || '';
+                    document.getElementById('received_date_malkhana').value = record.received_date_malkhana ? record.received_date_malkhana.split('T')[0] : '';
+                    document.getElementById('malkhana_register_no').value = record.malkhana_register_no || '';
+                    document.getElementById('storage_location').value = record.storage_location || '';
+                    document.getElementById('issued_date').value = record.issued_date ? record.issued_date.split('T')[0] : '';
+                    document.getElementById('issued_to').value = record.issued_to || '';
+                    document.getElementById('return_date').value = record.return_date ? record.return_date.split('T')[0] : '';
+                    document.getElementById('final_disposal_type').value = record.final_disposal_type || '';
+                    document.getElementById('disposal_date').value = record.disposal_date ? record.disposal_date.split('T')[0] : '';
+                    document.getElementById('remarks').value = record.remarks || '';
+
+                    document.getElementById('recordModal').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error loading record for editing');
+            }
+        }
+
+        async function deleteRecord(entryNo) {
+            if (!confirm('क्या आप इस रिकॉर्ड को हटाना चाहते हैं?\nAre you sure you want to delete this record?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/${entryNo}`, {
+                    method: 'DELETE'
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    alert('✅ रिकॉर्ड सफलतापूर्वक हटा दिया गया!\nRecord deleted successfully!');
+                    loadRecords();
+                } else {
+                    alert('❌ Error: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Failed to delete record');
+            }
+        }
+
+        document.getElementById('recordForm').onsubmit = async function(e) {
+            e.preventDefault();
+
+            const formData = {
+                entry_no: parseInt(document.getElementById('entry_no').value),
+                case_fir_no: document.getElementById('case_fir_no').value,
+                police_station: document.getElementById('police_station').value,
+                case_section: document.getElementById('case_section').value,
+                property_description: document.getElementById('property_description').value,
+                property_type: document.getElementById('property_type').value,
+                quantity_weight: document.getElementById('quantity_weight').value,
+                identification_mark: document.getElementById('identification_mark').value,
+                seal_number: document.getElementById('seal_number').value,
+                date_of_seizure: document.getElementById('date_of_seizure').value || null,
+                seized_by_officer: document.getElementById('seized_by_officer').value,
+                received_date_malkhana: document.getElementById('received_date_malkhana').value || null,
+                malkhana_register_no: document.getElementById('malkhana_register_no').value,
+                storage_location: document.getElementById('storage_location').value,
+                issued_date: document.getElementById('issued_date').value || null,
+                issued_to: document.getElementById('issued_to').value,
+                return_date: document.getElementById('return_date').value || null,
+                final_disposal_type: document.getElementById('final_disposal_type').value,
+                disposal_date: document.getElementById('disposal_date').value || null,
+                remarks: document.getElementById('remarks').value
+            };
+
+            try {
+                const url = isEditMode ? `${API_BASE}/${editingEntryNo}` : API_BASE;
+                const method = isEditMode ? 'PUT' : 'POST';
+
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    alert(isEditMode ? 
+                        '✅ रिकॉर्ड सफलतापूर्वक अपडेट किया गया!\nRecord updated successfully!' : 
+                        '✅ रिकॉर्ड सफलतापूर्वक जोड़ा गया!\nRecord added successfully!');
+                    closeModal();
+                    loadRecords();
+                } else {
+                    alert('❌ Error: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Failed to save record');
+            }
+        };
+
+        function searchRecords() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (searchTerm === '') {
+                displayRecords(allRecords);
+                return;
+            }
+
+            const filtered = allRecords.filter(record => {
+                return (
+                    (record.case_fir_no && record.case_fir_no.toLowerCase().includes(searchTerm)) ||
+                    (record.police_station && record.police_station.toLowerCase().includes(searchTerm)) ||
+                    (record.property_type && record.property_type.toLowerCase().includes(searchTerm)) ||
+                    (record.seized_by_officer && record.seized_by_officer.toLowerCase().includes(searchTerm)) ||
+                    (record.entry_no && record.entry_no.toString().includes(searchTerm))
+                );
+            });
+
+            displayRecords(filtered);
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('recordModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        };
+    </script>
+</body>
+</html>
