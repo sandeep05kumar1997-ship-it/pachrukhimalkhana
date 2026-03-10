@@ -1866,8 +1866,8 @@ async function openQrModal(entryNo, firNo, station, tokenOverride = null) {
         } catch { return; }
     }
 
-    const PUBLIC_BASE = 'https://malkhanabackend.vercel.app'; // same domain as backend
-    currentQrUrl = `${PUBLIC_BASE}/view?t=${token}`;
+    const PUBLIC_BASE = 'https://pachrukhimalkhana.vercel.app'; // frontend domain
+    currentQrUrl = `${PUBLIC_BASE}/view.html?t=${token}`;
     document.getElementById('qrUrlText').textContent = currentQrUrl;
 
     // Draw QR using qrcodejs
