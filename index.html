@@ -4,761 +4,1970 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bihar Police - Malkhana Register</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi&family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --navy: #0a1628;
+            --navy-mid: #132040;
+            --navy-light: #1e3a6e;
+            --gold: #c8a84b;
+            --gold-light: #e8cc7a;
+            --gold-pale: #f5e9c4;
+            --cream: #faf7f0;
+            --white: #ffffff;
+            --red: #b91c1c;
+            --green: #166534;
+            --green-light: #15803d;
+            --text-dark: #1a1a2e;
+            --text-mid: #374151;
+            --text-muted: #6b7280;
+            --border: #d4c89a;
+            --shadow: 0 4px 24px rgba(10,22,40,0.18);
+            --shadow-lg: 0 12px 48px rgba(10,22,40,0.28);
         }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'EB Garamond', Georgia, serif;
+            background: var(--navy);
             min-height: 100vh;
+            color: var(--text-dark);
+        }
+
+        /* ── LOGIN SCREEN ───────────────────────────────── */
+        #loginScreen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(200,168,75,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(30,58,110,0.4) 0%, transparent 60%),
+                var(--navy);
             padding: 20px;
         }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        .login-card {
+            background: var(--white);
+            border-radius: 4px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: var(--shadow-lg), 0 0 0 1px var(--border);
             overflow: hidden;
+            animation: slideUp 0.5s ease;
         }
 
-        .header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            padding: 30px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
-        .logo {
-            width: 80px;
-            height: 80px;
-            background: white;
+        .login-header {
+            background: var(--navy-mid);
+            padding: 36px 32px 28px;
+            text-align: center;
+            border-bottom: 3px solid var(--gold);
+            position: relative;
+        }
+
+        .login-emblem {
+            width: 72px;
+            height: 72px;
+            background: var(--gold);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            color: #1e3c72;
-            font-size: 12px;
+            margin: 0 auto 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 11px;
+            color: var(--navy);
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 0 4px rgba(200,168,75,0.2);
+            line-height: 1.3;
             text-align: center;
-            padding: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        .header-text {
+        .login-header h1 {
+            color: var(--gold-light);
+            font-size: 13px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .login-header p {
+            color: rgba(255,255,255,0.55);
+            font-size: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 1px;
+        }
+
+        .login-body {
+            padding: 32px;
+        }
+
+        .login-body h2 {
+            font-size: 22px;
+            color: var(--navy);
+            margin-bottom: 24px;
+            font-weight: 600;
+        }
+
+        .login-error {
+            background: #fef2f2;
+            border: 1px solid #fca5a5;
+            color: var(--red);
+            padding: 10px 14px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        .field label {
+            display: block;
+            font-size: 11px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .field input {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 4px;
+            font-size: 15px;
+            font-family: 'EB Garamond', serif;
+            color: var(--text-dark);
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background: #fafafa;
+        }
+
+        .field input:focus {
+            outline: none;
+            border-color: var(--navy-light);
+            box-shadow: 0 0 0 3px rgba(30,58,110,0.1);
+            background: var(--white);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 13px;
+            background: var(--navy-mid);
+            color: var(--gold-light);
+            border: none;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            margin-top: 8px;
+            position: relative;
+        }
+
+        .btn-login:hover { background: var(--navy-light); }
+        .btn-login:active { transform: scale(0.99); }
+        .btn-login:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        /* ── MAIN APP ────────────────────────────────────── */
+        #mainApp { display: none; }
+
+        .topbar {
+            background: var(--navy-mid);
+            border-bottom: 3px solid var(--gold);
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            height: 72px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .topbar-emblem {
+            width: 46px;
+            height: 46px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 8px;
+            color: var(--navy);
+            text-align: center;
+            line-height: 1.3;
+            flex-shrink: 0;
+        }
+
+        .topbar-title {
             flex: 1;
         }
 
-        .header-text h1 {
-            font-size: 32px;
-            margin-bottom: 5px;
+        .topbar-title h1 {
+            color: var(--gold-light);
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 1.2;
         }
 
-        .header-text p {
-            font-size: 16px;
-            opacity: 0.9;
+        .topbar-title p {
+            color: rgba(255,255,255,0.5);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-top: 2px;
         }
 
-        .main-content {
-            padding: 30px;
-        }
-
-        .controls {
+        .topbar-user {
             display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-badge {
+            background: rgba(200,168,75,0.12);
+            border: 1px solid rgba(200,168,75,0.3);
+            color: var(--gold-light);
+            padding: 5px 12px;
+            border-radius: 2px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+
+        .btn-logout {
+            background: transparent;
+            border: 1px solid rgba(185,28,28,0.4);
+            color: #fca5a5;
+            padding: 6px 14px;
+            border-radius: 2px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+        }
+
+        .btn-logout:hover {
+            background: rgba(185,28,28,0.15);
+            border-color: #fca5a5;
+        }
+
+        .page-content {
+            background: var(--cream);
+            min-height: calc(100vh - 72px);
+            padding: 32px;
+        }
+
+        /* STATS */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-top: 3px solid var(--navy-light);
+            padding: 18px 20px;
+            border-radius: 2px;
+        }
+
+        .stat-card .label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .stat-card .value {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--navy);
+            line-height: 1;
+        }
+
+        /* CONTROLS */
+        .controls-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
             flex-wrap: wrap;
+            align-items: center;
         }
 
         .btn {
-            padding: 12px 24px;
+            padding: 10px 20px;
             border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s;
+            border-radius: 2px;
+            font-size: 13px;
+            font-family: 'JetBrains Mono', monospace;
             font-weight: 600;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: var(--navy-mid);
+            color: var(--gold-light);
+            border: 1px solid var(--navy-light);
         }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        .btn-primary:hover { background: var(--navy-light); }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--navy);
+            border: 1px solid var(--border);
         }
 
-        .btn-success {
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-            color: white;
-        }
+        .btn-secondary:hover { background: var(--gold-pale); border-color: var(--gold); }
 
-        .btn-success:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(56, 239, 125, 0.4);
-        }
-
-        .search-box {
+        .search-wrap {
             flex: 1;
-            min-width: 250px;
+            min-width: 240px;
+            position: relative;
         }
 
-        .search-box input {
+        .search-wrap input {
             width: 100%;
-            padding: 12px 20px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: all 0.3s;
+            padding: 10px 14px 10px 36px;
+            border: 1.5px solid var(--border);
+            border-radius: 2px;
+            font-size: 14px;
+            font-family: 'EB Garamond', serif;
+            background: var(--white);
+            color: var(--text-dark);
+            transition: border-color 0.2s;
         }
 
-        .search-box input:focus {
+        .search-wrap input:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: var(--navy-light);
         }
 
-        .modal {
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 14px;
+            pointer-events: none;
+        }
+
+        /* TABLE */
+        .table-wrap {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .table-scroll { overflow-x: auto; }
+
+        table { width: 100%; border-collapse: collapse; }
+
+        thead {
+            background: var(--navy-mid);
+            border-bottom: 2px solid var(--gold);
+        }
+
+        th {
+            padding: 12px 14px;
+            text-align: left;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--gold-light);
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 11px 14px;
+            border-bottom: 1px solid #f0ece0;
+            font-size: 13.5px;
+            color: var(--text-mid);
+            vertical-align: middle;
+        }
+
+        tbody tr { transition: background 0.15s; }
+        tbody tr:hover { background: #f8f5ec; }
+        tbody tr:last-child td { border-bottom: none; }
+
+        .entry-no {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--navy);
+        }
+
+        .photo-thumb-row {
+            display: flex;
+            gap: 4px;
+        }
+
+        .photo-thumb {
+            width: 32px;
+            height: 32px;
+            border-radius: 2px;
+            object-fit: cover;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: transform 0.15s;
+        }
+
+        .photo-thumb:hover { transform: scale(1.1); }
+
+        .photo-count {
+            width: 32px;
+            height: 32px;
+            background: var(--gold-pale);
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .action-cell {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .btn-xs {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 2px;
+            font-size: 11px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            transition: all 0.15s;
+        }
+
+        .btn-edit { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
+        .btn-edit:hover { background: #fde68a; }
+
+        .btn-photo { background: #e0f2fe; color: #0c4a6e; border: 1px solid #7dd3fc; }
+        .btn-photo:hover { background: #bae6fd; }
+
+        .btn-delete { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+        .btn-delete:hover { background: #fecaca; }
+
+        .loading-row td, .empty-row td {
+            text-align: center;
+            padding: 60px;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+
+        /* MODAL */
+        .modal-overlay {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            z-index: 1000;
+            inset: 0;
+            background: rgba(10,22,40,0.75);
+            z-index: 500;
             overflow-y: auto;
-            padding: 20px;
+            padding: 24px;
+            backdrop-filter: blur(2px);
         }
 
-        .modal-content {
-            background: white;
-            max-width: 900px;
-            margin: 20px auto;
-            border-radius: 15px;
-            padding: 30px;
-            position: relative;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        .modal-box {
+            background: var(--white);
+            max-width: 920px;
+            margin: 0 auto;
+            border-radius: 2px;
+            box-shadow: var(--shadow-lg);
+            border-top: 4px solid var(--gold);
+            animation: modalIn 0.25s ease;
         }
 
-        .modal-header {
+        @keyframes modalIn {
+            from { opacity: 0; transform: translateY(-20px) scale(0.98); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .modal-head {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #e0e0e0;
+            padding: 20px 28px;
+            border-bottom: 1px solid var(--border);
         }
 
-        .modal-header h2 {
-            color: #1e3c72;
-            font-size: 24px;
+        .modal-head h2 {
+            color: var(--navy);
+            font-size: 20px;
+            font-weight: 600;
         }
 
-        .close {
-            font-size: 32px;
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            font-size: 18px;
             cursor: pointer;
-            color: #999;
-            transition: color 0.3s;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
         }
 
-        .close:hover {
-            color: #333;
+        .modal-close:hover { background: #fee2e2; border-color: #fca5a5; color: var(--red); }
+
+        .modal-body { padding: 28px; }
+
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+            margin-bottom: 18px;
+            margin-top: 24px;
         }
+
+        .section-label:first-child { margin-top: 0; }
 
         .form-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
         }
 
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
+        .form-group { display: flex; flex-direction: column; }
 
         .form-group label {
-            margin-bottom: 8px;
-            color: #333;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 6px;
             font-weight: 600;
-            font-size: 14px;
         }
 
         .form-group input,
         .form-group textarea,
         .form-group select {
-            padding: 10px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            padding: 9px 12px;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 2px;
             font-size: 14px;
-            transition: all 0.3s;
+            font-family: 'EB Garamond', serif;
+            color: var(--text-dark);
+            background: #fafafa;
+            transition: border-color 0.2s;
         }
 
         .form-group input:focus,
         .form-group textarea:focus,
         .form-group select:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: var(--navy-light);
+            background: var(--white);
         }
 
-        .form-group textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
+        .form-group textarea { resize: vertical; min-height: 76px; }
 
-        .table-container {
-            overflow-x: auto;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
+        .span-full { grid-column: 1 / -1; }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-        }
-
-        thead {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-        }
-
-        th {
-            padding: 15px;
-            text-align: left;
-            font-weight: 600;
-            font-size: 14px;
-            white-space: nowrap;
-        }
-
-        td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #e0e0e0;
-            font-size: 14px;
-        }
-
-        tbody tr {
-            transition: all 0.3s;
-        }
-
-        tbody tr:hover {
-            background: #f5f7ff;
-        }
-
-        .action-btns {
+        .modal-footer {
             display: flex;
+            gap: 12px;
+            padding: 20px 28px;
+            border-top: 1px solid var(--border);
+            background: #fafaf8;
+        }
+
+        .btn-save {
+            flex: 1;
+            padding: 12px;
+            background: var(--navy-mid);
+            color: var(--gold-light);
+            border: none;
+            border-radius: 2px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-save:hover { background: var(--navy-light); }
+
+        .btn-cancel {
+            padding: 12px 24px;
+            background: var(--white);
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-cancel:hover { background: var(--gold-pale); }
+
+        /* PHOTO MODAL */
+        #photoModal .modal-box { max-width: 700px; }
+
+        .photo-upload-zone {
+            border: 2px dashed var(--border);
+            border-radius: 4px;
+            padding: 32px;
+            text-align: center;
+            background: #fafaf8;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 20px;
+        }
+
+        .photo-upload-zone:hover, .photo-upload-zone.drag-over {
+            border-color: var(--navy-light);
+            background: #eef2ff;
+        }
+
+        .photo-upload-zone .upload-icon { font-size: 36px; margin-bottom: 10px; }
+
+        .photo-upload-zone p {
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .photo-upload-zone strong {
+            color: var(--navy-light);
+            display: block;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+
+        #photoFileInput { display: none; }
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .preview-item {
+            position: relative;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: #f3f4f6;
+            aspect-ratio: 1;
+        }
+
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .preview-remove {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 22px;
+            height: 22px;
+            background: rgba(185,28,28,0.85);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            transition: background 0.15s;
+        }
+
+        .preview-remove:hover { background: var(--red); }
+
+        .existing-photo {
+            position: relative;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            aspect-ratio: 1;
+        }
+
+        .existing-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .existing-photo .photo-del {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 22px;
+            height: 22px;
+            background: rgba(185,28,28,0.85);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.15s;
+        }
+
+        .existing-photo:hover .photo-del { opacity: 1; }
+
+        .photo-slot-info {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .photo-slot-bar {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 16px;
+        }
+
+        .slot-dot {
+            width: 28px;
+            height: 6px;
+            border-radius: 3px;
+            background: #e5e7eb;
+            transition: background 0.2s;
+        }
+
+        .slot-dot.used { background: var(--navy-light); }
+        .slot-dot.pending { background: var(--gold); }
+
+        /* LIGHTBOX */
+        #lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(5,10,20,0.95);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        #lightbox.active { display: flex; }
+
+        #lightboxImg {
+            max-width: 90vw;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 2px;
+            box-shadow: 0 0 60px rgba(0,0,0,0.5);
+        }
+
+        #lightboxClose {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            background: none;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 2px;
+            font-size: 22px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* TOAST */
+        #toast {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
             gap: 8px;
         }
 
-        .btn-small {
-            padding: 6px 12px;
-            font-size: 13px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 600;
+        .toast-item {
+            padding: 12px 18px;
+            border-radius: 2px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            animation: toastIn 0.3s ease;
+            min-width: 220px;
+            box-shadow: var(--shadow);
         }
 
-        .btn-edit {
-            background: #ffa726;
-            color: white;
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to   { opacity: 1; transform: translateX(0); }
         }
 
-        .btn-edit:hover {
-            background: #fb8c00;
-            transform: translateY(-2px);
-        }
+        .toast-success { background: #166534; color: #bbf7d0; border-left: 4px solid #4ade80; }
+        .toast-error   { background: #991b1b; color: #fecaca; border-left: 4px solid #f87171; }
+        .toast-info    { background: var(--navy-mid); color: var(--gold-light); border-left: 4px solid var(--gold); }
 
-        .btn-delete {
-            background: #ef5350;
-            color: white;
-        }
+        /* QR MODAL */
+        #qrModal .modal-box { max-width: 480px; }
 
-        .btn-delete:hover {
-            background: #e53935;
-            transform: translateY(-2px);
-        }
-
-        .loading {
+        .qr-card {
+            background: var(--white);
+            border: 2px solid var(--navy);
+            border-radius: 4px;
+            padding: 24px;
             text-align: center;
-            padding: 40px;
-            color: #666;
-            font-size: 18px;
+            position: relative;
         }
 
-        .no-data {
-            text-align: center;
-            padding: 60px;
-            color: #999;
-            font-size: 18px;
+        .qr-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--navy);
         }
 
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+        .qr-card-emblem {
+            width: 44px; height: 44px;
+            background: var(--navy);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600; font-size: 8px;
+            color: var(--gold); text-align: center; line-height: 1.4;
+            flex-shrink: 0;
         }
 
-        .stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        .qr-card-title { text-align: left; }
+        .qr-card-title h3 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px; font-weight: 600;
+            color: var(--navy); letter-spacing: 1px;
+        }
+        .qr-card-title p {
+            font-size: 11px; color: var(--muted);
+            font-family: 'JetBrains Mono', monospace;
         }
 
-        .stat-card h3 {
-            font-size: 16px;
-            margin-bottom: 10px;
-            opacity: 0.9;
+        .qr-canvas-wrap {
+            display: flex; justify-content: center;
+            margin: 16px 0;
+            padding: 16px;
+            background: var(--cream);
+            border: 1px solid var(--border);
+            border-radius: 4px;
         }
 
-        .stat-card p {
-            font-size: 32px;
-            font-weight: bold;
+        #qrCanvas { display: block; }
+
+        .qr-entry-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px; font-weight: 600;
+            color: var(--navy); margin-bottom: 4px;
         }
 
+        .qr-fir-label {
+            font-size: 12px; color: var(--muted);
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 12px;
+        }
+
+        .qr-url {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px; color: var(--muted);
+            word-break: break-all;
+            background: #f3f4f6;
+            padding: 6px 10px;
+            border-radius: 2px;
+            margin-bottom: 12px;
+        }
+
+        .qr-validity {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px; color: var(--muted);
+            letter-spacing: 0.5px;
+        }
+
+        .qr-btn-row {
+            display: flex; gap: 10px; margin-top: 16px;
+        }
+
+        .btn-print {
+            flex: 1; padding: 11px;
+            background: var(--navy-mid); color: var(--gold-light);
+            border: none; border-radius: 2px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px; font-weight: 600; letter-spacing: 1px;
+            cursor: pointer; transition: background 0.2s;
+        }
+        .btn-print:hover { background: var(--navy-light); }
+
+        .btn-copy-link {
+            flex: 1; padding: 11px;
+            background: var(--white); color: var(--navy);
+            border: 1px solid var(--border); border-radius: 2px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px; font-weight: 600; letter-spacing: 1px;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .btn-copy-link:hover { background: var(--gold-pale); }
+
+        /* PRINT STYLES */
+        @media print {
+            body * { visibility: hidden; }
+            #printArea, #printArea * { visibility: visible; }
+            #printArea {
+                position: fixed; inset: 0;
+                display: flex; align-items: center; justify-content: center;
+                background: white;
+            }
+        }
+
+        /* RESPONSIVE */
         @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .header-text h1 {
-                font-size: 24px;
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .controls {
-                flex-direction: column;
-            }
-
-            .btn {
-                width: 100%;
-            }
+            .topbar { padding: 0 16px; }
+            .page-content { padding: 16px; }
+            .topbar-title h1 { font-size: 14px; }
+            .topbar-user { display: none; }
+            .controls-bar { flex-direction: column; }
+            .btn { width: 100%; }
+            .modal-overlay { padding: 8px; }
+            .modal-body { padding: 16px; }
+            .modal-footer { padding: 16px; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo">
-                BIHAR<br>POLICE
+
+<!-- ── LOGIN SCREEN ─────────────────────────────────── -->
+<div id="loginScreen">
+    <div class="login-card">
+        <div class="login-header">
+            <div class="login-emblem">BIHAR<br>POLICE</div>
+            <h1>Malkhana Register</h1>
+            <p>Secure Access Required</p>
+        </div>
+        <div class="login-body">
+            <h2>Sign In</h2>
+            <div class="login-error" id="loginError"></div>
+            <div class="field">
+                <label>Username</label>
+                <input type="text" id="loginUsername" placeholder="Enter username" autocomplete="username">
             </div>
-            <div class="header-text">
-                <h1>मालखाना रजिस्टर प्रबंधन प्रणाली</h1>
-                <p>Malkhana Register Management System</p>
+            <div class="field">
+                <label>Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter password" autocomplete="current-password">
+            </div>
+            <button class="btn-login" id="loginBtn" onclick="doLogin()">Login → Malkhana System</button>
+        </div>
+    </div>
+</div>
+
+<!-- ── MAIN APP ──────────────────────────────────────── -->
+<div id="mainApp">
+    <div class="topbar">
+        <div class="topbar-emblem">BIHAR<br>POLICE</div>
+        <div class="topbar-title">
+            <h1>मालखाना रजिस्टर प्रबंधन प्रणाली</h1>
+            <p>Malkhana Register Management System</p>
+        </div>
+        <div class="topbar-user">
+            <span class="user-badge" id="userBadge">⬤ ADMIN</span>
+            <button class="btn-logout" onclick="doLogout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="page-content">
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="label">Total Records</div>
+                <div class="value" id="totalRecords">—</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">With Photos</div>
+                <div class="value" id="withPhotos">—</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Showing</div>
+                <div class="value" id="showingCount">—</div>
             </div>
         </div>
 
-        <div class="main-content">
-            <div class="stats" id="stats">
-                <div class="stat-card">
-                    <h3>कुल रिकॉर्ड / Total Records</h3>
-                    <p id="totalRecords">0</p>
-                </div>
+        <div class="controls-bar">
+            <button class="btn btn-primary" onclick="openRecordModal()">＋ Add New Record</button>
+            <button class="btn btn-secondary" onclick="loadRecords()">↺ Refresh</button>
+            <div class="search-wrap">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" placeholder="Search FIR No, Station, Officer, Property Type..." oninput="searchRecords()">
             </div>
+        </div>
 
-            <div class="controls">
-                <button class="btn btn-primary" onclick="openModal()">
-                    ➕ नया रिकॉर्ड जोड़ें / Add New Record
-                </button>
-                <button class="btn btn-success" onclick="loadRecords()">
-                    🔄 रीफ्रेश / Refresh
-                </button>
-                <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="🔍 खोजें (FIR No, Police Station, Officer, Property Type...)" onkeyup="searchRecords()">
-                </div>
-            </div>
-
-            <div class="table-container">
+        <div class="table-wrap">
+            <div class="table-scroll">
                 <table>
                     <thead>
                         <tr>
                             <th>Entry No</th>
                             <th>FIR No</th>
                             <th>Police Station</th>
-                            <th>Case Section</th>
-                            <th>Property Description</th>
-                            <th>Property Type</th>
-                            <th>Quantity/Weight</th>
-                            <th>Identification Mark</th>
-                            <th>Seal Number</th>
-                            <th>Date of Seizure</th>
-                            <th>Seized By Officer</th>
-                            <th>Received Date</th>
-                            <th>Register No</th>
-                            <th>Storage Location</th>
-                            <th>Issued Date</th>
+                            <th>Section</th>
+                            <th>Property</th>
+                            <th>Type</th>
+                            <th>Qty/Wt</th>
+                            <th>Seal No</th>
+                            <th>Seized On</th>
+                            <th>Officer</th>
+                            <th>Received</th>
+                            <th>Location</th>
                             <th>Issued To</th>
-                            <th>Return Date</th>
-                            <th>Disposal Type</th>
-                            <th>Disposal Date</th>
-                            <th>Remarks</th>
+                            <th>Disposal</th>
+                            <th>Photos</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="tableBody">
-                        <tr>
-                            <td colspan="21" class="loading">Loading records...</td>
-                        </tr>
+                        <tr class="loading-row"><td colspan="16">Loading records…</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Modal -->
-    <div id="recordModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="modalTitle">नया रिकॉर्ड जोड़ें / Add New Record</h2>
-                <span class="close" onclick="closeModal()">&times;</span>
-            </div>
-            <form id="recordForm">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Entry No *</label>
-                        <input type="number" id="entry_no" required>
-                    </div>
-                    <div class="form-group">
-                        <label>FIR No</label>
-                        <input type="text" id="case_fir_no">
-                    </div>
-                    <div class="form-group">
-                        <label>Police Station</label>
-                        <input type="text" id="police_station">
-                    </div>
-                    <div class="form-group">
-                        <label>Case Section</label>
-                        <input type="text" id="case_section">
-                    </div>
-                    <div class="form-group">
-                        <label>Property Type</label>
-                        <input type="text" id="property_type">
-                    </div>
-                    <div class="form-group">
-                        <label>Quantity/Weight</label>
-                        <input type="text" id="quantity_weight">
-                    </div>
-                    <div class="form-group">
-                        <label>Identification Mark</label>
-                        <input type="text" id="identification_mark">
-                    </div>
-                    <div class="form-group">
-                        <label>Seal Number</label>
-                        <input type="text" id="seal_number">
-                    </div>
-                    <div class="form-group">
-                        <label>Date of Seizure</label>
-                        <input type="date" id="date_of_seizure">
-                    </div>
-                    <div class="form-group">
-                        <label>Seized By Officer</label>
-                        <input type="text" id="seized_by_officer">
-                    </div>
-                    <div class="form-group">
-                        <label>Received Date (Malkhana)</label>
-                        <input type="date" id="received_date_malkhana">
-                    </div>
-                    <div class="form-group">
-                        <label>Malkhana Register No</label>
-                        <input type="text" id="malkhana_register_no">
-                    </div>
-                    <div class="form-group">
-                        <label>Storage Location</label>
-                        <input type="text" id="storage_location">
-                    </div>
-                    <div class="form-group">
-                        <label>Issued Date</label>
-                        <input type="date" id="issued_date">
-                    </div>
-                    <div class="form-group">
-                        <label>Issued To</label>
-                        <input type="text" id="issued_to">
-                    </div>
-                    <div class="form-group">
-                        <label>Return Date</label>
-                        <input type="date" id="return_date">
-                    </div>
-                    <div class="form-group">
-                        <label>Final Disposal Type</label>
-                        <input type="text" id="final_disposal_type">
-                    </div>
-                    <div class="form-group">
-                        <label>Disposal Date</label>
-                        <input type="date" id="disposal_date">
-                    </div>
+<!-- ── RECORD MODAL ──────────────────────────────────── -->
+<div id="recordModal" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-head">
+            <h2 id="modalTitle">Add New Record</h2>
+            <button class="modal-close" onclick="closeRecordModal()">×</button>
+        </div>
+        <div class="modal-body">
+            <div class="section-label">Case Information</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Entry No *</label>
+                    <input type="number" id="entry_no" required>
                 </div>
                 <div class="form-group">
+                    <label>FIR No</label>
+                    <input type="text" id="case_fir_no">
+                </div>
+                <div class="form-group">
+                    <label>Police Station</label>
+                    <input type="text" id="police_station">
+                </div>
+                <div class="form-group">
+                    <label>Case Section</label>
+                    <input type="text" id="case_section">
+                </div>
+                <div class="form-group">
+                    <label>Seized By Officer</label>
+                    <input type="text" id="seized_by_officer">
+                </div>
+                <div class="form-group">
+                    <label>Date of Seizure</label>
+                    <input type="date" id="date_of_seizure">
+                </div>
+            </div>
+
+            <div class="section-label">Property Details</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Property Type</label>
+                    <input type="text" id="property_type">
+                </div>
+                <div class="form-group">
+                    <label>Quantity / Weight</label>
+                    <input type="text" id="quantity_weight">
+                </div>
+                <div class="form-group">
+                    <label>Identification Mark</label>
+                    <input type="text" id="identification_mark">
+                </div>
+                <div class="form-group">
+                    <label>Seal Number</label>
+                    <input type="text" id="seal_number">
+                </div>
+                <div class="form-group span-full">
                     <label>Property Description</label>
                     <textarea id="property_description"></textarea>
                 </div>
+            </div>
+
+            <div class="section-label">Malkhana Details</div>
+            <div class="form-grid">
                 <div class="form-group">
+                    <label>Received Date (Malkhana)</label>
+                    <input type="date" id="received_date_malkhana">
+                </div>
+                <div class="form-group">
+                    <label>Malkhana Register No</label>
+                    <input type="text" id="malkhana_register_no">
+                </div>
+                <div class="form-group">
+                    <label>Storage Location</label>
+                    <input type="text" id="storage_location">
+                </div>
+            </div>
+
+            <div class="section-label">Issue & Disposal</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Issued Date</label>
+                    <input type="date" id="issued_date">
+                </div>
+                <div class="form-group">
+                    <label>Issued To</label>
+                    <input type="text" id="issued_to">
+                </div>
+                <div class="form-group">
+                    <label>Return Date</label>
+                    <input type="date" id="return_date">
+                </div>
+                <div class="form-group">
+                    <label>Final Disposal Type</label>
+                    <input type="text" id="final_disposal_type">
+                </div>
+                <div class="form-group">
+                    <label>Disposal Date</label>
+                    <input type="date" id="disposal_date">
+                </div>
+                <div class="form-group span-full">
                     <label>Remarks</label>
                     <textarea id="remarks"></textarea>
                 </div>
-                <div style="display: flex; gap: 15px; margin-top: 20px;">
-                    <button type="submit" class="btn btn-success" style="flex: 1;">💾 Save Record</button>
-                    <button type="button" class="btn" style="flex: 1; background: #999; color: white;" onclick="closeModal()">❌ Cancel</button>
-                </div>
-            </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-save" id="saveBtn" onclick="saveRecord()">💾 Save Record</button>
+            <button class="btn-cancel" onclick="closeRecordModal()">Cancel</button>
         </div>
     </div>
+</div>
 
-    <script>
-        const API_BASE = 'https://malkhanabackend.vercel.app/api/malkhana';
-        let isEditMode = false;
-        let editingEntryNo = null;
-        let allRecords = [];
+<!-- ── PHOTO MODAL ───────────────────────────────────── -->
+<div id="photoModal" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-head">
+            <h2 id="photoModalTitle">Photos — Entry #<span id="photoEntryLabel"></span></h2>
+            <button class="modal-close" onclick="closePhotoModal()">×</button>
+        </div>
+        <div class="modal-body">
+            <div class="photo-slot-info" id="slotInfo">Slots used: 0 / 5</div>
+            <div class="photo-slot-bar" id="slotBar">
+                <div class="slot-dot" id="slot0"></div>
+                <div class="slot-dot" id="slot1"></div>
+                <div class="slot-dot" id="slot2"></div>
+                <div class="slot-dot" id="slot3"></div>
+                <div class="slot-dot" id="slot4"></div>
+            </div>
 
-        // Load records on page load
-        window.onload = function() {
+            <!-- Existing photos -->
+            <div class="section-label">Saved Photos</div>
+            <div class="preview-grid" id="existingPhotos">
+                <p style="font-family: monospace; font-size: 12px; color: var(--text-muted); grid-column:1/-1;">No photos yet.</p>
+            </div>
+
+            <!-- Upload new -->
+            <div class="section-label" id="uploadSection">Upload New Photos</div>
+            <div class="photo-upload-zone" id="uploadZone" onclick="document.getElementById('photoFileInput').click()" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
+                <div class="upload-icon">📷</div>
+                <strong>Click to select photos</strong>
+                <p>or drag & drop here</p>
+                <p style="margin-top:6px; font-size:11px;">JPG, PNG, WEBP — max 5 MB each</p>
+            </div>
+            <input type="file" id="photoFileInput" accept="image/*" multiple onchange="onFilesSelected(event)">
+
+            <div class="preview-grid" id="newPhotoPreview"></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-save" id="uploadBtn" onclick="uploadNewPhotos()">📤 Upload Photos</button>
+            <button class="btn-cancel" onclick="closePhotoModal()">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- ── QR MODAL ───────────────────────────────────────── -->
+<div id="qrModal" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-head">
+            <h2>QR Code — Entry #<span id="qrEntryLabel"></span></h2>
+            <button class="modal-close" onclick="closeQrModal()">×</button>
+        </div>
+        <div class="modal-body">
+            <div class="qr-card" id="qrCardInner">
+                <div class="qr-card-header">
+                    <div class="qr-card-emblem">BIHAR<br>POLICE</div>
+                    <div class="qr-card-title">
+                        <h3>MALKHANA REGISTER</h3>
+                        <p>Bihar Police — Official Record</p>
+                    </div>
+                </div>
+                <div class="qr-canvas-wrap">
+                    <canvas id="qrCanvas"></canvas>
+                </div>
+                <div class="qr-entry-label">Entry No: <span id="qrEntryNo"></span></div>
+                <div class="qr-fir-label">FIR: <span id="qrFirNo"></span> &nbsp;|&nbsp; <span id="qrStation"></span></div>
+                <div class="qr-url" id="qrUrlText"></div>
+                <div class="qr-validity">Valid for 30 days &nbsp;·&nbsp; Bihar Police Malkhana</div>
+            </div>
+            <div class="qr-btn-row">
+                <button class="btn-print" onclick="printQR()">🖨 Print QR Card</button>
+                <button class="btn-copy-link" onclick="copyQRLink()">🔗 Copy Link</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Hidden print area -->
+<div id="printArea" style="display:none;"></div>
+
+<!-- ── LIGHTBOX ──────────────────────────────────────── -->
+<div id="lightbox">
+    <button id="lightboxClose" onclick="closeLightbox()">×</button>
+    <img id="lightboxImg" src="" alt="Photo">
+</div>
+
+<!-- ── TOAST ─────────────────────────────────────────── -->
+<div id="toast"></div>
+
+<script>
+// ── CONFIG ─────────────────────────────────────────────
+const API = 'https://malkhanabackend.vercel.app';
+const API_BASE = `${API}/api/malkhana`;
+const AUTH_API = `${API}/api/auth`;
+
+// ── STATE ──────────────────────────────────────────────
+let authToken = localStorage.getItem('malkhana_token') || null;
+let allRecords = [];
+let isEditMode = false;
+let editingEntryNo = null;
+let currentPhotoEntryNo = null;
+let newPhotosQueue = []; // { file, previewUrl }
+
+// ── INIT ───────────────────────────────────────────────
+window.onload = async () => {
+    if (authToken) {
+        const valid = await verifyToken();
+        if (valid) { showApp(); return; }
+    }
+    showLogin();
+};
+
+function showLogin() {
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('mainApp').style.display = 'none';
+}
+
+function showApp() {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('mainApp').style.display = 'block';
+    loadRecords();
+}
+
+// ── AUTH ───────────────────────────────────────────────
+async function doLogin() {
+    const username = document.getElementById('loginUsername').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    const errEl = document.getElementById('loginError');
+    const btn = document.getElementById('loginBtn');
+
+    errEl.style.display = 'none';
+    if (!username || !password) { showLoginError('Please enter username and password.'); return; }
+
+    btn.disabled = true;
+    btn.textContent = 'Authenticating…';
+
+    try {
+        const res = await fetch(`${AUTH_API}/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            authToken = data.token;
+            localStorage.setItem('malkhana_token', authToken);
+            document.getElementById('userBadge').textContent = `⬤ ${data.user.username.toUpperCase()}`;
+            toast('Login successful', 'success');
+            showApp();
+        } else {
+            showLoginError(data.message || 'Invalid credentials.');
+        }
+    } catch (e) {
+        showLoginError('Cannot connect to server. Try again.');
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'Login → Malkhana System';
+}
+
+function showLoginError(msg) {
+    const el = document.getElementById('loginError');
+    el.textContent = msg;
+    el.style.display = 'block';
+}
+
+async function verifyToken() {
+    try {
+        const res = await fetch(`${AUTH_API}/verify`, { headers: authHeaders() });
+        return res.ok;
+    } catch { return false; }
+}
+
+async function doLogout() {
+    try { await fetch(`${AUTH_API}/logout`, { method: 'POST', headers: authHeaders() }); } catch {}
+    authToken = null;
+    localStorage.removeItem('malkhana_token');
+    toast('Logged out', 'info');
+    showLogin();
+}
+
+function authHeaders(extra = {}) {
+    return { 'Authorization': `Bearer ${authToken}`, ...extra };
+}
+
+async function apiFetch(url, opts = {}) {
+    const headers = authHeaders(opts.headers || {});
+    const res = await fetch(url, { ...opts, headers });
+    if (res.status === 401 || res.status === 403) {
+        authToken = null;
+        localStorage.removeItem('malkhana_token');
+        toast('Session expired. Please login again.', 'error');
+        showLogin();
+        throw new Error('Unauthorized');
+    }
+    return res;
+}
+
+// ── RECORDS ────────────────────────────────────────────
+async function loadRecords() {
+    const tbody = document.getElementById('tableBody');
+    tbody.innerHTML = '<tr class="loading-row"><td colspan="16">Loading records…</td></tr>';
+
+    try {
+        const res = await apiFetch(API_BASE);
+        const data = await res.json();
+        if (data.success) {
+            allRecords = data.data;
+            displayRecords(allRecords);
+            updateStats(allRecords);
+        }
+    } catch (e) {
+        if (e.message !== 'Unauthorized')
+            tbody.innerHTML = '<tr class="empty-row"><td colspan="16">Failed to connect to server.</td></tr>';
+    }
+}
+
+function displayRecords(records) {
+    const tbody = document.getElementById('tableBody');
+    document.getElementById('showingCount').textContent = records.length;
+
+    if (!records.length) {
+        tbody.innerHTML = '<tr class="empty-row"><td colspan="16">No records found.</td></tr>';
+        return;
+    }
+
+    tbody.innerHTML = records.map(r => {
+        const photoCount = (r.photos || []).length;
+        let photoCell = photoCount === 0
+            ? `<span style="font-family:monospace;font-size:11px;color:var(--text-muted)">—</span>`
+            : `<div class="photo-thumb-row">
+                ${r.photos.slice(0, 3).map(p =>
+                    `<img class="photo-thumb" src="${API_BASE}/${r.entry_no}/photos/${p._id}"
+                        onerror="this.src=''" alt="" onclick="openLightboxFromThumb(this)">`
+                ).join('')}
+                ${photoCount > 3 ? `<div class="photo-count" onclick="openPhotoModal(${r.entry_no})">+${photoCount - 3}</div>` : ''}
+               </div>`;
+
+        return `<tr>
+            <td><span class="entry-no">${r.entry_no}</span></td>
+            <td>${r.case_fir_no || '—'}</td>
+            <td>${r.police_station || '—'}</td>
+            <td>${r.case_section || '—'}</td>
+            <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.property_description || ''}">${r.property_description || '—'}</td>
+            <td>${r.property_type || '—'}</td>
+            <td>${r.quantity_weight || '—'}</td>
+            <td>${r.seal_number || '—'}</td>
+            <td>${r.date_of_seizure ? fmtDate(r.date_of_seizure) : '—'}</td>
+            <td>${r.seized_by_officer || '—'}</td>
+            <td>${r.received_date_malkhana ? fmtDate(r.received_date_malkhana) : '—'}</td>
+            <td>${r.storage_location || '—'}</td>
+            <td>${r.issued_to || '—'}</td>
+            <td>${r.final_disposal_type || '—'}</td>
+            <td>${photoCell}</td>
+            <td>
+                <div class="action-cell">
+                    <button class="btn-xs btn-edit"   onclick="editRecord(${r.entry_no})">✏ Edit</button>
+                    <button class="btn-xs btn-photo"  onclick="openPhotoModal(${r.entry_no})">📷 ${photoCount}</button>
+                    <button class="btn-xs" style="background:#f0fdf4;color:#166534;border:1px solid #86efac;" onclick="openQrModal(${r.entry_no}, '${r.case_fir_no||''}', '${r.police_station||''}')">⬡ QR</button>
+                    <button class="btn-xs btn-delete" onclick="deleteRecord(${r.entry_no})">🗑</button>
+                </div>
+            </td>
+        </tr>`;
+    }).join('');
+
+    // Attach auth headers to thumbnail images via fetch+blob
+    loadThumbsWithAuth();
+}
+
+function loadThumbsWithAuth() {
+    document.querySelectorAll('.photo-thumb').forEach(img => {
+        const src = img.src;
+        if (!src || src.startsWith('blob:') || src.startsWith('data:')) return;
+        img.src = '';
+        fetch(src, { headers: authHeaders() })
+            .then(r => r.blob())
+            .then(blob => { img.src = URL.createObjectURL(blob); })
+            .catch(() => {});
+    });
+}
+
+function updateStats(records) {
+    document.getElementById('totalRecords').textContent = records.length;
+    document.getElementById('withPhotos').textContent = records.filter(r => r.photos && r.photos.length > 0).length;
+    document.getElementById('showingCount').textContent = records.length;
+}
+
+function fmtDate(d) {
+    return new Date(d).toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
+}
+
+function searchRecords() {
+    const q = document.getElementById('searchInput').value.toLowerCase().trim();
+    if (!q) { displayRecords(allRecords); document.getElementById('showingCount').textContent = allRecords.length; return; }
+    const filtered = allRecords.filter(r =>
+        [r.case_fir_no, r.police_station, r.property_type, r.seized_by_officer, String(r.entry_no)]
+        .some(v => v && v.toLowerCase().includes(q))
+    );
+    displayRecords(filtered);
+    document.getElementById('showingCount').textContent = filtered.length;
+}
+
+// ── RECORD MODAL ───────────────────────────────────────
+function openRecordModal() {
+    isEditMode = false;
+    editingEntryNo = null;
+    document.getElementById('modalTitle').textContent = 'Add New Record';
+    document.getElementById('saveBtn').textContent = '💾 Save Record';
+    clearForm();
+    document.getElementById('entry_no').disabled = false;
+    document.getElementById('recordModal').style.display = 'block';
+}
+
+function closeRecordModal() {
+    document.getElementById('recordModal').style.display = 'none';
+}
+
+async function editRecord(entryNo) {
+    try {
+        const res = await apiFetch(`${API_BASE}/${entryNo}`);
+        const data = await res.json();
+        if (!data.success) return toast('Failed to load record', 'error');
+        const r = data.data;
+
+        isEditMode = true;
+        editingEntryNo = entryNo;
+        document.getElementById('modalTitle').textContent = `Edit Record — Entry #${entryNo}`;
+        document.getElementById('saveBtn').textContent = '💾 Update Record';
+
+        setField('entry_no', r.entry_no);
+        document.getElementById('entry_no').disabled = true;
+        setField('case_fir_no', r.case_fir_no);
+        setField('police_station', r.police_station);
+        setField('case_section', r.case_section);
+        setField('property_description', r.property_description);
+        setField('property_type', r.property_type);
+        setField('quantity_weight', r.quantity_weight);
+        setField('identification_mark', r.identification_mark);
+        setField('seal_number', r.seal_number);
+        setField('date_of_seizure', r.date_of_seizure ? r.date_of_seizure.split('T')[0] : '');
+        setField('seized_by_officer', r.seized_by_officer);
+        setField('received_date_malkhana', r.received_date_malkhana ? r.received_date_malkhana.split('T')[0] : '');
+        setField('malkhana_register_no', r.malkhana_register_no);
+        setField('storage_location', r.storage_location);
+        setField('issued_date', r.issued_date ? r.issued_date.split('T')[0] : '');
+        setField('issued_to', r.issued_to);
+        setField('return_date', r.return_date ? r.return_date.split('T')[0] : '');
+        setField('final_disposal_type', r.final_disposal_type);
+        setField('disposal_date', r.disposal_date ? r.disposal_date.split('T')[0] : '');
+        setField('remarks', r.remarks);
+
+        document.getElementById('recordModal').style.display = 'block';
+    } catch {}
+}
+
+async function saveRecord() {
+    const entryNoVal = document.getElementById('entry_no').value;
+    if (!entryNoVal) { toast('Entry No is required', 'error'); return; }
+
+    const body = {
+        entry_no: parseInt(entryNoVal),
+        case_fir_no: getField('case_fir_no'),
+        police_station: getField('police_station'),
+        case_section: getField('case_section'),
+        property_description: getField('property_description'),
+        property_type: getField('property_type'),
+        quantity_weight: getField('quantity_weight'),
+        identification_mark: getField('identification_mark'),
+        seal_number: getField('seal_number'),
+        date_of_seizure: getField('date_of_seizure') || null,
+        seized_by_officer: getField('seized_by_officer'),
+        received_date_malkhana: getField('received_date_malkhana') || null,
+        malkhana_register_no: getField('malkhana_register_no'),
+        storage_location: getField('storage_location'),
+        issued_date: getField('issued_date') || null,
+        issued_to: getField('issued_to'),
+        return_date: getField('return_date') || null,
+        final_disposal_type: getField('final_disposal_type'),
+        disposal_date: getField('disposal_date') || null,
+        remarks: getField('remarks')
+    };
+
+    const btn = document.getElementById('saveBtn');
+    btn.disabled = true; btn.textContent = 'Saving…';
+
+    try {
+        const url = isEditMode ? `${API_BASE}/${editingEntryNo}` : API_BASE;
+        const method = isEditMode ? 'PUT' : 'POST';
+        const res = await apiFetch(url, {
+            method,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+        const data = await res.json();
+        if (data.success) {
+            toast(isEditMode ? 'Record updated successfully' : 'Record added successfully', 'success');
+            closeRecordModal();
             loadRecords();
-        };
-
-        async function loadRecords() {
-            const tbody = document.getElementById('tableBody');
-            tbody.innerHTML = '<tr><td colspan="21" class="loading">Loading records...</td></tr>';
-
-            try {
-                const response = await fetch(API_BASE);
-                const result = await response.json();
-
-                if (result.success) {
-                    allRecords = result.data;
-                    displayRecords(allRecords);
-                    updateStats(allRecords.length);
-                } else {
-                    tbody.innerHTML = '<tr><td colspan="21" class="no-data">Error loading records</td></tr>';
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                tbody.innerHTML = '<tr><td colspan="21" class="no-data">Failed to connect to server</td></tr>';
+            // Show QR automatically for new records
+            if (!isEditMode && data.public_token) {
+                setTimeout(() => openQrModal(
+                    data.data.entry_no,
+                    data.data.case_fir_no || '',
+                    data.data.police_station || '',
+                    data.public_token
+                ), 400);
             }
+        } else {
+            toast(data.message || 'Failed to save record', 'error');
+        }
+    } catch (e) {
+        if (e.message !== 'Unauthorized') toast('Failed to save record', 'error');
+    }
+
+    btn.disabled = false;
+    btn.textContent = isEditMode ? '💾 Update Record' : '💾 Save Record';
+}
+
+async function deleteRecord(entryNo) {
+    if (!confirm(`Delete Entry #${entryNo} and all its photos?\nThis cannot be undone.`)) return;
+    try {
+        const res = await apiFetch(`${API_BASE}/${entryNo}`, { method: 'DELETE' });
+        const data = await res.json();
+        if (data.success) { toast('Record deleted', 'success'); loadRecords(); }
+        else toast(data.message || 'Delete failed', 'error');
+    } catch {}
+}
+
+// ── PHOTO MODAL ────────────────────────────────────────
+async function openPhotoModal(entryNo) {
+    currentPhotoEntryNo = entryNo;
+    newPhotosQueue = [];
+    document.getElementById('photoEntryLabel').textContent = entryNo;
+    document.getElementById('newPhotoPreview').innerHTML = '';
+    document.getElementById('photoFileInput').value = '';
+    document.getElementById('photoModal').style.display = 'block';
+    await loadExistingPhotos(entryNo);
+}
+
+function closePhotoModal() {
+    document.getElementById('photoModal').style.display = 'none';
+    currentPhotoEntryNo = null;
+    newPhotosQueue = [];
+    document.getElementById('newPhotoPreview').innerHTML = '';
+}
+
+async function loadExistingPhotos(entryNo) {
+    const grid = document.getElementById('existingPhotos');
+    grid.innerHTML = '<p style="font-family:monospace;font-size:12px;color:var(--text-muted);">Loading…</p>';
+
+    try {
+        const res = await apiFetch(`${API_BASE}/${entryNo}/photos`);
+        const data = await res.json();
+        const photos = data.photos || [];
+        updateSlotBar(photos.length, 0);
+
+        if (!photos.length) {
+            grid.innerHTML = '<p style="font-family:monospace;font-size:12px;color:var(--text-muted);grid-column:1/-1;">No photos saved yet.</p>';
+            toggleUploadSection(true);
+            return;
         }
 
-        function displayRecords(records) {
-            const tbody = document.getElementById('tableBody');
-            
-            if (records.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="21" class="no-data">No records found</td></tr>';
-                return;
-            }
+        grid.innerHTML = photos.map(p =>
+            `<div class="existing-photo" id="ep_${p._id}">
+                <img src="" data-src="${API_BASE}/${entryNo}/photos/${p._id}" alt="${p.filename}" onclick="openLightboxFromThumb(this)">
+                <button class="photo-del" onclick="deletePhoto('${p._id}', '${entryNo}')">×</button>
+             </div>`
+        ).join('');
 
-            tbody.innerHTML = records.map(record => `
-                <tr>
-                    <td><strong>${record.entry_no}</strong></td>
-                    <td>${record.case_fir_no || '-'}</td>
-                    <td>${record.police_station || '-'}</td>
-                    <td>${record.case_section || '-'}</td>
-                    <td>${record.property_description || '-'}</td>
-                    <td>${record.property_type || '-'}</td>
-                    <td>${record.quantity_weight || '-'}</td>
-                    <td>${record.identification_mark || '-'}</td>
-                    <td>${record.seal_number || '-'}</td>
-                    <td>${record.date_of_seizure ? new Date(record.date_of_seizure).toLocaleDateString('en-IN') : '-'}</td>
-                    <td>${record.seized_by_officer || '-'}</td>
-                    <td>${record.received_date_malkhana ? new Date(record.received_date_malkhana).toLocaleDateString('en-IN') : '-'}</td>
-                    <td>${record.malkhana_register_no || '-'}</td>
-                    <td>${record.storage_location || '-'}</td>
-                    <td>${record.issued_date ? new Date(record.issued_date).toLocaleDateString('en-IN') : '-'}</td>
-                    <td>${record.issued_to || '-'}</td>
-                    <td>${record.return_date ? new Date(record.return_date).toLocaleDateString('en-IN') : '-'}</td>
-                    <td>${record.final_disposal_type || '-'}</td>
-                    <td>${record.disposal_date ? new Date(record.disposal_date).toLocaleDateString('en-IN') : '-'}</td>
-                    <td>${record.remarks || '-'}</td>
-                    <td>
-                        <div class="action-btns">
-                            <button class="btn-small btn-edit" onclick="editRecord(${record.entry_no})">✏️ Edit</button>
-                            <button class="btn-small btn-delete" onclick="deleteRecord(${record.entry_no})">🗑️ Delete</button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
+        // Load each photo blob with auth
+        grid.querySelectorAll('img[data-src]').forEach(img => {
+            fetch(img.dataset.src, { headers: authHeaders() })
+                .then(r => r.blob())
+                .then(blob => { img.src = URL.createObjectURL(blob); })
+                .catch(() => {});
+        });
+
+        toggleUploadSection(photos.length < 5);
+    } catch {}
+}
+
+function toggleUploadSection(show) {
+    document.getElementById('uploadZone').style.display = show ? 'block' : 'none';
+    document.getElementById('uploadSection').style.display = show ? 'block' : 'none';
+    document.getElementById('uploadBtn').style.display = show ? 'block' : 'none';
+}
+
+function updateSlotBar(used, pending) {
+    document.getElementById('slotInfo').textContent = `Slots used: ${used} / 5${pending ? ` (+${pending} pending)` : ''}`;
+    for (let i = 0; i < 5; i++) {
+        const dot = document.getElementById(`slot${i}`);
+        dot.className = 'slot-dot';
+        if (i < used) dot.classList.add('used');
+        else if (i < used + pending) dot.classList.add('pending');
+    }
+}
+
+// ── FILE SELECTION ────────────────────────────────────
+function onFilesSelected(e) {
+    addFilesToQueue(Array.from(e.target.files));
+}
+
+function onDragOver(e) {
+    e.preventDefault();
+    document.getElementById('uploadZone').classList.add('drag-over');
+}
+
+function onDragLeave() {
+    document.getElementById('uploadZone').classList.remove('drag-over');
+}
+
+function onDrop(e) {
+    e.preventDefault();
+    document.getElementById('uploadZone').classList.remove('drag-over');
+    addFilesToQueue(Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/')));
+}
+
+async function addFilesToQueue(files) {
+    const existingRes = await apiFetch(`${API_BASE}/${currentPhotoEntryNo}/photos`);
+    const existingData = await existingRes.json();
+    const existingCount = (existingData.photos || []).length;
+    const availableSlots = 5 - existingCount - newPhotosQueue.length;
+
+    if (availableSlots <= 0) { toast('Maximum 5 photos reached', 'error'); return; }
+
+    const toAdd = files.slice(0, availableSlots);
+    if (files.length > availableSlots) toast(`Only ${availableSlots} slot(s) remaining. Some files skipped.`, 'info');
+
+    for (const file of toAdd) {
+        if (file.size > 5 * 1024 * 1024) { toast(`${file.name} exceeds 5 MB limit`, 'error'); continue; }
+        const url = URL.createObjectURL(file);
+        newPhotosQueue.push({ file, previewUrl: url });
+    }
+
+    renderNewPreviews(existingCount);
+}
+
+function renderNewPreviews(existingCount) {
+    const grid = document.getElementById('newPhotoPreview');
+    grid.innerHTML = newPhotosQueue.map((item, i) =>
+        `<div class="preview-item">
+            <img src="${item.previewUrl}" alt="">
+            <button class="preview-remove" onclick="removeFromQueue(${i})">×</button>
+         </div>`
+    ).join('');
+    updateSlotBar(existingCount, newPhotosQueue.length);
+}
+
+function removeFromQueue(idx) {
+    URL.revokeObjectURL(newPhotosQueue[idx].previewUrl);
+    newPhotosQueue.splice(idx, 1);
+
+    apiFetch(`${API_BASE}/${currentPhotoEntryNo}/photos`)
+        .then(r => r.json())
+        .then(d => renderNewPreviews((d.photos || []).length));
+}
+
+async function uploadNewPhotos() {
+    if (!newPhotosQueue.length) { toast('No photos selected', 'info'); return; }
+
+    const btn = document.getElementById('uploadBtn');
+    btn.disabled = true; btn.textContent = 'Uploading…';
+
+    const fd = new FormData();
+    newPhotosQueue.forEach(item => fd.append('photos', item.file));
+
+    try {
+        const res = await apiFetch(`${API_BASE}/${currentPhotoEntryNo}/photos`, { method: 'POST', body: fd });
+        const data = await res.json();
+        if (data.success) {
+            toast(`${newPhotosQueue.length} photo(s) uploaded`, 'success');
+            newPhotosQueue = [];
+            document.getElementById('newPhotoPreview').innerHTML = '';
+            document.getElementById('photoFileInput').value = '';
+            await loadExistingPhotos(currentPhotoEntryNo);
+            loadRecords(); // refresh thumb in table
+        } else {
+            toast(data.message || 'Upload failed', 'error');
         }
+    } catch (e) {
+        if (e.message !== 'Unauthorized') toast('Upload failed', 'error');
+    }
 
-        function updateStats(count) {
-            document.getElementById('totalRecords').textContent = count;
-        }
+    btn.disabled = false; btn.textContent = '📤 Upload Photos';
+}
 
-        function openModal() {
-            isEditMode = false;
-            editingEntryNo = null;
-            document.getElementById('modalTitle').textContent = 'नया रिकॉर्ड जोड़ें / Add New Record';
-            document.getElementById('recordForm').reset();
-            document.getElementById('entry_no').disabled = false;
-            document.getElementById('recordModal').style.display = 'block';
-        }
+async function deletePhoto(photoId, entryNo) {
+    if (!confirm('Delete this photo?')) return;
+    try {
+        const res = await apiFetch(`${API_BASE}/${entryNo}/photos/${photoId}`, { method: 'DELETE' });
+        const data = await res.json();
+        if (data.success) {
+            toast('Photo deleted', 'success');
+            await loadExistingPhotos(entryNo);
+            loadRecords();
+        } else toast('Delete failed', 'error');
+    } catch {}
+}
 
-        function closeModal() {
-            document.getElementById('recordModal').style.display = 'none';
-        }
+// ── LIGHTBOX ───────────────────────────────────────────
+function openLightboxFromThumb(img) {
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightboxImg');
+    lbImg.src = img.src;
+    lb.classList.add('active');
+}
 
-        async function editRecord(entryNo) {
-            try {
-                const response = await fetch(`${API_BASE}/${entryNo}`);
-                const result = await response.json();
+function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+}
 
-                if (result.success) {
-                    const record = result.data;
-                    isEditMode = true;
-                    editingEntryNo = entryNo;
-                    
-                    document.getElementById('modalTitle').textContent = 'रिकॉर्ड संपादित करें / Edit Record';
-                    document.getElementById('entry_no').value = record.entry_no;
-                    document.getElementById('entry_no').disabled = true;
-                    document.getElementById('case_fir_no').value = record.case_fir_no || '';
-                    document.getElementById('police_station').value = record.police_station || '';
-                    document.getElementById('case_section').value = record.case_section || '';
-                    document.getElementById('property_description').value = record.property_description || '';
-                    document.getElementById('property_type').value = record.property_type || '';
-                    document.getElementById('quantity_weight').value = record.quantity_weight || '';
-                    document.getElementById('identification_mark').value = record.identification_mark || '';
-                    document.getElementById('seal_number').value = record.seal_number || '';
-                    document.getElementById('date_of_seizure').value = record.date_of_seizure ? record.date_of_seizure.split('T')[0] : '';
-                    document.getElementById('seized_by_officer').value = record.seized_by_officer || '';
-                    document.getElementById('received_date_malkhana').value = record.received_date_malkhana ? record.received_date_malkhana.split('T')[0] : '';
-                    document.getElementById('malkhana_register_no').value = record.malkhana_register_no || '';
-                    document.getElementById('storage_location').value = record.storage_location || '';
-                    document.getElementById('issued_date').value = record.issued_date ? record.issued_date.split('T')[0] : '';
-                    document.getElementById('issued_to').value = record.issued_to || '';
-                    document.getElementById('return_date').value = record.return_date ? record.return_date.split('T')[0] : '';
-                    document.getElementById('final_disposal_type').value = record.final_disposal_type || '';
-                    document.getElementById('disposal_date').value = record.disposal_date ? record.disposal_date.split('T')[0] : '';
-                    document.getElementById('remarks').value = record.remarks || '';
+document.getElementById('lightbox').addEventListener('click', e => {
+    if (e.target === document.getElementById('lightbox')) closeLightbox();
+});
 
-                    document.getElementById('recordModal').style.display = 'block';
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Error loading record for editing');
+// ── HELPERS ────────────────────────────────────────────
+function clearForm() {
+    ['entry_no','case_fir_no','police_station','case_section','property_description',
+     'property_type','quantity_weight','identification_mark','seal_number',
+     'date_of_seizure','seized_by_officer','received_date_malkhana','malkhana_register_no',
+     'storage_location','issued_date','issued_to','return_date','final_disposal_type',
+     'disposal_date','remarks'].forEach(id => { document.getElementById(id).value = ''; });
+}
+
+function setField(id, val) { document.getElementById(id).value = val || ''; }
+function getField(id) { return document.getElementById(id).value.trim(); }
+
+function toast(msg, type = 'info') {
+    const el = document.createElement('div');
+    el.className = `toast-item toast-${type}`;
+    el.textContent = msg;
+    document.getElementById('toast').appendChild(el);
+    setTimeout(() => el.remove(), 3500);
+}
+
+// ── QR CODE ────────────────────────────────────────────
+let currentQrUrl = '';
+
+async function openQrModal(entryNo, firNo, station, tokenOverride = null) {
+    document.getElementById('qrEntryLabel').textContent = entryNo;
+    document.getElementById('qrEntryNo').textContent = entryNo;
+    document.getElementById('qrFirNo').textContent = firNo || '—';
+    document.getElementById('qrStation').textContent = station || '—';
+    document.getElementById('qrCanvas').getContext('2d').clearRect(0,0,300,300);
+    document.getElementById('qrUrlText').textContent = 'Generating…';
+    document.getElementById('qrModal').style.display = 'block';
+
+    let token = tokenOverride;
+    if (!token) {
+        try {
+            const res = await apiFetch(`${API_BASE}/${entryNo}/qr-token`, { method: 'POST' });
+            const data = await res.json();
+            if (!data.success) { toast('Failed to generate QR', 'error'); return; }
+            token = data.token;
+        } catch { return; }
+    }
+
+    const PUBLIC_BASE = 'https://malkhanabackend.vercel.app'; // same domain as backend
+    currentQrUrl = `${PUBLIC_BASE}/view?t=${token}`;
+    document.getElementById('qrUrlText').textContent = currentQrUrl;
+
+    // Draw QR using qrcodejs
+    if (window.QRCode) {
+        drawQR(currentQrUrl);
+    } else {
+        const s = document.createElement('script');
+        s.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
+        s.onload = () => drawQR(currentQrUrl);
+        document.head.appendChild(s);
+    }
+}
+
+function drawQR(url) {
+    const canvas = document.getElementById('qrCanvas');
+    canvas.width = 220; canvas.height = 220;
+    // qrcodejs with canvas
+    const tmp = document.createElement('div');
+    new QRCode(tmp, {
+        text: url,
+        width: 220, height: 220,
+        colorDark: '#0a1628',
+        colorLight: '#faf7f0',
+        correctLevel: QRCode.CorrectLevel.H
+    });
+    // qrcodejs renders into a canvas inside tmp — copy it
+    setTimeout(() => {
+        const generated = tmp.querySelector('canvas');
+        if (generated) {
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(generated, 0, 0);
+        } else {
+            // fallback: img tag
+            const img = tmp.querySelector('img');
+            if (img) {
+                const i = new Image();
+                i.onload = () => canvas.getContext('2d').drawImage(i, 0, 0, 220, 220);
+                i.src = img.src;
             }
         }
+    }, 150);
+}
 
-        async function deleteRecord(entryNo) {
-            if (!confirm('क्या आप इस रिकॉर्ड को हटाना चाहते हैं?\nAre you sure you want to delete this record?')) {
-                return;
-            }
+function closeQrModal() {
+    document.getElementById('qrModal').style.display = 'none';
+}
 
-            try {
-                const response = await fetch(`${API_BASE}/${entryNo}`, {
-                    method: 'DELETE'
-                });
-                const result = await response.json();
+function copyQRLink() {
+    if (!currentQrUrl) return;
+    navigator.clipboard.writeText(currentQrUrl)
+        .then(() => toast('Link copied to clipboard', 'success'))
+        .catch(() => toast('Copy failed — link: ' + currentQrUrl, 'info'));
+}
 
-                if (result.success) {
-                    alert('✅ रिकॉर्ड सफलतापूर्वक हटा दिया गया!\nRecord deleted successfully!');
-                    loadRecords();
-                } else {
-                    alert('❌ Error: ' + result.message);
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('❌ Failed to delete record');
-            }
+function printQR() {
+    const card = document.getElementById('qrCardInner').cloneNode(true);
+    // Remove button row from clone
+    const printArea = document.getElementById('printArea');
+    printArea.style.cssText = `
+        position:fixed;inset:0;z-index:99999;
+        background:white;display:flex;
+        align-items:center;justify-content:center;
+        font-family:'EB Garamond',Georgia,serif;
+    `;
+
+    // Style the card for print
+    const wrapper = document.createElement('div');
+    wrapper.style.cssText = `
+        border:2px solid #0a1628;border-radius:4px;
+        padding:24px;max-width:340px;width:100%;
+        text-align:center;
+    `;
+    wrapper.appendChild(card);
+    printArea.innerHTML = '';
+    printArea.appendChild(wrapper);
+
+    window.print();
+
+    // After print dialog, restore
+    setTimeout(() => {
+        printArea.style.display = 'none';
+        printArea.innerHTML = '';
+    }, 1000);
+}
+
+// Close modals on outside click
+['recordModal', 'photoModal', 'qrModal'].forEach(id => {
+    document.getElementById(id).addEventListener('click', e => {
+        if (e.target.id === id) {
+            if (id === 'recordModal') closeRecordModal();
+            else if (id === 'photoModal') closePhotoModal();
+            else closeQrModal();
         }
+    });
+});
 
-        document.getElementById('recordForm').onsubmit = async function(e) {
-            e.preventDefault();
-
-            const formData = {
-                entry_no: parseInt(document.getElementById('entry_no').value),
-                case_fir_no: document.getElementById('case_fir_no').value,
-                police_station: document.getElementById('police_station').value,
-                case_section: document.getElementById('case_section').value,
-                property_description: document.getElementById('property_description').value,
-                property_type: document.getElementById('property_type').value,
-                quantity_weight: document.getElementById('quantity_weight').value,
-                identification_mark: document.getElementById('identification_mark').value,
-                seal_number: document.getElementById('seal_number').value,
-                date_of_seizure: document.getElementById('date_of_seizure').value || null,
-                seized_by_officer: document.getElementById('seized_by_officer').value,
-                received_date_malkhana: document.getElementById('received_date_malkhana').value || null,
-                malkhana_register_no: document.getElementById('malkhana_register_no').value,
-                storage_location: document.getElementById('storage_location').value,
-                issued_date: document.getElementById('issued_date').value || null,
-                issued_to: document.getElementById('issued_to').value,
-                return_date: document.getElementById('return_date').value || null,
-                final_disposal_type: document.getElementById('final_disposal_type').value,
-                disposal_date: document.getElementById('disposal_date').value || null,
-                remarks: document.getElementById('remarks').value
-            };
-
-            try {
-                const url = isEditMode ? `${API_BASE}/${editingEntryNo}` : API_BASE;
-                const method = isEditMode ? 'PUT' : 'POST';
-
-                const response = await fetch(url, {
-                    method: method,
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formData)
-                });
-
-                const result = await response.json();
-
-                if (result.success) {
-                    alert(isEditMode ? 
-                        '✅ रिकॉर्ड सफलतापूर्वक अपडेट किया गया!\nRecord updated successfully!' : 
-                        '✅ रिकॉर्ड सफलतापूर्वक जोड़ा गया!\nRecord added successfully!');
-                    closeModal();
-                    loadRecords();
-                } else {
-                    alert('❌ Error: ' + result.message);
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('❌ Failed to save record');
-            }
-        };
-
-        function searchRecords() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            
-            if (searchTerm === '') {
-                displayRecords(allRecords);
-                return;
-            }
-
-            const filtered = allRecords.filter(record => {
-                return (
-                    (record.case_fir_no && record.case_fir_no.toLowerCase().includes(searchTerm)) ||
-                    (record.police_station && record.police_station.toLowerCase().includes(searchTerm)) ||
-                    (record.property_type && record.property_type.toLowerCase().includes(searchTerm)) ||
-                    (record.seized_by_officer && record.seized_by_officer.toLowerCase().includes(searchTerm)) ||
-                    (record.entry_no && record.entry_no.toString().includes(searchTerm))
-                );
-            });
-
-            displayRecords(filtered);
-        }
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('recordModal');
-            if (event.target == modal) {
-                closeModal();
-            }
-        };
-    </script>
+// Login on Enter key
+document.getElementById('loginPassword').addEventListener('keydown', e => {
+    if (e.key === 'Enter') doLogin();
+});
+</script>
 </body>
 </html>
