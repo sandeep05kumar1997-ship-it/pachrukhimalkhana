@@ -872,6 +872,86 @@
         .toast-error   { background: #991b1b; color: #fecaca; border-left: 4px solid #f87171; }
         .toast-info    { background: var(--navy-mid); color: var(--gold-light); border-left: 4px solid var(--gold); }
 
+        /* INLINE PHOTO UPLOAD (inside record form) */
+        .form-inline-upload {
+            margin-top: 4px;
+        }
+
+        .inline-upload-zone {
+            border: 2px dashed var(--border);
+            border-radius: 4px;
+            padding: 20px;
+            text-align: center;
+            background: #fafaf8;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 12px;
+        }
+
+        .inline-upload-zone:hover,
+        .inline-upload-zone.drag-over {
+            border-color: var(--navy-light);
+            background: #eef2ff;
+        }
+
+        .inline-upload-zone strong {
+            display: block;
+            color: var(--navy-light);
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .inline-upload-zone p {
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+        }
+
+        .inline-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+        }
+
+        .inline-preview-item {
+            position: relative;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            aspect-ratio: 1;
+            background: #f3f4f6;
+        }
+
+        .inline-preview-item img {
+            width: 100%; height: 100%;
+            object-fit: cover; display: block;
+        }
+
+        .inline-preview-item .rm-btn {
+            position: absolute;
+            top: 3px; right: 3px;
+            width: 20px; height: 20px;
+            background: rgba(185,28,28,0.88);
+            color: white; border: none;
+            border-radius: 50%; font-size: 13px;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            line-height: 1;
+        }
+
+        .inline-preview-item .rm-btn:hover { background: var(--red); }
+
+        .inline-preview-item .photo-label {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: rgba(10,22,40,0.65);
+            color: white;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            padding: 3px 5px;
+            text-align: center;
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+
         /* QR MODAL */
         #qrModal .modal-box { max-width: 480px; }
 
@@ -1204,6 +1284,22 @@
                 </div>
             </div>
         </div>
+
+            <div class="section-label">📷 Evidence Photos <span style="font-size:11px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;letter-spacing:0;">(up to 5 photos, max 5MB each)</span></div>
+            <div class="form-inline-upload">
+                <div class="inline-upload-zone" id="inlineUploadZone"
+                     onclick="document.getElementById('inlinePhotoInput').click()"
+                     ondragover="inlineDragOver(event)"
+                     ondragleave="inlineDragLeave(event)"
+                     ondrop="inlineDrop(event)">
+                    <div style="font-size:28px;margin-bottom:8px;">📷</div>
+                    <strong>Click to add photos</strong>
+                    <p>or drag & drop — JPG, PNG, WEBP</p>
+                </div>
+                <input type="file" id="inlinePhotoInput" accept="image/*" multiple style="display:none" onchange="inlineFilesSelected(event)">
+                <div class="inline-preview-grid" id="inlinePreviewGrid"></div>
+            </div>
+
         <div class="modal-footer">
             <button class="btn-save" id="saveBtn" onclick="saveRecord()">💾 Save Record</button>
             <button class="btn-cancel" onclick="closeRecordModal()">Cancel</button>
@@ -1310,6 +1406,7 @@ let isEditMode = false;
 let editingEntryNo = null;
 let currentPhotoEntryNo = null;
 let newPhotosQueue = []; // { file, previewUrl }
+let inlinePhotosQueue = []; // photos queued inside the record form
 
 // ── INIT ───────────────────────────────────────────────
 window.onload = async () => {
@@ -1518,12 +1615,14 @@ function openRecordModal() {
     document.getElementById('modalTitle').textContent = 'Add New Record';
     document.getElementById('saveBtn').textContent = '💾 Save Record';
     clearForm();
+    clearInlinePhotos();
     document.getElementById('entry_no').disabled = false;
     document.getElementById('recordModal').style.display = 'block';
 }
 
 function closeRecordModal() {
     document.getElementById('recordModal').style.display = 'none';
+    clearInlinePhotos();
 }
 
 async function editRecord(entryNo) {
@@ -1568,45 +1667,86 @@ async function saveRecord() {
     const entryNoVal = document.getElementById('entry_no').value;
     if (!entryNoVal) { toast('Entry No is required', 'error'); return; }
 
-    const body = {
-        entry_no: parseInt(entryNoVal),
-        case_fir_no: getField('case_fir_no'),
-        police_station: getField('police_station'),
-        case_section: getField('case_section'),
-        property_description: getField('property_description'),
-        property_type: getField('property_type'),
-        quantity_weight: getField('quantity_weight'),
-        identification_mark: getField('identification_mark'),
-        seal_number: getField('seal_number'),
-        date_of_seizure: getField('date_of_seizure') || null,
-        seized_by_officer: getField('seized_by_officer'),
-        received_date_malkhana: getField('received_date_malkhana') || null,
-        malkhana_register_no: getField('malkhana_register_no'),
-        storage_location: getField('storage_location'),
-        issued_date: getField('issued_date') || null,
-        issued_to: getField('issued_to'),
-        return_date: getField('return_date') || null,
-        final_disposal_type: getField('final_disposal_type'),
-        disposal_date: getField('disposal_date') || null,
-        remarks: getField('remarks')
-    };
-
     const btn = document.getElementById('saveBtn');
     btn.disabled = true; btn.textContent = 'Saving…';
 
     try {
         const url = isEditMode ? `${API_BASE}/${editingEntryNo}` : API_BASE;
         const method = isEditMode ? 'PUT' : 'POST';
-        const res = await apiFetch(url, {
-            method,
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body)
-        });
-        const data = await res.json();
+
+        let res, data;
+
+        if (!isEditMode && inlinePhotosQueue.length > 0) {
+            // ── NEW RECORD WITH PHOTOS: use multipart/form-data ──
+            const fd = new FormData();
+            fd.append('entry_no', parseInt(entryNoVal));
+            fd.append('case_fir_no',            getField('case_fir_no'));
+            fd.append('police_station',          getField('police_station'));
+            fd.append('case_section',            getField('case_section'));
+            fd.append('property_description',    getField('property_description'));
+            fd.append('property_type',           getField('property_type'));
+            fd.append('quantity_weight',         getField('quantity_weight'));
+            fd.append('identification_mark',     getField('identification_mark'));
+            fd.append('seal_number',             getField('seal_number'));
+            fd.append('date_of_seizure',         getField('date_of_seizure') || '');
+            fd.append('seized_by_officer',       getField('seized_by_officer'));
+            fd.append('received_date_malkhana',  getField('received_date_malkhana') || '');
+            fd.append('malkhana_register_no',    getField('malkhana_register_no'));
+            fd.append('storage_location',        getField('storage_location'));
+            fd.append('issued_date',             getField('issued_date') || '');
+            fd.append('issued_to',               getField('issued_to'));
+            fd.append('return_date',             getField('return_date') || '');
+            fd.append('final_disposal_type',     getField('final_disposal_type'));
+            fd.append('disposal_date',           getField('disposal_date') || '');
+            fd.append('remarks',                 getField('remarks'));
+            inlinePhotosQueue.forEach(item => fd.append('photos', item.file));
+
+            res = await apiFetch(url, { method, body: fd }); // no Content-Type header — browser sets multipart boundary
+        } else {
+            // ── NEW RECORD WITHOUT PHOTOS or EDIT: use JSON ──
+            const body = {
+                entry_no:               parseInt(entryNoVal),
+                case_fir_no:            getField('case_fir_no'),
+                police_station:         getField('police_station'),
+                case_section:           getField('case_section'),
+                property_description:   getField('property_description'),
+                property_type:          getField('property_type'),
+                quantity_weight:        getField('quantity_weight'),
+                identification_mark:    getField('identification_mark'),
+                seal_number:            getField('seal_number'),
+                date_of_seizure:        getField('date_of_seizure') || null,
+                seized_by_officer:      getField('seized_by_officer'),
+                received_date_malkhana: getField('received_date_malkhana') || null,
+                malkhana_register_no:   getField('malkhana_register_no'),
+                storage_location:       getField('storage_location'),
+                issued_date:            getField('issued_date') || null,
+                issued_to:              getField('issued_to'),
+                return_date:            getField('return_date') || null,
+                final_disposal_type:    getField('final_disposal_type'),
+                disposal_date:          getField('disposal_date') || null,
+                remarks:                getField('remarks')
+            };
+            res = await apiFetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+        }
+
+        data = await res.json();
+
         if (data.success) {
+            // ── If EDIT mode and photos queued, upload them now ──
+            if (isEditMode && inlinePhotosQueue.length > 0) {
+                btn.textContent = 'Uploading photos…';
+                const fd = new FormData();
+                inlinePhotosQueue.forEach(item => fd.append('photos', item.file));
+                try {
+                    await apiFetch(`${API_BASE}/${editingEntryNo}/photos`, { method: 'POST', body: fd });
+                } catch {}
+            }
+
             toast(isEditMode ? 'Record updated successfully' : 'Record added successfully', 'success');
+            clearInlinePhotos();
             closeRecordModal();
             loadRecords();
+
             // Show QR automatically for new records
             if (!isEditMode && data.public_token) {
                 setTimeout(() => openQrModal(
@@ -1963,6 +2103,68 @@ function printQR() {
         }
     });
 });
+
+// ── INLINE PHOTO UPLOAD (inside record form) ───────────
+function inlineDragOver(e) {
+    e.preventDefault();
+    document.getElementById('inlineUploadZone').classList.add('drag-over');
+}
+function inlineDragLeave() {
+    document.getElementById('inlineUploadZone').classList.remove('drag-over');
+}
+function inlineDrop(e) {
+    e.preventDefault();
+    document.getElementById('inlineUploadZone').classList.remove('drag-over');
+    const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+    addInlineFiles(files);
+}
+function inlineFilesSelected(e) {
+    addInlineFiles(Array.from(e.target.files));
+    e.target.value = ''; // reset so same file can be re-added
+}
+
+function addInlineFiles(files) {
+    const available = 5 - inlinePhotosQueue.length;
+    if (available <= 0) { toast('Maximum 5 photos allowed', 'error'); return; }
+    const toAdd = files.slice(0, available);
+    if (files.length > available) toast(`Only ${available} slot(s) left`, 'info');
+
+    toAdd.forEach(file => {
+        if (file.size > 5 * 1024 * 1024) { toast(`${file.name} exceeds 5 MB`, 'error'); return; }
+        inlinePhotosQueue.push({ file, previewUrl: URL.createObjectURL(file) });
+    });
+    renderInlinePreviews();
+}
+
+function renderInlinePreviews() {
+    const grid = document.getElementById('inlinePreviewGrid');
+    grid.innerHTML = inlinePhotosQueue.map((item, i) =>
+        `<div class="inline-preview-item">
+            <img src="${item.previewUrl}" alt="">
+            <button class="rm-btn" onclick="removeInlinePhoto(${i})">×</button>
+            <div class="photo-label">${item.file.name}</div>
+         </div>`
+    ).join('');
+
+    // Update zone text
+    const zone = document.getElementById('inlineUploadZone');
+    const remaining = 5 - inlinePhotosQueue.length;
+    zone.style.display = remaining === 0 ? 'none' : 'block';
+}
+
+function removeInlinePhoto(idx) {
+    URL.revokeObjectURL(inlinePhotosQueue[idx].previewUrl);
+    inlinePhotosQueue.splice(idx, 1);
+    renderInlinePreviews();
+}
+
+function clearInlinePhotos() {
+    inlinePhotosQueue.forEach(item => URL.revokeObjectURL(item.previewUrl));
+    inlinePhotosQueue = [];
+    document.getElementById('inlinePreviewGrid').innerHTML = '';
+    const zone = document.getElementById('inlineUploadZone');
+    if (zone) zone.style.display = 'block';
+}
 
 // Login on Enter key
 document.getElementById('loginPassword').addEventListener('keydown', e => {
