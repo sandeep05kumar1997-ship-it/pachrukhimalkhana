@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,307 +7,68 @@
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --navy: #0a1628;
-            --navy-mid: #132040;
-            --navy-light: #1e3a6e;
-            --gold: #c8a84b;
-            --gold-light: #e8cc7a;
-            --gold-pale: #f5e9c4;
-            --cream: #faf7f0;
-            --white: #ffffff;
-            --border: #d4c89a;
-            --text: #1a1a2e;
-            --muted: #6b7280;
+            --navy: #0a1628; --navy-mid: #132040; --navy-light: #1e3a6e;
+            --gold: #c8a84b; --gold-light: #e8cc7a; --gold-pale: #f5e9c4;
+            --cream: #faf7f0; --white: #ffffff; --border: #d4c89a;
+            --text: #1a1a2e; --muted: #6b7280;
         }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'EB Garamond',Georgia,serif; background:var(--cream); min-height:100vh; color:var(--text); }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .top-banner { background:var(--navy-mid); border-bottom:3px solid var(--gold); padding:16px 24px; display:flex; align-items:center; gap:16px; }
+        .emblem { width:52px;height:52px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:600;font-size:9px;color:var(--navy);text-align:center;line-height:1.4;flex-shrink:0; }
+        .banner-text h1 { color:var(--gold-light);font-size:18px;font-weight:600; }
+        .banner-text p  { color:rgba(255,255,255,.5);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;margin-top:2px; }
+        .verified-badge { margin-left:auto;background:rgba(22,101,52,.2);border:1px solid #4ade80;color:#86efac;padding:6px 14px;border-radius:2px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;display:none; }
 
-        body {
-            font-family: 'EB Garamond', Georgia, serif;
-            background: var(--cream);
-            min-height: 100vh;
-            color: var(--text);
-        }
+        .state-screen { display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 87px);padding:40px 20px; }
+        .spinner { width:48px;height:48px;border:3px solid rgba(200,168,75,.2);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:20px; }
+        @keyframes spin { to{transform:rotate(360deg)} }
+        .state-screen p { font-family:'JetBrains Mono',monospace;color:var(--muted);font-size:13px;letter-spacing:1px; }
+        .error-icon  { font-size:52px;margin-bottom:16px; }
+        .error-title { font-size:22px;font-weight:600;color:var(--navy);margin-bottom:8px; }
 
-        /* HEADER */
-        .top-banner {
-            background: var(--navy-mid);
-            border-bottom: 3px solid var(--gold);
-            padding: 16px 24px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
+        .record-page { display:none;max-width:900px;margin:32px auto;padding:0 20px 60px;animation:fadeIn .4s ease; }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
 
-        .emblem {
-            width: 52px; height: 52px;
-            background: var(--gold);
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 600; font-size: 9px;
-            color: var(--navy); text-align: center; line-height: 1.4;
-            flex-shrink: 0;
-        }
+        .record-header { background:var(--navy-mid);border-radius:4px 4px 0 0;border-top:4px solid var(--gold);padding:24px 28px;display:flex;align-items:flex-start;gap:20px; }
+        .entry-badge { background:var(--gold);color:var(--navy);padding:10px 16px;border-radius:2px;font-family:'JetBrains Mono',monospace;font-weight:600;font-size:13px;white-space:nowrap;flex-shrink:0; }
+        .record-header-info h2 { color:var(--white);font-size:22px;font-weight:600;margin-bottom:6px; }
+        .meta { display:flex;flex-wrap:wrap;gap:16px; }
+        .meta-item { font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,.55);letter-spacing:.5px; }
+        .meta-item span { color:var(--gold-light);font-weight:600; }
 
-        .banner-text h1 {
-            color: var(--gold-light);
-            font-size: 18px; font-weight: 600;
-        }
+        .record-body { background:var(--white);border:1px solid var(--border);border-top:none;border-radius:0 0 4px 4px;padding:28px; }
 
-        .banner-text p {
-            color: rgba(255,255,255,0.5);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
-            margin-top: 2px;
-        }
+        .section-title { font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);border-bottom:1px solid var(--border);padding-bottom:8px;margin-bottom:16px;margin-top:28px;display:flex;align-items:center;gap:8px; }
+        .section-title:first-child { margin-top:0; }
+        .sec-num { background:var(--navy-mid);color:var(--gold-light);width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0; }
 
-        .verified-badge {
-            margin-left: auto;
-            background: rgba(22,101,52,0.2);
-            border: 1px solid #4ade80;
-            color: #86efac;
-            padding: 6px 14px;
-            border-radius: 2px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px; letter-spacing: 1px;
-            display: none;
-        }
-
-        /* STATES */
-        .state-screen {
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            min-height: calc(100vh - 87px);
-            padding: 40px 20px;
-        }
-
-        .spinner {
-            width: 48px; height: 48px;
-            border: 3px solid rgba(200,168,75,0.2);
-            border-top-color: var(--gold);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin-bottom: 20px;
-        }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        .state-screen p {
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--muted); font-size: 13px; letter-spacing: 1px;
-        }
-
-        .error-icon { font-size: 52px; margin-bottom: 16px; }
-        .error-title {
-            font-size: 22px; font-weight: 600; color: var(--navy);
-            margin-bottom: 8px;
-        }
-
-        /* RECORD CARD */
-        .record-page {
-            display: none;
-            max-width: 860px;
-            margin: 32px auto;
-            padding: 0 20px 60px;
-            animation: fadeIn 0.4s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(12px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        .record-header {
-            background: var(--navy-mid);
-            border-radius: 4px 4px 0 0;
-            border-top: 4px solid var(--gold);
-            padding: 24px 28px;
-            display: flex;
-            align-items: flex-start;
-            gap: 20px;
-        }
-
-        .entry-badge {
-            background: var(--gold);
-            color: var(--navy);
-            padding: 10px 16px;
-            border-radius: 2px;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 600;
-            font-size: 13px;
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
-
-        .record-header-info h2 {
-            color: var(--white);
-            font-size: 22px; font-weight: 600;
-            margin-bottom: 6px;
-        }
-
-        .record-header-info .meta {
-            display: flex; flex-wrap: wrap; gap: 16px;
-        }
-
-        .meta-item {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px; color: rgba(255,255,255,0.55);
-            letter-spacing: 0.5px;
-        }
-
-        .meta-item span {
-            color: var(--gold-light);
-            font-weight: 600;
-        }
-
-        .record-body {
-            background: var(--white);
-            border: 1px solid var(--border);
-            border-top: none;
-            border-radius: 0 0 4px 4px;
-            padding: 28px;
-        }
-
-        .section-title {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px; letter-spacing: 2px;
-            text-transform: uppercase; color: var(--gold);
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 8px; margin-bottom: 16px; margin-top: 28px;
-        }
-
-        .section-title:first-child { margin-top: 0; }
-
-        .fields-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-        }
-
+        .fields-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px; }
         .field-item {}
+        .field-label { font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:4px; }
+        .field-value { font-size:15px;color:var(--text);line-height:1.5; }
+        .field-value.empty { color:#ccc;font-style:italic;font-size:13px; }
+        .field-full { grid-column:1/-1; }
 
-        .field-label {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 9px; letter-spacing: 1.5px;
-            text-transform: uppercase; color: var(--muted);
-            margin-bottom: 4px;
-        }
+        .photo-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-top:4px; }
+        .photo-card { border-radius:4px;overflow:hidden;border:1px solid var(--border);background:#f3f4f6;aspect-ratio:1;cursor:pointer;position:relative; }
+        .photo-card img { width:100%;height:100%;object-fit:cover;display:block;transition:transform .2s; }
+        .photo-card:hover img { transform:scale(1.04); }
+        .photo-card .overlay { position:absolute;inset:0;background:rgba(10,22,40,0);transition:background .2s; }
+        .photo-card:hover .overlay { background:rgba(10,22,40,.2); }
+        .no-photos { grid-column:1/-1;padding:32px;text-align:center;color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:12px;background:#fafaf8;border:1px dashed var(--border);border-radius:4px; }
 
-        .field-value {
-            font-size: 15px; color: var(--text);
-            line-height: 1.4;
-        }
+        .record-footer { margin-top:20px;padding:16px 20px;background:var(--gold-pale);border:1px solid var(--border);border-radius:2px;display:flex;align-items:center;gap:12px; }
+        .record-footer p { font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.5px;flex:1; }
+        .record-footer strong { color:var(--navy); }
 
-        .field-value.empty { color: #ccc; font-style: italic; font-size: 13px; }
+        #lightbox { display:none;position:fixed;inset:0;background:rgba(5,10,20,.96);z-index:1000;align-items:center;justify-content:center; }
+        #lightbox.on { display:flex; }
+        #lightboxImg { max-width:92vw;max-height:88vh;object-fit:contain;border-radius:2px;box-shadow:0 0 80px rgba(0,0,0,.6); }
+        #lightboxClose { position:absolute;top:20px;right:20px;background:none;border:1px solid rgba(255,255,255,.2);color:white;width:40px;height:40px;border-radius:2px;font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center; }
 
-        .field-full { grid-column: 1 / -1; }
-
-        /* PHOTOS */
-        .photo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 12px;
-            margin-top: 4px;
-        }
-
-        .photo-card {
-            border-radius: 4px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-            background: #f3f4f6;
-            aspect-ratio: 1;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .photo-card img {
-            width: 100%; height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.2s;
-        }
-
-        .photo-card:hover img { transform: scale(1.04); }
-
-        .photo-card .overlay {
-            position: absolute; inset: 0;
-            background: rgba(10,22,40,0);
-            display: flex; align-items: center; justify-content: center;
-            transition: background 0.2s;
-        }
-
-        .photo-card:hover .overlay { background: rgba(10,22,40,0.25); }
-
-        .photo-loading {
-            display: flex; align-items: center; justify-content: center;
-            height: 100%; color: var(--muted);
-            font-family: 'JetBrains Mono', monospace; font-size: 11px;
-        }
-
-        .no-photos {
-            grid-column: 1 / -1;
-            padding: 32px;
-            text-align: center;
-            color: var(--muted);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
-            background: #fafaf8;
-            border: 1px dashed var(--border);
-            border-radius: 4px;
-        }
-
-        /* FOOTER */
-        .record-footer {
-            margin-top: 20px;
-            padding: 16px 20px;
-            background: var(--gold-pale);
-            border: 1px solid var(--border);
-            border-radius: 2px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .record-footer p {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px; color: var(--muted); letter-spacing: 0.5px;
-            flex: 1;
-        }
-
-        .record-footer strong { color: var(--navy); }
-
-        /* LIGHTBOX */
-        #lightbox {
-            display: none;
-            position: fixed; inset: 0;
-            background: rgba(5,10,20,0.96);
-            z-index: 1000;
-            align-items: center; justify-content: center;
-        }
-
-        #lightbox.on { display: flex; }
-
-        #lightboxImg {
-            max-width: 92vw; max-height: 88vh;
-            object-fit: contain;
-            border-radius: 2px;
-            box-shadow: 0 0 80px rgba(0,0,0,0.6);
-        }
-
-        #lightboxClose {
-            position: absolute; top: 20px; right: 20px;
-            background: none; border: 1px solid rgba(255,255,255,0.2);
-            color: white; width: 40px; height: 40px;
-            border-radius: 2px; font-size: 24px; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-        }
-
-        @media (max-width: 600px) {
-            .record-header { flex-direction: column; }
-            .fields-grid { grid-template-columns: 1fr 1fr; }
-            .photo-grid { grid-template-columns: repeat(2, 1fr); }
-        }
+        @media (max-width:600px) { .record-header{flex-direction:column} .fields-grid{grid-template-columns:1fr 1fr} .photo-grid{grid-template-columns:repeat(2,1fr)} }
     </style>
 </head>
 <body>
@@ -321,141 +82,201 @@
     <div class="verified-badge" id="verifiedBadge">✓ VERIFIED RECORD</div>
 </div>
 
-<!-- Loading -->
 <div class="state-screen" id="loadingState">
     <div class="spinner"></div>
     <p>Fetching record…</p>
 </div>
 
-<!-- Error -->
 <div class="state-screen" id="errorState" style="display:none;">
     <div class="error-icon">🔒</div>
     <div class="error-title">Record Not Found</div>
     <p id="errorMsg">This QR code is invalid or has expired.</p>
 </div>
 
-<!-- Record -->
 <div class="record-page" id="recordPage">
+
     <div class="record-header">
         <div class="entry-badge">ENTRY #<span id="rEntryNo"></span></div>
         <div class="record-header-info">
             <h2 id="rPropertyType">—</h2>
             <div class="meta">
                 <div class="meta-item">FIR: <span id="rFirNo">—</span></div>
-                <div class="meta-item">Station: <span id="rStation">—</span></div>
-                <div class="meta-item">Seized: <span id="rSeizedDate">—</span></div>
+                <div class="meta-item">Found: <span id="rFoundDate">—</span></div>
+                <div class="meta-item">Owner: <span id="rOwner">—</span></div>
             </div>
         </div>
     </div>
 
     <div class="record-body">
-        <div class="section-title">Case Information</div>
+
+        <!-- 2 -->
+        <div class="section-title"><span class="sec-num">2</span> स्वामी का नाम एवं पता — Owner Details</div>
         <div class="fields-grid">
             <div class="field-item">
-                <div class="field-label">FIR Number</div>
+                <div class="field-label">स्वामी का नाम / Owner Name</div>
+                <div class="field-value" id="f_ownerName">—</div>
+            </div>
+            <div class="field-item field-full">
+                <div class="field-label">स्वामी का पता / Owner Address</div>
+                <div class="field-value" id="f_ownerAddress">—</div>
+            </div>
+        </div>
+
+        <!-- 3 -->
+        <div class="section-title"><span class="sec-num">3</span> केस की संख्या एवं तिथि — Case / FIR Details</div>
+        <div class="fields-grid">
+            <div class="field-item">
+                <div class="field-label">FIR / केस संख्या</div>
                 <div class="field-value" id="f_fir">—</div>
             </div>
             <div class="field-item">
-                <div class="field-label">Police Station</div>
-                <div class="field-value" id="f_station">—</div>
-            </div>
-            <div class="field-item">
-                <div class="field-label">Case Section</div>
-                <div class="field-value" id="f_section">—</div>
-            </div>
-            <div class="field-item">
-                <div class="field-label">Seized By Officer</div>
-                <div class="field-value" id="f_officer">—</div>
-            </div>
-            <div class="field-item">
-                <div class="field-label">Date of Seizure</div>
-                <div class="field-value" id="f_seizureDate">—</div>
+                <div class="field-label">केस तिथि / Case Date</div>
+                <div class="field-value" id="f_caseDate">—</div>
             </div>
         </div>
 
-        <div class="section-title">Property Details</div>
+        <!-- 4 -->
+        <div class="section-title"><span class="sec-num">4</span> संपत्ति का प्रकार — Property Type</div>
         <div class="fields-grid">
             <div class="field-item">
-                <div class="field-label">Property Type</div>
+                <div class="field-label">संपत्ति का प्रकार / Property Type</div>
                 <div class="field-value" id="f_propType">—</div>
             </div>
-            <div class="field-item">
-                <div class="field-label">Quantity / Weight</div>
-                <div class="field-value" id="f_qty">—</div>
-            </div>
-            <div class="field-item">
-                <div class="field-label">Identification Mark</div>
-                <div class="field-value" id="f_idMark">—</div>
-            </div>
-            <div class="field-item">
-                <div class="field-label">Seal Number</div>
-                <div class="field-value" id="f_seal">—</div>
+        </div>
+
+        <!-- 5 -->
+        <div class="section-title"><span class="sec-num">5</span> पहचान चिन्ह सहित संपत्ति का विवरण — Property Description</div>
+        <div class="fields-grid">
+            <div class="field-item field-full">
+                <div class="field-label">संपत्ति का विवरण / Description</div>
+                <div class="field-value" id="f_propDesc">—</div>
             </div>
             <div class="field-item field-full">
-                <div class="field-label">Property Description</div>
-                <div class="field-value" id="f_propDesc">—</div>
+                <div class="field-label">पहचान चिन्ह / Identification Mark</div>
+                <div class="field-value" id="f_idMark">—</div>
             </div>
         </div>
 
-        <div class="section-title">Malkhana Details</div>
+        <!-- 6 -->
+        <div class="section-title"><span class="sec-num">6</span> मूल्य — Estimated Value</div>
         <div class="fields-grid">
             <div class="field-item">
-                <div class="field-label">Received Date</div>
+                <div class="field-label">अनुमानित मूल्य / Value</div>
+                <div class="field-value" id="f_value">—</div>
+            </div>
+        </div>
+
+        <!-- 7 -->
+        <div class="section-title"><span class="sec-num">7</span> कहाँ, कब, किसके द्वारा तथा किस परिस्थिति में पाई गई — Recovery Details</div>
+        <div class="fields-grid">
+            <div class="field-item">
+                <div class="field-label">कहाँ पाई गई / Place of Recovery</div>
+                <div class="field-value" id="f_foundPlace">—</div>
+            </div>
+            <div class="field-item">
+                <div class="field-label">कब पाई गई / Date of Recovery</div>
+                <div class="field-value" id="f_foundDate">—</div>
+            </div>
+            <div class="field-item">
+                <div class="field-label">किसके द्वारा / Recovered By Officer</div>
+                <div class="field-value" id="f_foundOfficer">—</div>
+            </div>
+            <div class="field-item field-full">
+                <div class="field-label">किस परिस्थिति में / Circumstances</div>
+                <div class="field-value" id="f_foundCirc">—</div>
+            </div>
+        </div>
+
+        <!-- 8 -->
+        <div class="section-title"><span class="sec-num">8</span> थाने में पाई गई तिथि — Date Received at Police Station</div>
+        <div class="fields-grid">
+            <div class="field-item">
+                <div class="field-label">थाने में प्राप्ति तिथि / Date Received</div>
                 <div class="field-value" id="f_receivedDate">—</div>
             </div>
-            <div class="field-item">
-                <div class="field-label">Register Number</div>
-                <div class="field-value" id="f_regNo">—</div>
-            </div>
-            <div class="field-item">
-                <div class="field-label">Storage Location</div>
+        </div>
+
+        <!-- 9 -->
+        <div class="section-title"><span class="sec-num">9</span> जप्त करने के बाद संपत्ति कहाँ रखी गई — Storage Location</div>
+        <div class="fields-grid">
+            <div class="field-item field-full">
+                <div class="field-label">भंडारण स्थान / Storage Location</div>
                 <div class="field-value" id="f_location">—</div>
             </div>
         </div>
 
-        <div class="section-title">Issue & Disposal</div>
+        <!-- 10 -->
+        <div class="section-title"><span class="sec-num">10</span> निपटान की तिथि एवं विधि — Disposal Details</div>
         <div class="fields-grid">
             <div class="field-item">
-                <div class="field-label">Issued Date</div>
-                <div class="field-value" id="f_issuedDate">—</div>
-            </div>
-            <div class="field-item">
-                <div class="field-label">Issued To</div>
-                <div class="field-value" id="f_issuedTo">—</div>
-            </div>
-            <div class="field-item">
-                <div class="field-label">Return Date</div>
-                <div class="field-value" id="f_returnDate">—</div>
-            </div>
-            <div class="field-item">
-                <div class="field-label">Disposal Type</div>
-                <div class="field-value" id="f_disposal">—</div>
-            </div>
-            <div class="field-item">
-                <div class="field-label">Disposal Date</div>
+                <div class="field-label">निपटान तिथि / Disposal Date</div>
                 <div class="field-value" id="f_disposalDate">—</div>
             </div>
-            <div class="field-item field-full">
-                <div class="field-label">Remarks</div>
-                <div class="field-value" id="f_remarks">—</div>
+            <div class="field-item">
+                <div class="field-label">निपटान विधि / Disposal Method</div>
+                <div class="field-value" id="f_disposalMethod">—</div>
             </div>
         </div>
 
-        <div class="section-title">Evidence Photos</div>
+        <!-- 11 -->
+        <div class="section-title"><span class="sec-num">11</span> प्राप्ति संचिका प्रविष्टि एवं बिक्री विवरण — Receipt File &amp; Sale Details</div>
+        <div class="fields-grid">
+            <div class="field-item">
+                <div class="field-label">प्राप्ति संचिका प्रविष्टि संख्या</div>
+                <div class="field-value" id="f_receiptEntry">—</div>
+            </div>
+            <div class="field-item">
+                <div class="field-label">बिक्री मूल्य / Sale Amount</div>
+                <div class="field-value" id="f_saleAmount">—</div>
+            </div>
+            <div class="field-item">
+                <div class="field-label">खरीदार का नाम / Buyer Name</div>
+                <div class="field-value" id="f_buyerName">—</div>
+            </div>
+            <div class="field-item field-full">
+                <div class="field-label">खरीदार का पता / Buyer Address</div>
+                <div class="field-value" id="f_buyerAddress">—</div>
+            </div>
+            <div class="field-item">
+                <div class="field-label">प्राप्ति चेक संख्या / Cheque No.</div>
+                <div class="field-value" id="f_checkNo">—</div>
+            </div>
+            <div class="field-item">
+                <div class="field-label">चेक तिथि / Cheque Date</div>
+                <div class="field-value" id="f_checkDate">—</div>
+            </div>
+        </div>
+
+        <!-- 12 -->
+        <div class="section-title"><span class="sec-num">12</span> जिम्मानामा रसीद एवं विलम्ब का कारण — Custody Receipt &amp; Delay Reason</div>
+        <div class="fields-grid">
+            <div class="field-item field-full">
+                <div class="field-label">जिम्मानामा रसीद संख्या / Custody Receipt No.</div>
+                <div class="field-value" id="f_custodyReceipt">—</div>
+            </div>
+            <div class="field-item field-full">
+                <div class="field-label">निपटान में विलम्ब का कारण / Reason for Delay</div>
+                <div class="field-value" id="f_delayReason">—</div>
+            </div>
+        </div>
+
+        <!-- Photos -->
+        <div class="section-title" style="margin-top:32px;"><span style="font-size:16px;">📷</span> साक्ष्य फोटो — Evidence Photos</div>
         <div class="photo-grid" id="photoGrid">
             <div class="no-photos">No photos attached to this record.</div>
         </div>
+
     </div>
 
     <div class="record-footer">
         <p>
             <strong>Bihar Police — Malkhana Management System</strong><br>
-            This is an official digital record. Accessed via verified QR code on <span id="accessTime"></span>.
+            Official digital record. Accessed via verified QR code on <span id="accessTime"></span>.
         </p>
     </div>
+
 </div>
 
-<!-- Lightbox -->
 <div id="lightbox">
     <button id="lightboxClose" onclick="closeLightbox()">×</button>
     <img id="lightboxImg" src="" alt="">
@@ -465,124 +286,115 @@
 const API = 'https://malkhanabackend.vercel.app';
 
 function getTokenFromURL() {
-    // Supports ?t=TOKEN or /view.html?t=TOKEN or hash #TOKEN
     const params = new URLSearchParams(window.location.search);
-    return params.get('t') || window.location.hash.replace('#', '');
+    return params.get('t') || window.location.hash.replace('#','');
 }
-
 function fmtDate(d) {
     if (!d) return null;
-    return new Date(d).toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' });
+    return new Date(d).toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
 }
-
-function setField(id, val) {
-    const el = document.getElementById(id);
-    if (val) {
-        el.textContent = val;
-        el.classList.remove('empty');
-    } else {
-        el.textContent = 'Not recorded';
-        el.classList.add('empty');
-    }
+function setField(id,val) {
+    const el=document.getElementById(id);
+    if(!el) return;
+    if(val) { el.textContent=val; el.classList.remove('empty'); }
+    else    { el.textContent='Not recorded'; el.classList.add('empty'); }
 }
 
 async function loadRecord() {
-    const token = getTokenFromURL();
-
-    if (!token) {
-        showError('No QR token found in URL. Please scan a valid QR code.');
-        return;
-    }
-
+    const token=getTokenFromURL();
+    if(!token) { showError('No QR token found in URL. Please scan a valid QR code.'); return; }
     try {
-        const res = await fetch(`${API}/api/public/${token}`);
-        const data = await res.json();
-
-        if (!res.ok || !data.success) {
-            showError(data.message || 'Invalid or expired QR code.');
-            return;
-        }
-
-        const r = data.data;
-        renderRecord(r, token);
-    } catch (e) {
-        showError('Could not connect to server. Please check your internet connection.');
-    }
+        const res=await fetch(`${API}/api/public/${token}`);
+        const data=await res.json();
+        if(!res.ok||!data.success) { showError(data.message||'Invalid or expired QR code.'); return; }
+        renderRecord(data.data);
+    } catch { showError('Could not connect to server. Please check your internet connection.'); }
 }
 
-function renderRecord(r, token) {
+function renderRecord(r) {
     // Header
-    document.getElementById('rEntryNo').textContent = r.entry_no;
-    document.getElementById('rPropertyType').textContent = r.property_type || r.property_description || 'Property Record';
-    document.getElementById('rFirNo').textContent = r.case_fir_no || '—';
-    document.getElementById('rStation').textContent = r.police_station || '—';
-    document.getElementById('rSeizedDate').textContent = r.date_of_seizure ? fmtDate(r.date_of_seizure) : '—';
+    document.getElementById('rEntryNo').textContent    = r.entry_no;
+    document.getElementById('rPropertyType').textContent = r.property_type||r.property_description||'Property Record';
+    document.getElementById('rFirNo').textContent      = r.case_fir_no||'—';
+    document.getElementById('rFoundDate').textContent  = r.found_date?fmtDate(r.found_date):'—';
+    document.getElementById('rOwner').textContent      = r.owner_name||'—';
 
-    // Fields
-    setField('f_fir', r.case_fir_no);
-    setField('f_station', r.police_station);
-    setField('f_section', r.case_section);
-    setField('f_officer', r.seized_by_officer);
-    setField('f_seizureDate', fmtDate(r.date_of_seizure));
+    // Field 2
+    setField('f_ownerName',    r.owner_name);
+    setField('f_ownerAddress', r.owner_address);
+
+    // Field 3
+    setField('f_fir',      r.case_fir_no);
+    setField('f_caseDate', fmtDate(r.case_date));
+
+    // Field 4
     setField('f_propType', r.property_type);
-    setField('f_qty', r.quantity_weight);
-    setField('f_idMark', r.identification_mark);
-    setField('f_seal', r.seal_number);
+
+    // Field 5
     setField('f_propDesc', r.property_description);
-    setField('f_receivedDate', fmtDate(r.received_date_malkhana));
-    setField('f_regNo', r.malkhana_register_no);
+    setField('f_idMark',   r.identification_mark);
+
+    // Field 6
+    setField('f_value', r.property_value);
+
+    // Field 7
+    setField('f_foundPlace',   r.found_place);
+    setField('f_foundDate',    fmtDate(r.found_date));
+    setField('f_foundOfficer', r.found_by_officer);
+    setField('f_foundCirc',    r.found_circumstances);
+
+    // Field 8
+    setField('f_receivedDate', fmtDate(r.received_at_police_station_date));
+
+    // Field 9
     setField('f_location', r.storage_location);
-    setField('f_issuedDate', fmtDate(r.issued_date));
-    setField('f_issuedTo', r.issued_to);
-    setField('f_returnDate', fmtDate(r.return_date));
-    setField('f_disposal', r.final_disposal_type);
-    setField('f_disposalDate', fmtDate(r.disposal_date));
-    setField('f_remarks', r.remarks);
+
+    // Field 10
+    setField('f_disposalDate',   fmtDate(r.disposal_date));
+    setField('f_disposalMethod', r.disposal_method);
+
+    // Field 11
+    setField('f_receiptEntry', r.receipt_file_entry_no);
+    setField('f_saleAmount',   r.sale_amount);
+    setField('f_buyerName',    r.buyer_name);
+    setField('f_buyerAddress', r.buyer_address);
+    setField('f_checkNo',      r.receipt_check_no);
+    setField('f_checkDate',    fmtDate(r.receipt_check_date));
+
+    // Field 12
+    setField('f_custodyReceipt', r.custody_receipt_no);
+    setField('f_delayReason',    r.delay_reason);
 
     // Photos
-    const grid = document.getElementById('photoGrid');
-    if (r.photos && r.photos.length > 0) {
-        grid.innerHTML = r.photos.map((p, i) =>
+    const grid=document.getElementById('photoGrid');
+    if(r.photos&&r.photos.length>0) {
+        grid.innerHTML=r.photos.map((p,i)=>
             `<div class="photo-card" onclick="openLightbox('${p.url}')">
                 <img id="pimg_${i}" src="${p.url}" alt="${p.filename}"
-                    onerror="this.parentElement.innerHTML='<div class=photo-loading>Failed</div>'">
+                    onerror="this.parentElement.innerHTML='<div style=padding:20px;text-align:center;font-family:monospace;font-size:11px;color:#999>Failed to load</div>'">
                 <div class="overlay"></div>
              </div>`
         ).join('');
     }
 
-    // Footer timestamp
     document.getElementById('accessTime').textContent =
-        new Date().toLocaleString('en-IN', { dateStyle: 'long', timeStyle: 'short' });
+        new Date().toLocaleString('en-IN',{dateStyle:'long',timeStyle:'short'});
 
-    // Show verified badge
-    document.getElementById('verifiedBadge').style.display = 'block';
-    document.title = `Entry #${r.entry_no} — Bihar Police Malkhana`;
-
-    // Show page
-    document.getElementById('loadingState').style.display = 'none';
-    document.getElementById('recordPage').style.display = 'block';
+    document.getElementById('verifiedBadge').style.display='block';
+    document.title=`Entry #${r.entry_no} — Bihar Police Malkhana`;
+    document.getElementById('loadingState').style.display='none';
+    document.getElementById('recordPage').style.display='block';
 }
 
 function showError(msg) {
-    document.getElementById('loadingState').style.display = 'none';
-    document.getElementById('errorMsg').textContent = msg;
-    document.getElementById('errorState').style.display = 'flex';
+    document.getElementById('loadingState').style.display='none';
+    document.getElementById('errorMsg').textContent=msg;
+    document.getElementById('errorState').style.display='flex';
 }
 
-function openLightbox(src) {
-    document.getElementById('lightboxImg').src = src;
-    document.getElementById('lightbox').classList.add('on');
-}
-
-function closeLightbox() {
-    document.getElementById('lightbox').classList.remove('on');
-    document.getElementById('lightboxImg').src = '';
-}
-
-document.getElementById('lightbox').addEventListener('click', e => {
-    if (e.target === document.getElementById('lightbox')) closeLightbox();
-});
+function openLightbox(src) { document.getElementById('lightboxImg').src=src; document.getElementById('lightbox').classList.add('on'); }
+function closeLightbox()   { document.getElementById('lightbox').classList.remove('on'); document.getElementById('lightboxImg').src=''; }
+document.getElementById('lightbox').addEventListener('click',e=>{if(e.target===document.getElementById('lightbox'))closeLightbox();});
 
 loadRecord();
 </script>
