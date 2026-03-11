@@ -16,8 +16,6 @@
             --cream: #faf7f0;
             --white: #ffffff;
             --red: #b91c1c;
-            --green: #166534;
-            --green-light: #15803d;
             --text-dark: #1a1a2e;
             --text-mid: #374151;
             --text-muted: #6b7280;
@@ -25,328 +23,197 @@
             --shadow: 0 4px 24px rgba(10,22,40,0.18);
             --shadow-lg: 0 12px 48px rgba(10,22,40,0.28);
         }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'EB Garamond',Georgia,serif; background:var(--navy); min-height:100vh; color:var(--text-dark); }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* ── LOGIN ── */
+        #loginScreen { display:flex; align-items:center; justify-content:center; min-height:100vh; background:radial-gradient(ellipse at 20% 50%,rgba(200,168,75,.08) 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(30,58,110,.4) 0%,transparent 60%),var(--navy); padding:20px; }
+        .login-card { background:var(--white); border-radius:4px; width:100%; max-width:420px; box-shadow:var(--shadow-lg),0 0 0 1px var(--border); overflow:hidden; animation:slideUp .5s ease; }
+        @keyframes slideUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+        .login-header { background:var(--navy-mid); padding:36px 32px 28px; text-align:center; border-bottom:3px solid var(--gold); }
+        .login-emblem { width:72px;height:72px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-family:'JetBrains Mono',monospace;font-weight:600;font-size:11px;color:var(--navy);letter-spacing:.5px;box-shadow:0 0 0 4px rgba(200,168,75,.2);line-height:1.3;text-align:center; }
+        .login-header h1 { color:var(--gold-light);font-size:13px;font-family:'JetBrains Mono',monospace;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px; }
+        .login-header p  { color:rgba(255,255,255,.55);font-size:12px;font-family:'JetBrains Mono',monospace;letter-spacing:1px; }
+        .login-body { padding:32px; }
+        .login-body h2 { font-size:22px;color:var(--navy);margin-bottom:24px;font-weight:600; }
+        .login-error { background:#fef2f2;border:1px solid #fca5a5;color:var(--red);padding:10px 14px;border-radius:4px;font-size:13px;font-family:'JetBrains Mono',monospace;margin-bottom:20px;display:none; }
+        .field { margin-bottom:18px; }
+        .field label { display:block;font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px; }
+        .field input { width:100%;padding:11px 14px;border:1.5px solid #e5e7eb;border-radius:4px;font-size:15px;font-family:'EB Garamond',serif;color:var(--text-dark);transition:border-color .2s,box-shadow .2s;background:#fafafa; }
+        .field input:focus { outline:none;border-color:var(--navy-light);box-shadow:0 0 0 3px rgba(30,58,110,.1);background:var(--white); }
+        .btn-login { width:100%;padding:13px;background:var(--navy-mid);color:var(--gold-light);border:none;border-radius:4px;font-size:13px;font-family:'JetBrains Mono',monospace;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:background .2s,transform .1s;margin-top:8px; }
+        .btn-login:hover { background:var(--navy-light); }
+        .btn-login:active { transform:scale(.99); }
+        .btn-login:disabled { opacity:.6;cursor:not-allowed; }
 
-        body {
-            font-family: 'EB Garamond', Georgia, serif;
-            background: var(--navy);
-            min-height: 100vh;
-            color: var(--text-dark);
-        }
-
-        /* ── LOGIN ──────────────────────────────────────── */
-        #loginScreen {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            background:
-                radial-gradient(ellipse at 20% 50%, rgba(200,168,75,0.08) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 20%, rgba(30,58,110,0.4) 0%, transparent 60%),
-                var(--navy);
-            padding: 20px;
-        }
-
-        .login-card {
-            background: var(--white);
-            border-radius: 4px;
-            width: 100%;
-            max-width: 420px;
-            box-shadow: var(--shadow-lg), 0 0 0 1px var(--border);
-            overflow: hidden;
-            animation: slideUp 0.5s ease;
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        .login-header {
-            background: var(--navy-mid);
-            padding: 36px 32px 28px;
-            text-align: center;
-            border-bottom: 3px solid var(--gold);
-        }
-
-        .login-emblem {
-            width: 72px; height: 72px;
-            background: var(--gold);
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 16px;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 600; font-size: 11px;
-            color: var(--navy); letter-spacing: 0.5px;
-            box-shadow: 0 0 0 4px rgba(200,168,75,0.2);
-            line-height: 1.3; text-align: center;
-        }
-
-        .login-header h1 { color: var(--gold-light); font-size: 13px; font-family: 'JetBrains Mono', monospace; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
-        .login-header p  { color: rgba(255,255,255,0.55); font-size: 12px; font-family: 'JetBrains Mono', monospace; letter-spacing: 1px; }
-
-        .login-body { padding: 32px; }
-        .login-body h2 { font-size: 22px; color: var(--navy); margin-bottom: 24px; font-weight: 600; }
-
-        .login-error {
-            background: #fef2f2; border: 1px solid #fca5a5; color: var(--red);
-            padding: 10px 14px; border-radius: 4px;
-            font-size: 13px; font-family: 'JetBrains Mono', monospace;
-            margin-bottom: 20px; display: none;
-        }
-
-        .field { margin-bottom: 18px; }
-        .field label { display: block; font-size: 11px; font-family: 'JetBrains Mono', monospace; font-weight: 600; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; }
-        .field input { width: 100%; padding: 11px 14px; border: 1.5px solid #e5e7eb; border-radius: 4px; font-size: 15px; font-family: 'EB Garamond', serif; color: var(--text-dark); transition: border-color 0.2s, box-shadow 0.2s; background: #fafafa; }
-        .field input:focus { outline: none; border-color: var(--navy-light); box-shadow: 0 0 0 3px rgba(30,58,110,0.1); background: var(--white); }
-
-        .btn-login {
-            width: 100%; padding: 13px;
-            background: var(--navy-mid); color: var(--gold-light);
-            border: none; border-radius: 4px;
-            font-size: 13px; font-family: 'JetBrains Mono', monospace;
-            font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
-            cursor: pointer; transition: background 0.2s, transform 0.1s;
-            margin-top: 8px;
-        }
-        .btn-login:hover { background: var(--navy-light); }
-        .btn-login:active { transform: scale(0.99); }
-        .btn-login:disabled { opacity: 0.6; cursor: not-allowed; }
-
-        /* ── MAIN APP ────────────────────────────────────── */
-        #mainApp { display: none; }
-
-        .topbar {
-            background: var(--navy-mid);
-            border-bottom: 3px solid var(--gold);
-            padding: 0 32px;
-            display: flex; align-items: center; gap: 20px;
-            height: 72px; position: sticky; top: 0; z-index: 100;
-        }
-
-        .topbar-emblem {
-            width: 46px; height: 46px;
-            background: var(--gold); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 8px;
-            color: var(--navy); text-align: center; line-height: 1.3; flex-shrink: 0;
-        }
-
-        .topbar-title { flex: 1; }
-        .topbar-title h1 { color: var(--gold-light); font-size: 18px; font-weight: 600; line-height: 1.2; }
-        .topbar-title p  { color: rgba(255,255,255,0.5); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; margin-top: 2px; }
-
-        .topbar-user { display: flex; align-items: center; gap: 12px; }
-        .user-badge { background: rgba(200,168,75,0.12); border: 1px solid rgba(200,168,75,0.3); color: var(--gold-light); padding: 5px 12px; border-radius: 2px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; }
-        .btn-logout { background: transparent; border: 1px solid rgba(185,28,28,0.4); color: #fca5a5; padding: 6px 14px; border-radius: 2px; font-family: 'JetBrains Mono', monospace; font-size: 11px; cursor: pointer; letter-spacing: 1px; transition: all 0.2s; }
-        .btn-logout:hover { background: rgba(185,28,28,0.15); border-color: #fca5a5; }
-
-        .page-content { background: var(--cream); min-height: calc(100vh - 72px); padding: 32px; }
+        /* ── MAIN APP ── */
+        #mainApp { display:none; }
+        .topbar { background:var(--navy-mid);border-bottom:3px solid var(--gold);padding:0 32px;display:flex;align-items:center;gap:20px;height:72px;position:sticky;top:0;z-index:100; }
+        .topbar-emblem { width:46px;height:46px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:600;font-size:8px;color:var(--navy);text-align:center;line-height:1.3;flex-shrink:0; }
+        .topbar-title { flex:1; }
+        .topbar-title h1 { color:var(--gold-light);font-size:18px;font-weight:600;line-height:1.2; }
+        .topbar-title p  { color:rgba(255,255,255,.5);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;margin-top:2px; }
+        .topbar-user { display:flex;align-items:center;gap:12px; }
+        .user-badge { background:rgba(200,168,75,.12);border:1px solid rgba(200,168,75,.3);color:var(--gold-light);padding:5px 12px;border-radius:2px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1px; }
+        .btn-logout { background:transparent;border:1px solid rgba(185,28,28,.4);color:#fca5a5;padding:6px 14px;border-radius:2px;font-family:'JetBrains Mono',monospace;font-size:11px;cursor:pointer;letter-spacing:1px;transition:all .2s; }
+        .btn-logout:hover { background:rgba(185,28,28,.15);border-color:#fca5a5; }
+        .page-content { background:var(--cream);min-height:calc(100vh - 72px);padding:32px; }
 
         /* STATS */
-        .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 28px; }
-        .stat-card { background: var(--white); border: 1px solid var(--border); border-top: 3px solid var(--navy-light); padding: 18px 20px; border-radius: 2px; }
-        .stat-card .label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
-        .stat-card .value { font-size: 36px; font-weight: 700; color: var(--navy); line-height: 1; }
+        .stats-row { display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:28px; }
+        .stat-card { background:var(--white);border:1px solid var(--border);border-top:3px solid var(--navy-light);padding:18px 20px;border-radius:2px; }
+        .stat-card .label { font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px; }
+        .stat-card .value { font-size:36px;font-weight:700;color:var(--navy);line-height:1; }
 
         /* CONTROLS */
-        .controls-bar { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; align-items: center; }
-        .btn { padding: 10px 20px; border: none; border-radius: 2px; font-size: 13px; font-family: 'JetBrains Mono', monospace; font-weight: 600; cursor: pointer; transition: all 0.2s; letter-spacing: 0.5px; white-space: nowrap; }
-        .btn-primary { background: var(--navy-mid); color: var(--gold-light); border: 1px solid var(--navy-light); }
-        .btn-primary:hover { background: var(--navy-light); }
-        .btn-secondary { background: var(--white); color: var(--navy); border: 1px solid var(--border); }
-        .btn-secondary:hover { background: var(--gold-pale); border-color: var(--gold); }
-
-        .search-wrap { flex: 1; min-width: 240px; position: relative; }
-        .search-wrap input { width: 100%; padding: 10px 14px 10px 36px; border: 1.5px solid var(--border); border-radius: 2px; font-size: 14px; font-family: 'EB Garamond', serif; background: var(--white); color: var(--text-dark); transition: border-color 0.2s; }
-        .search-wrap input:focus { outline: none; border-color: var(--navy-light); }
-        .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 14px; pointer-events: none; }
+        .controls-bar { display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap;align-items:center; }
+        .btn { padding:10px 20px;border:none;border-radius:2px;font-size:13px;font-family:'JetBrains Mono',monospace;font-weight:600;cursor:pointer;transition:all .2s;letter-spacing:.5px;white-space:nowrap; }
+        .btn-primary { background:var(--navy-mid);color:var(--gold-light);border:1px solid var(--navy-light); }
+        .btn-primary:hover { background:var(--navy-light); }
+        .btn-secondary { background:var(--white);color:var(--navy);border:1px solid var(--border); }
+        .btn-secondary:hover { background:var(--gold-pale);border-color:var(--gold); }
+        .search-wrap { flex:1;min-width:240px;position:relative; }
+        .search-wrap input { width:100%;padding:10px 14px 10px 36px;border:1.5px solid var(--border);border-radius:2px;font-size:14px;font-family:'EB Garamond',serif;background:var(--white);color:var(--text-dark);transition:border-color .2s; }
+        .search-wrap input:focus { outline:none;border-color:var(--navy-light); }
+        .search-icon { position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:14px;pointer-events:none; }
 
         /* TABLE */
-        .table-wrap { background: var(--white); border: 1px solid var(--border); border-radius: 2px; overflow: hidden; box-shadow: var(--shadow); }
-        .table-scroll { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; }
-        thead { background: var(--navy-mid); border-bottom: 2px solid var(--gold); }
-        th { padding: 12px 14px; text-align: left; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--gold-light); white-space: nowrap; }
-        td { padding: 11px 14px; border-bottom: 1px solid #f0ece0; font-size: 13.5px; color: var(--text-mid); vertical-align: middle; }
-        tbody tr { transition: background 0.15s; }
-        tbody tr:hover { background: #f8f5ec; }
-        tbody tr:last-child td { border-bottom: none; }
-        .entry-no { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 13px; color: var(--navy); }
+        .table-wrap { background:var(--white);border:1px solid var(--border);border-radius:2px;overflow:hidden;box-shadow:var(--shadow); }
+        .table-scroll { overflow-x:auto; }
+        table { width:100%;border-collapse:collapse; }
+        thead { background:var(--navy-mid);border-bottom:2px solid var(--gold); }
+        th { padding:12px 14px;text-align:left;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--gold-light);white-space:nowrap; }
+        td { padding:11px 14px;border-bottom:1px solid #f0ece0;font-size:13.5px;color:var(--text-mid);vertical-align:middle; }
+        tbody tr { transition:background .15s; }
+        tbody tr:hover { background:#f8f5ec; }
+        tbody tr:last-child td { border-bottom:none; }
+        .entry-no { font-family:'JetBrains Mono',monospace;font-weight:600;font-size:13px;color:var(--navy); }
+        .photo-thumb-row { display:flex;gap:4px; }
+        .photo-thumb { width:32px;height:32px;border-radius:2px;object-fit:cover;border:1px solid var(--border);cursor:pointer;transition:transform .15s; }
+        .photo-thumb:hover { transform:scale(1.1); }
+        .photo-count { width:32px;height:32px;background:var(--gold-pale);border:1px solid var(--border);border-radius:2px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-muted);cursor:pointer; }
+        .action-cell { display:flex;gap:6px;align-items:center;flex-wrap:wrap; }
+        .btn-xs { padding:5px 10px;border:none;border-radius:2px;font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:600;cursor:pointer;letter-spacing:.5px;transition:all .15s; }
+        .btn-edit   { background:#fef3c7;color:#92400e;border:1px solid #fcd34d; }
+        .btn-edit:hover   { background:#fde68a; }
+        .btn-photo  { background:#e0f2fe;color:#0c4a6e;border:1px solid #7dd3fc; }
+        .btn-photo:hover  { background:#bae6fd; }
+        .btn-delete { background:#fee2e2;color:#991b1b;border:1px solid #fca5a5; }
+        .btn-delete:hover { background:#fecaca; }
+        .btn-qr     { background:#f0fdf4;color:#166534;border:1px solid #86efac; }
+        .btn-qr:hover     { background:#dcfce7; }
+        .loading-row td,.empty-row td { text-align:center;padding:60px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:1px; }
 
-        .photo-thumb-row { display: flex; gap: 4px; }
-        .photo-thumb { width: 32px; height: 32px; border-radius: 2px; object-fit: cover; border: 1px solid var(--border); cursor: pointer; transition: transform 0.15s; }
-        .photo-thumb:hover { transform: scale(1.1); }
-        .photo-count { width: 32px; height: 32px; background: var(--gold-pale); border: 1px solid var(--border); border-radius: 2px; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); cursor: pointer; }
+        /* ── MODAL ── */
+        .modal-overlay { display:none;position:fixed;inset:0;background:rgba(10,22,40,.75);z-index:500;overflow-y:auto;padding:24px;backdrop-filter:blur(2px); }
+        .modal-box { background:var(--white);max-width:960px;margin:0 auto;border-radius:2px;box-shadow:var(--shadow-lg);border-top:4px solid var(--gold);animation:modalIn .25s ease; }
+        @keyframes modalIn { from{opacity:0;transform:translateY(-20px) scale(.98)} to{opacity:1;transform:translateY(0) scale(1)} }
+        .modal-head { display:flex;justify-content:space-between;align-items:center;padding:20px 28px;border-bottom:1px solid var(--border); }
+        .modal-head h2 { color:var(--navy);font-size:20px;font-weight:600; }
+        .modal-close { width:32px;height:32px;background:none;border:1px solid var(--border);border-radius:2px;font-size:18px;cursor:pointer;color:var(--text-muted);display:flex;align-items:center;justify-content:center;transition:all .15s; }
+        .modal-close:hover { background:#fee2e2;border-color:#fca5a5;color:var(--red); }
+        .modal-body { padding:28px; }
 
-        .action-cell { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
-        .btn-xs { padding: 5px 10px; border: none; border-radius: 2px; font-size: 11px; font-family: 'JetBrains Mono', monospace; font-weight: 600; cursor: pointer; letter-spacing: 0.5px; transition: all 0.15s; }
-        .btn-edit   { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
-        .btn-edit:hover   { background: #fde68a; }
-        .btn-photo  { background: #e0f2fe; color: #0c4a6e; border: 1px solid #7dd3fc; }
-        .btn-photo:hover  { background: #bae6fd; }
-        .btn-delete { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
-        .btn-delete:hover { background: #fecaca; }
-        .btn-qr     { background: #f0fdf4; color: #166534; border: 1px solid #86efac; }
-        .btn-qr:hover     { background: #dcfce7; }
+        .section-label { font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);border-bottom:1px solid var(--border);padding-bottom:8px;margin-bottom:18px;margin-top:28px;display:flex;align-items:center;gap:8px; }
+        .section-label:first-child { margin-top:0; }
+        .section-num { background:var(--navy-mid);color:var(--gold-light);width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0; }
 
-        .loading-row td, .empty-row td { text-align: center; padding: 60px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 1px; }
+        .form-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px; }
+        .form-group { display:flex;flex-direction:column; }
+        .form-group label { font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;font-weight:600; }
+        .form-group input,.form-group textarea,.form-group select { padding:9px 12px;border:1.5px solid #e5e7eb;border-radius:2px;font-size:14px;font-family:'EB Garamond',serif;color:var(--text-dark);background:#fafafa;transition:border-color .2s; }
+        .form-group input:focus,.form-group textarea:focus,.form-group select:focus { outline:none;border-color:var(--navy-light);background:var(--white); }
+        .form-group textarea { resize:vertical;min-height:80px; }
+        .span-full { grid-column:1/-1; }
+        .field-hint { font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-muted);margin-top:4px;letter-spacing:.3px; }
 
-        /* ── MODAL ───────────────────────────────────────── */
-        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(10,22,40,0.75); z-index: 500; overflow-y: auto; padding: 24px; backdrop-filter: blur(2px); }
+        .modal-footer { display:flex;gap:12px;padding:20px 28px;border-top:1px solid var(--border);background:#fafaf8;position:sticky;bottom:0;z-index:10; }
+        .btn-save { flex:1;padding:12px;background:var(--navy-mid);color:var(--gold-light);border:none;border-radius:2px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:background .2s; }
+        .btn-save:hover { background:var(--navy-light); }
+        .btn-cancel { padding:12px 24px;background:var(--white);color:var(--text-muted);border:1px solid var(--border);border-radius:2px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;letter-spacing:1px;cursor:pointer;transition:all .2s; }
+        .btn-cancel:hover { background:var(--gold-pale); }
 
-        .modal-box { background: var(--white); max-width: 960px; margin: 0 auto; border-radius: 2px; box-shadow: var(--shadow-lg); border-top: 4px solid var(--gold); animation: modalIn 0.25s ease; }
+        /* PHOTO SECTION */
+        .photo-section-box { background:#f8f5ec;border:1.5px dashed var(--border);border-radius:4px;padding:20px;margin-top:4px; }
+        .inline-upload-zone { border:2px dashed var(--border);border-radius:4px;padding:24px;text-align:center;background:var(--white);cursor:pointer;transition:all .2s;margin-bottom:16px; }
+        .inline-upload-zone:hover,.inline-upload-zone.drag-over { border-color:var(--navy-light);background:#eef2ff; }
+        .inline-upload-zone .upload-icon { font-size:32px;margin-bottom:8px; }
+        .inline-upload-zone strong { display:block;color:var(--navy-light);font-size:15px;margin-bottom:4px; }
+        .inline-upload-zone p { color:var(--text-muted);font-family:'JetBrains Mono',monospace;font-size:11px; }
+        .photo-slots-bar { display:flex;gap:6px;margin-bottom:14px;align-items:center; }
+        .slot-dot { width:36px;height:8px;border-radius:4px;background:#e5e7eb;transition:background .2s; }
+        .slot-dot.used    { background:var(--navy-light); }
+        .slot-dot.pending { background:var(--gold); }
+        .slots-label { font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-muted);letter-spacing:.5px;margin-left:4px; }
+        .inline-preview-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px; }
+        .inline-preview-item { position:relative;border-radius:4px;overflow:hidden;border:1px solid var(--border);aspect-ratio:1;background:#f3f4f6; }
+        .inline-preview-item img { width:100%;height:100%;object-fit:cover;display:block; }
+        .inline-preview-item .rm-btn { position:absolute;top:4px;right:4px;width:22px;height:22px;background:rgba(185,28,28,.88);color:white;border:none;border-radius:50%;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s; }
+        .inline-preview-item .rm-btn:hover { background:var(--red); }
+        .inline-preview-item .photo-label { position:absolute;bottom:0;left:0;right:0;background:rgba(10,22,40,.65);color:white;font-family:'JetBrains Mono',monospace;font-size:9px;padding:3px 5px;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
 
-        @keyframes modalIn {
-            from { opacity: 0; transform: translateY(-20px) scale(0.98); }
-            to   { opacity: 1; transform: translateY(0) scale(1); }
-        }
+        /* PHOTO MODAL */
+        #photoModal .modal-box { max-width:700px; }
+        .photo-upload-zone { border:2px dashed var(--border);border-radius:4px;padding:32px;text-align:center;background:#fafaf8;cursor:pointer;transition:all .2s;margin-bottom:20px; }
+        .photo-upload-zone:hover,.photo-upload-zone.drag-over { border-color:var(--navy-light);background:#eef2ff; }
+        .photo-upload-zone .upload-icon { font-size:36px;margin-bottom:10px; }
+        .photo-upload-zone p { color:var(--text-muted);font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.5px; }
+        .photo-upload-zone strong { color:var(--navy-light);display:block;margin-bottom:4px;font-size:14px; }
+        #photoFileInput { display:none; }
+        .preview-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;margin-bottom:20px; }
+        .preview-item { position:relative;border-radius:4px;overflow:hidden;border:1px solid var(--border);background:#f3f4f6;aspect-ratio:1; }
+        .preview-item img { width:100%;height:100%;object-fit:cover;display:block; }
+        .preview-remove { position:absolute;top:4px;right:4px;width:22px;height:22px;background:rgba(185,28,28,.85);color:white;border:none;border-radius:50%;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s; }
+        .preview-remove:hover { background:var(--red); }
+        .existing-photo { position:relative;border-radius:4px;overflow:hidden;border:1px solid var(--border);aspect-ratio:1; }
+        .existing-photo img { width:100%;height:100%;object-fit:cover;cursor:pointer; }
+        .existing-photo .photo-del { position:absolute;top:4px;right:4px;width:22px;height:22px;background:rgba(185,28,28,.85);color:white;border:none;border-radius:50%;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .15s; }
+        .existing-photo:hover .photo-del { opacity:1; }
+        .photo-slot-info { font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-muted);letter-spacing:.5px;margin-bottom:12px; }
+        .photo-slot-bar { display:flex;gap:4px;margin-bottom:16px; }
+        .photo-slot-bar .slot-dot { width:28px;height:6px; }
 
-        .modal-head { display: flex; justify-content: space-between; align-items: center; padding: 20px 28px; border-bottom: 1px solid var(--border); }
-        .modal-head h2 { color: var(--navy); font-size: 20px; font-weight: 600; }
-        .modal-close { width: 32px; height: 32px; background: none; border: 1px solid var(--border); border-radius: 2px; font-size: 18px; cursor: pointer; color: var(--text-muted); display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
-        .modal-close:hover { background: #fee2e2; border-color: #fca5a5; color: var(--red); }
+        /* QR MODAL */
+        #qrModal .modal-box { max-width:480px; }
+        .qr-card { background:var(--white);border:2px solid var(--navy);border-radius:4px;padding:24px;text-align:center; }
+        .qr-card-header { display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid var(--navy); }
+        .qr-card-emblem { width:44px;height:44px;background:var(--navy);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:600;font-size:8px;color:var(--gold);text-align:center;line-height:1.4;flex-shrink:0; }
+        .qr-card-title { text-align:left; }
+        .qr-card-title h3 { font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--navy);letter-spacing:1px; }
+        .qr-card-title p  { font-size:11px;color:var(--text-muted);font-family:'JetBrains Mono',monospace; }
+        .qr-canvas-wrap { display:flex;justify-content:center;margin:16px 0;padding:16px;background:var(--cream);border:1px solid var(--border);border-radius:4px; }
+        #qrCanvas { display:block; }
+        .qr-entry-label { font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--navy);margin-bottom:4px; }
+        .qr-fir-label   { font-size:12px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;margin-bottom:12px; }
+        .qr-url      { font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-muted);word-break:break-all;background:#f3f4f6;padding:6px 10px;border-radius:2px;margin-bottom:12px; }
+        .qr-validity { font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-muted);letter-spacing:.5px; }
+        .qr-btn-row  { display:flex;gap:10px;margin-top:16px; }
+        .btn-print   { flex:1;padding:11px;background:var(--navy-mid);color:var(--gold-light);border:none;border-radius:2px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;letter-spacing:1px;cursor:pointer;transition:background .2s; }
+        .btn-print:hover { background:var(--navy-light); }
+        .btn-copy-link { flex:1;padding:11px;background:var(--white);color:var(--navy);border:1px solid var(--border);border-radius:2px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;letter-spacing:1px;cursor:pointer;transition:all .2s; }
+        .btn-copy-link:hover { background:var(--gold-pale); }
 
-        .modal-body { padding: 28px; }
+        /* LIGHTBOX */
+        #lightbox { display:none;position:fixed;inset:0;background:rgba(5,10,20,.95);z-index:2000;align-items:center;justify-content:center;flex-direction:column;gap:16px; }
+        #lightbox.active { display:flex; }
+        #lightboxImg { max-width:90vw;max-height:80vh;object-fit:contain;border-radius:2px;box-shadow:0 0 60px rgba(0,0,0,.5); }
+        #lightboxClose { position:absolute;top:20px;right:24px;background:none;border:1px solid rgba(255,255,255,.2);color:white;width:40px;height:40px;border-radius:2px;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center; }
 
-        .section-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 18px; margin-top: 28px; display: flex; align-items: center; gap: 8px; }
-        .section-label:first-child { margin-top: 0; }
-        .section-num { background: var(--navy-mid); color: var(--gold-light); width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; flex-shrink: 0; }
+        /* TOAST */
+        #toast { position:fixed;bottom:28px;right:28px;z-index:3000;display:flex;flex-direction:column;gap:8px; }
+        .toast-item { padding:12px 18px;border-radius:2px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.5px;animation:toastIn .3s ease;min-width:220px;box-shadow:var(--shadow); }
+        @keyframes toastIn { from{opacity:0;transform:translateX(20px)} to{opacity:1;transform:translateX(0)} }
+        .toast-success { background:#166534;color:#bbf7d0;border-left:4px solid #4ade80; }
+        .toast-error   { background:#991b1b;color:#fecaca;border-left:4px solid #f87171; }
+        .toast-info    { background:var(--navy-mid);color:var(--gold-light);border-left:4px solid var(--gold); }
 
-        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
-        .form-group { display: flex; flex-direction: column; }
-        .form-group label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; font-weight: 600; }
-        .form-group input,
-        .form-group textarea,
-        .form-group select { padding: 9px 12px; border: 1.5px solid #e5e7eb; border-radius: 2px; font-size: 14px; font-family: 'EB Garamond', serif; color: var(--text-dark); background: #fafafa; transition: border-color 0.2s; }
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus { outline: none; border-color: var(--navy-light); background: var(--white); }
-        .form-group textarea { resize: vertical; min-height: 80px; }
-        .span-full { grid-column: 1 / -1; }
-        .span-2 { grid-column: span 2; }
-
-        .field-hint { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); margin-top: 4px; letter-spacing: 0.3px; }
-
-        .modal-footer { display: flex; gap: 12px; padding: 20px 28px; border-top: 1px solid var(--border); background: #fafaf8; position: sticky; bottom: 0; z-index: 10; }
-        .btn-save { flex: 1; padding: 12px; background: var(--navy-mid); color: var(--gold-light); border: none; border-radius: 2px; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; transition: background 0.2s; }
-        .btn-save:hover { background: var(--navy-light); }
-        .btn-cancel { padding: 12px 24px; background: var(--white); color: var(--text-muted); border: 1px solid var(--border); border-radius: 2px; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 1px; cursor: pointer; transition: all 0.2s; }
-        .btn-cancel:hover { background: var(--gold-pale); }
-
-        /* ── PHOTO SECTION (inside form) ─────────────────── */
-        .photo-section-box {
-            background: #f8f5ec;
-            border: 1.5px dashed var(--border);
-            border-radius: 4px;
-            padding: 20px;
-            margin-top: 4px;
-        }
-
-        .inline-upload-zone {
-            border: 2px dashed var(--border);
-            border-radius: 4px;
-            padding: 24px;
-            text-align: center;
-            background: var(--white);
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-bottom: 16px;
-        }
-        .inline-upload-zone:hover,
-        .inline-upload-zone.drag-over { border-color: var(--navy-light); background: #eef2ff; }
-        .inline-upload-zone .upload-icon { font-size: 32px; margin-bottom: 8px; }
-        .inline-upload-zone strong { display: block; color: var(--navy-light); font-size: 15px; margin-bottom: 4px; }
-        .inline-upload-zone p { color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 11px; }
-
-        .photo-slots-bar { display: flex; gap: 6px; margin-bottom: 14px; align-items: center; }
-        .slot-dot { width: 36px; height: 8px; border-radius: 4px; background: #e5e7eb; transition: background 0.2s; }
-        .slot-dot.used    { background: var(--navy-light); }
-        .slot-dot.pending { background: var(--gold); }
-        .slots-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); letter-spacing: 0.5px; margin-left: 4px; }
-
-        .inline-preview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; }
-        .inline-preview-item { position: relative; border-radius: 4px; overflow: hidden; border: 1px solid var(--border); aspect-ratio: 1; background: #f3f4f6; }
-        .inline-preview-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .inline-preview-item .rm-btn { position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; background: rgba(185,28,28,0.88); color: white; border: none; border-radius: 50%; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
-        .inline-preview-item .rm-btn:hover { background: var(--red); }
-        .inline-preview-item .photo-label { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(10,22,40,0.65); color: white; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 5px; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-
-        /* ── PHOTO MODAL ─────────────────────────────────── */
-        #photoModal .modal-box { max-width: 700px; }
-        .photo-upload-zone { border: 2px dashed var(--border); border-radius: 4px; padding: 32px; text-align: center; background: #fafaf8; cursor: pointer; transition: all 0.2s; margin-bottom: 20px; }
-        .photo-upload-zone:hover, .photo-upload-zone.drag-over { border-color: var(--navy-light); background: #eef2ff; }
-        .photo-upload-zone .upload-icon { font-size: 36px; margin-bottom: 10px; }
-        .photo-upload-zone p { color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.5px; }
-        .photo-upload-zone strong { color: var(--navy-light); display: block; margin-bottom: 4px; font-size: 14px; }
-        #photoFileInput { display: none; }
-        .preview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; margin-bottom: 20px; }
-        .preview-item { position: relative; border-radius: 4px; overflow: hidden; border: 1px solid var(--border); background: #f3f4f6; aspect-ratio: 1; }
-        .preview-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .preview-remove { position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; background: rgba(185,28,28,0.85); color: white; border: none; border-radius: 50%; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
-        .preview-remove:hover { background: var(--red); }
-        .existing-photo { position: relative; border-radius: 4px; overflow: hidden; border: 1px solid var(--border); aspect-ratio: 1; }
-        .existing-photo img { width: 100%; height: 100%; object-fit: cover; cursor: pointer; }
-        .existing-photo .photo-del { position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; background: rgba(185,28,28,0.85); color: white; border: none; border-radius: 50%; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.15s; }
-        .existing-photo:hover .photo-del { opacity: 1; }
-        .photo-slot-info { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 12px; }
-        .photo-slot-bar { display: flex; gap: 4px; margin-bottom: 16px; }
-        .photo-slot-bar .slot-dot { width: 28px; height: 6px; }
-
-        /* ── QR MODAL ────────────────────────────────────── */
-        #qrModal .modal-box { max-width: 480px; }
-        .qr-card { background: var(--white); border: 2px solid var(--navy); border-radius: 4px; padding: 24px; text-align: center; }
-        .qr-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid var(--navy); }
-        .qr-card-emblem { width: 44px; height: 44px; background: var(--navy); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 8px; color: var(--gold); text-align: center; line-height: 1.4; flex-shrink: 0; }
-        .qr-card-title { text-align: left; }
-        .qr-card-title h3 { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; color: var(--navy); letter-spacing: 1px; }
-        .qr-card-title p  { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
-        .qr-canvas-wrap { display: flex; justify-content: center; margin: 16px 0; padding: 16px; background: var(--cream); border: 1px solid var(--border); border-radius: 4px; }
-        #qrCanvas { display: block; }
-        .qr-entry-label { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
-        .qr-fir-label   { font-size: 12px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; margin-bottom: 12px; }
-        .qr-url      { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--text-muted); word-break: break-all; background: #f3f4f6; padding: 6px 10px; border-radius: 2px; margin-bottom: 12px; }
-        .qr-validity { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); letter-spacing: 0.5px; }
-        .qr-btn-row  { display: flex; gap: 10px; margin-top: 16px; }
-        .btn-print   { flex: 1; padding: 11px; background: var(--navy-mid); color: var(--gold-light); border: none; border-radius: 2px; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 1px; cursor: pointer; transition: background 0.2s; }
-        .btn-print:hover { background: var(--navy-light); }
-        .btn-copy-link { flex: 1; padding: 11px; background: var(--white); color: var(--navy); border: 1px solid var(--border); border-radius: 2px; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 1px; cursor: pointer; transition: all 0.2s; }
-        .btn-copy-link:hover { background: var(--gold-pale); }
-
-        /* ── LIGHTBOX ────────────────────────────────────── */
-        #lightbox { display: none; position: fixed; inset: 0; background: rgba(5,10,20,0.95); z-index: 2000; align-items: center; justify-content: center; flex-direction: column; gap: 16px; }
-        #lightbox.active { display: flex; }
-        #lightboxImg { max-width: 90vw; max-height: 80vh; object-fit: contain; border-radius: 2px; box-shadow: 0 0 60px rgba(0,0,0,0.5); }
-        #lightboxClose { position: absolute; top: 20px; right: 24px; background: none; border: 1px solid rgba(255,255,255,0.2); color: white; width: 40px; height: 40px; border-radius: 2px; font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-
-        /* ── TOAST ───────────────────────────────────────── */
-        #toast { position: fixed; bottom: 28px; right: 28px; z-index: 3000; display: flex; flex-direction: column; gap: 8px; }
-        .toast-item { padding: 12px 18px; border-radius: 2px; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.5px; animation: toastIn 0.3s ease; min-width: 220px; box-shadow: var(--shadow); }
-        @keyframes toastIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
-        .toast-success { background: #166534; color: #bbf7d0; border-left: 4px solid #4ade80; }
-        .toast-error   { background: #991b1b; color: #fecaca; border-left: 4px solid #f87171; }
-        .toast-info    { background: var(--navy-mid); color: var(--gold-light); border-left: 4px solid var(--gold); }
-
-        /* PRINT */
-        @media print { body * { visibility: hidden; } #printArea, #printArea * { visibility: visible; } #printArea { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: white; } }
-
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .topbar { padding: 0 16px; }
-            .page-content { padding: 16px; }
-            .topbar-title h1 { font-size: 14px; }
-            .topbar-user { display: none; }
-            .controls-bar { flex-direction: column; }
-            .btn { width: 100%; }
-            .modal-overlay { padding: 8px; }
-            .modal-body, .modal-footer { padding: 16px; }
-        }
+        @media print { body * { visibility:hidden; } #printArea,#printArea * { visibility:visible; } #printArea { position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:white; } }
+        @media (max-width:768px) { .topbar{padding:0 16px} .page-content{padding:16px} .topbar-title h1{font-size:14px} .topbar-user{display:none} .controls-bar{flex-direction:column} .btn{width:100%} .modal-overlay{padding:8px} .modal-body,.modal-footer{padding:16px} }
     </style>
 </head>
 <body>
 
-<!-- ── LOGIN ────────────────────────────────────────── -->
+<!-- LOGIN -->
 <div id="loginScreen">
     <div class="login-card">
         <div class="login-header">
@@ -357,20 +224,14 @@
         <div class="login-body">
             <h2>Sign In</h2>
             <div class="login-error" id="loginError"></div>
-            <div class="field">
-                <label>Username</label>
-                <input type="text" id="loginUsername" placeholder="Enter username" autocomplete="username">
-            </div>
-            <div class="field">
-                <label>Password</label>
-                <input type="password" id="loginPassword" placeholder="Enter password" autocomplete="current-password">
-            </div>
+            <div class="field"><label>Username</label><input type="text" id="loginUsername" placeholder="Enter username" autocomplete="username"></div>
+            <div class="field"><label>Password</label><input type="password" id="loginPassword" placeholder="Enter password" autocomplete="current-password"></div>
             <button class="btn-login" id="loginBtn" onclick="doLogin()">Login → Malkhana System</button>
         </div>
     </div>
 </div>
 
-<!-- ── MAIN APP ──────────────────────────────────────── -->
+<!-- MAIN APP -->
 <div id="mainApp">
     <div class="topbar">
         <div class="topbar-emblem">BIHAR<br>POLICE</div>
@@ -390,7 +251,6 @@
             <div class="stat-card"><div class="label">With Photos</div><div class="value" id="withPhotos">—</div></div>
             <div class="stat-card"><div class="label">Showing</div><div class="value" id="showingCount">—</div></div>
         </div>
-
         <div class="controls-bar">
             <button class="btn btn-primary" onclick="openRecordModal()">＋ Add New Record</button>
             <button class="btn btn-secondary" onclick="loadRecords()">↺ Refresh</button>
@@ -407,12 +267,11 @@
                         <tr>
                             <th>क्रम सं.</th>
                             <th>स्वामी का नाम</th>
-                            <th>केस / FIR</th>
-                            <th>थाना</th>
+                            <th>FIR / केस</th>
                             <th>संपत्ति का प्रकार</th>
                             <th>विवरण</th>
                             <th>मूल्य</th>
-                            <th>कहाँ पाई / अधिकारी</th>
+                            <th>अधिकारी / स्थान</th>
                             <th>थाने में तिथि</th>
                             <th>भंडारण</th>
                             <th>निपटान</th>
@@ -421,7 +280,7 @@
                         </tr>
                     </thead>
                     <tbody id="tableBody">
-                        <tr class="loading-row"><td colspan="13">Loading records…</td></tr>
+                        <tr class="loading-row"><td colspan="12">Loading records…</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -429,7 +288,7 @@
     </div>
 </div>
 
-<!-- ── RECORD MODAL ──────────────────────────────────── -->
+<!-- RECORD MODAL -->
 <div id="recordModal" class="modal-overlay">
     <div class="modal-box">
         <div class="modal-head">
@@ -438,8 +297,8 @@
         </div>
         <div class="modal-body">
 
-            <!-- 1. क्रम संख्या -->
-            <div class="section-label"><span class="section-num">1</span> क्रम संख्या &nbsp;—&nbsp; Serial Number</div>
+            <!-- 1 -->
+            <div class="section-label"><span class="section-num">1</span> क्रम संख्या — Serial Number</div>
             <div class="form-grid">
                 <div class="form-group">
                     <label>Entry No / क्रम संख्या *</label>
@@ -447,8 +306,8 @@
                 </div>
             </div>
 
-            <!-- 2. स्वामी का नाम एवं पता -->
-            <div class="section-label"><span class="section-num">2</span> स्वामी का नाम एवं पता &nbsp;—&nbsp; Owner Details</div>
+            <!-- 2 -->
+            <div class="section-label"><span class="section-num">2</span> स्वामी का नाम एवं पता — Owner Details</div>
             <div class="form-grid">
                 <div class="form-group">
                     <label>स्वामी का नाम / Owner Name</label>
@@ -456,12 +315,12 @@
                 </div>
                 <div class="form-group span-full">
                     <label>स्वामी का पता / Owner Address</label>
-                    <textarea id="owner_address" placeholder="पूरा पता / Full address (if known)"></textarea>
+                    <textarea id="owner_address" placeholder="पूरा पता / Full address"></textarea>
                 </div>
             </div>
 
-            <!-- 3. केस की संख्या एवं तिथि -->
-            <div class="section-label"><span class="section-num">3</span> केस की संख्या एवं तिथि &nbsp;—&nbsp; Case / FIR Details</div>
+            <!-- 3 -->
+            <div class="section-label"><span class="section-num">3</span> केस की संख्या एवं तिथि — Case / FIR Details</div>
             <div class="form-grid">
                 <div class="form-group">
                     <label>FIR / केस संख्या</label>
@@ -471,14 +330,10 @@
                     <label>केस तिथि / Case Date</label>
                     <input type="date" id="case_date">
                 </div>
-                <div class="form-group">
-                    <label>थाना / Police Station</label>
-                    <input type="text" id="police_station" placeholder="थाने का नाम">
-                </div>
             </div>
 
-            <!-- 4. संपत्ति का प्रकार -->
-            <div class="section-label"><span class="section-num">4</span> संपत्ति का प्रकार &nbsp;—&nbsp; Property Type</div>
+            <!-- 4 -->
+            <div class="section-label"><span class="section-num">4</span> संपत्ति का प्रकार — Property Type</div>
             <div class="form-grid">
                 <div class="form-group">
                     <label>संपत्ति का प्रकार / Property Type</label>
@@ -495,30 +350,30 @@
                 </div>
             </div>
 
-            <!-- 5. पहचान चिन्ह सहित संपत्ति का विवरण -->
-            <div class="section-label"><span class="section-num">5</span> पहचान चिन्ह सहित संपत्ति का विवरण &nbsp;—&nbsp; Property Description</div>
+            <!-- 5 -->
+            <div class="section-label"><span class="section-num">5</span> पहचान चिन्ह सहित संपत्ति का विवरण — Description</div>
             <div class="form-grid">
                 <div class="form-group span-full">
                     <label>संपत्ति का विवरण / Property Description</label>
-                    <textarea id="property_description" placeholder="संपत्ति का पूरा विवरण लिखें…"></textarea>
+                    <textarea id="property_description" placeholder="संपत्ति का पूरा विवरण…"></textarea>
                 </div>
                 <div class="form-group span-full">
                     <label>पहचान चिन्ह / Identification Mark</label>
-                    <input type="text" id="identification_mark" placeholder="रंग, नम्बर, निशान आदि / Colour, Number, Mark etc.">
+                    <input type="text" id="identification_mark" placeholder="रंग, नम्बर, निशान आदि">
                 </div>
             </div>
 
-            <!-- 6. मूल्य -->
-            <div class="section-label"><span class="section-num">6</span> मूल्य &nbsp;—&nbsp; Value / Estimated Price</div>
+            <!-- 6 -->
+            <div class="section-label"><span class="section-num">6</span> मूल्य — Estimated Value</div>
             <div class="form-grid">
                 <div class="form-group">
-                    <label>अनुमानित मूल्य / Estimated Value</label>
+                    <label>अनुमानित मूल्य / Value</label>
                     <input type="text" id="property_value" placeholder="₹ (approx)">
                 </div>
             </div>
 
-            <!-- 7. कहाँ, कब, किसके द्वारा, किस परिस्थिति में -->
-            <div class="section-label"><span class="section-num">7</span> कहाँ, कब, किसके द्वारा तथा किस परिस्थिति में पाई गई &nbsp;—&nbsp; Recovery Details</div>
+            <!-- 7 -->
+            <div class="section-label"><span class="section-num">7</span> कहाँ, कब, किसके द्वारा तथा किस परिस्थिति में पाई गई — Recovery Details</div>
             <div class="form-grid">
                 <div class="form-group">
                     <label>कहाँ पाई गई / Place of Recovery</label>
@@ -529,17 +384,17 @@
                     <input type="date" id="found_date">
                 </div>
                 <div class="form-group">
-                    <label>किसके द्वारा / Recovered By (Officer)</label>
+                    <label>किसके द्वारा / Recovered By Officer</label>
                     <input type="text" id="found_by_officer" placeholder="अधिकारी का नाम व पदनाम">
                 </div>
                 <div class="form-group span-full">
-                    <label>किस परिस्थिति में / Circumstances of Recovery</label>
+                    <label>किस परिस्थिति में / Circumstances</label>
                     <textarea id="found_circumstances" placeholder="परिस्थिति का विवरण…"></textarea>
                 </div>
             </div>
 
-            <!-- 8. थाने में पाई गई तिथि -->
-            <div class="section-label"><span class="section-num">8</span> थाने में पाई गई तिथि &nbsp;—&nbsp; Date Received at Police Station</div>
+            <!-- 8 -->
+            <div class="section-label"><span class="section-num">8</span> थाने में पाई गई तिथि — Date Received at Police Station</div>
             <div class="form-grid">
                 <div class="form-group">
                     <label>थाने में प्राप्ति तिथि / Date Received</label>
@@ -547,17 +402,17 @@
                 </div>
             </div>
 
-            <!-- 9. जप्त करने के बाद कहाँ रखी -->
-            <div class="section-label"><span class="section-num">9</span> जप्त करने के बाद संपत्ति कहाँ रखी गई &nbsp;—&nbsp; Storage Location</div>
+            <!-- 9 -->
+            <div class="section-label"><span class="section-num">9</span> जप्त करने के बाद संपत्ति कहाँ रखी गई — Storage Location</div>
             <div class="form-grid">
                 <div class="form-group span-full">
                     <label>भंडारण स्थान / Storage Location</label>
-                    <input type="text" id="storage_location" placeholder="मालखाना में कमरा/रैक/लॉकर नम्बर आदि">
+                    <input type="text" id="storage_location" placeholder="कमरा / रैक / लॉकर नम्बर आदि">
                 </div>
             </div>
 
-            <!-- 10. निपटान की तिथि एवं विधि -->
-            <div class="section-label"><span class="section-num">10</span> निपटान की तिथि एवं विधि &nbsp;—&nbsp; Disposal Date &amp; Method</div>
+            <!-- 10 -->
+            <div class="section-label"><span class="section-num">10</span> निपटान की तिथि एवं विधि — Disposal</div>
             <div class="form-grid">
                 <div class="form-group">
                     <label>निपटान तिथि / Disposal Date</label>
@@ -569,8 +424,8 @@
                 </div>
             </div>
 
-            <!-- 11. प्राप्ति संचिका / बिक्री विवरण -->
-            <div class="section-label"><span class="section-num">11</span> प्राप्ति संचिका प्रविष्टि &amp; बिक्री विवरण &nbsp;—&nbsp; Receipt File &amp; Sale Details</div>
+            <!-- 11 -->
+            <div class="section-label"><span class="section-num">11</span> प्राप्ति संचिका प्रविष्टि एवं बिक्री विवरण — Receipt File &amp; Sale Details</div>
             <div class="form-grid">
                 <div class="form-group">
                     <label>प्राप्ति संचिका प्रविष्टि संख्या</label>
@@ -589,7 +444,7 @@
                     <input type="text" id="buyer_address" placeholder="पूरा पता">
                 </div>
                 <div class="form-group">
-                    <label>प्राप्ति चेक संख्या / Receipt Check No.</label>
+                    <label>प्राप्ति चेक संख्या / Cheque No.</label>
                     <input type="text" id="receipt_check_no" placeholder="Cheque No.">
                 </div>
                 <div class="form-group">
@@ -598,58 +453,36 @@
                 </div>
             </div>
 
-            <!-- 12. अभियुक्ति / टिप्पणी -->
-            <div class="section-label"><span class="section-num">12</span> अभियुक्ति / टिप्पणी &nbsp;—&nbsp; Accusation / Remarks</div>
-            <div class="form-grid">
-                <div class="form-group span-full">
-                    <label>अभियुक्ति / टिप्पणी</label>
-                    <textarea id="accusation_remarks" placeholder="अभियोग से सम्बंधित टिप्पणी…"></textarea>
-                </div>
-            </div>
-
-            <!-- 13. जिम्मानामा रसीद (संपत्ति थाने में न लाई गई हो) -->
-            <div class="section-label"><span class="section-num">13</span> जिम्मानामा रसीद संख्या &nbsp;—&nbsp; Custody Receipt (if not brought to station)</div>
+            <!-- 12 -->
+            <div class="section-label"><span class="section-num">12</span> जिम्मानामा रसीद एवं विलम्ब का कारण — Custody Receipt &amp; Delay Reason</div>
             <div class="form-grid">
                 <div class="form-group span-full">
                     <label>जिम्मानामा रसीद संख्या / Custody Receipt No.</label>
                     <input type="text" id="custody_receipt_no" placeholder="यदि संपत्ति किसी अन्य व्यक्ति के कब्जे में रखी गई हो">
-                    <div class="field-hint">यदि एक या उससे अधिक बरामद संपत्ति थाने में न लाकर किसी अन्य व्यक्ति के कब्जे में रख दी गई हो</div>
+                    <div class="field-hint">यदि संपत्ति थाने में न लाकर किसी अन्य व्यक्ति के कब्जे में रख दी गई हो</div>
                 </div>
-            </div>
-
-            <!-- 14. विलम्ब का कारण + Remarks -->
-            <div class="section-label"><span class="section-num">14</span> विलम्ब का कारण &amp; अन्य टिप्पणी &nbsp;—&nbsp; Delay Reason &amp; Remarks</div>
-            <div class="form-grid">
                 <div class="form-group span-full">
-                    <label>निपटान में विलम्ब का कारण / Reason for Delay in Disposal</label>
+                    <label>निपटान में विलम्ब का कारण / Reason for Delay</label>
                     <textarea id="delay_reason" placeholder="यदि निपटान में विलम्ब हुआ हो तो कारण लिखें…"></textarea>
                 </div>
-                <div class="form-group span-full">
-                    <label>अन्य टिप्पणी / General Remarks</label>
-                    <textarea id="remarks" placeholder="कोई अन्य टिप्पणी…"></textarea>
-                </div>
             </div>
 
-            <!-- PHOTO SECTION -->
+            <!-- PHOTOS -->
             <div class="section-label" style="margin-top:32px;">
                 <span style="font-size:18px;">📷</span>
-                साक्ष्य फोटो &nbsp;—&nbsp; Evidence Photos
-                <span style="font-size:10px; color:var(--text-muted); font-family:'JetBrains Mono',monospace; letter-spacing:0; text-transform:none; font-weight:400; margin-left:6px;">(max 5 photos · 5 MB each)</span>
+                साक्ष्य फोटो — Evidence Photos
+                <span style="font-size:10px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;letter-spacing:0;text-transform:none;font-weight:400;margin-left:6px;">(max 5 · 5 MB each)</span>
             </div>
             <div class="photo-section-box">
                 <div class="photo-slots-bar">
-                    <div class="slot-dot" id="is0"></div>
-                    <div class="slot-dot" id="is1"></div>
-                    <div class="slot-dot" id="is2"></div>
-                    <div class="slot-dot" id="is3"></div>
+                    <div class="slot-dot" id="is0"></div><div class="slot-dot" id="is1"></div>
+                    <div class="slot-dot" id="is2"></div><div class="slot-dot" id="is3"></div>
                     <div class="slot-dot" id="is4"></div>
                     <span class="slots-label" id="inlineSlotsLabel">0 / 5 slots used</span>
                 </div>
                 <div class="inline-upload-zone" id="inlineUploadZone"
                      onclick="document.getElementById('inlinePhotoInput').click()"
-                     ondragover="inlineDragOver(event)"
-                     ondragleave="inlineDragLeave(event)"
-                     ondrop="inlineDrop(event)">
+                     ondragover="inlineDragOver(event)" ondragleave="inlineDragLeave(event)" ondrop="inlineDrop(event)">
                     <div class="upload-icon">📷</div>
                     <strong>Click to add photos</strong>
                     <p>or drag &amp; drop — JPG, PNG, WEBP</p>
@@ -659,7 +492,6 @@
             </div>
 
         </div><!-- /modal-body -->
-
         <div class="modal-footer">
             <button class="btn-save" id="saveBtn" onclick="saveRecord()">💾 Save Record</button>
             <button class="btn-cancel" onclick="closeRecordModal()">Cancel</button>
@@ -667,7 +499,7 @@
     </div>
 </div>
 
-<!-- ── PHOTO MODAL ───────────────────────────────────── -->
+<!-- PHOTO MODAL -->
 <div id="photoModal" class="modal-overlay">
     <div class="modal-box">
         <div class="modal-head">
@@ -704,7 +536,7 @@
     </div>
 </div>
 
-<!-- ── QR MODAL ───────────────────────────────────────── -->
+<!-- QR MODAL -->
 <div id="qrModal" class="modal-overlay">
     <div class="modal-box">
         <div class="modal-head">
@@ -715,14 +547,11 @@
             <div class="qr-card" id="qrCardInner">
                 <div class="qr-card-header">
                     <div class="qr-card-emblem">BIHAR<br>POLICE</div>
-                    <div class="qr-card-title">
-                        <h3>MALKHANA REGISTER</h3>
-                        <p>Bihar Police — Official Record</p>
-                    </div>
+                    <div class="qr-card-title"><h3>MALKHANA REGISTER</h3><p>Bihar Police — Official Record</p></div>
                 </div>
                 <div class="qr-canvas-wrap"><canvas id="qrCanvas"></canvas></div>
                 <div class="qr-entry-label">Entry No: <span id="qrEntryNo"></span></div>
-                <div class="qr-fir-label">FIR: <span id="qrFirNo"></span> &nbsp;|&nbsp; <span id="qrStation"></span></div>
+                <div class="qr-fir-label">FIR: <span id="qrFirNo"></span></div>
                 <div class="qr-url" id="qrUrlText"></div>
                 <div class="qr-validity">Valid for 30 days · Bihar Police Malkhana</div>
             </div>
@@ -736,7 +565,7 @@
 
 <div id="printArea" style="display:none;"></div>
 
-<!-- ── LIGHTBOX ──────────────────────────────────────── -->
+<!-- LIGHTBOX -->
 <div id="lightbox">
     <button id="lightboxClose" onclick="closeLightbox()">×</button>
     <img id="lightboxImg" src="" alt="Photo">
@@ -745,56 +574,66 @@
 <div id="toast"></div>
 
 <script>
-// ── CONFIG ─────────────────────────────────────────────
 const API      = 'https://malkhanabackend.vercel.app';
 const API_BASE = `${API}/api/malkhana`;
 const AUTH_API = `${API}/api/auth`;
 
-// ── STATE ──────────────────────────────────────────────
-let authToken        = localStorage.getItem('malkhana_token') || null;
-let allRecords       = [];
-let isEditMode       = false;
-let editingEntryNo   = null;
+let authToken         = localStorage.getItem('malkhana_token') || null;
+let allRecords        = [];
+let isEditMode        = false;
+let editingEntryNo    = null;
 let currentPhotoEntryNo = null;
-let newPhotosQueue   = [];
+let newPhotosQueue    = [];
 let inlinePhotosQueue = [];
 
-// ── INIT ───────────────────────────────────────────────
+// All form field IDs — must exactly match schema keys
+const ALL_FIELDS = [
+    'entry_no',
+    'owner_name','owner_address',
+    'case_fir_no','case_date',
+    'property_type','property_description','identification_mark',
+    'property_value',
+    'found_place','found_date','found_by_officer','found_circumstances',
+    'received_at_police_station_date',
+    'storage_location',
+    'disposal_date','disposal_method',
+    'receipt_file_entry_no','sale_amount','buyer_name','buyer_address','receipt_check_no','receipt_check_date',
+    'custody_receipt_no','delay_reason'
+];
+
 window.onload = async () => {
     if (authToken) { const v = await verifyToken(); if (v) { showApp(); return; } }
     showLogin();
 };
 
-function showLogin() { document.getElementById('loginScreen').style.display = 'flex'; document.getElementById('mainApp').style.display = 'none'; }
-function showApp()   { document.getElementById('loginScreen').style.display = 'none'; document.getElementById('mainApp').style.display = 'block'; loadRecords(); }
+function showLogin() { document.getElementById('loginScreen').style.display='flex'; document.getElementById('mainApp').style.display='none'; }
+function showApp()   { document.getElementById('loginScreen').style.display='none'; document.getElementById('mainApp').style.display='block'; loadRecords(); }
 
-// ── AUTH ───────────────────────────────────────────────
+// ── AUTH ──────────────────────────────────────────────
 async function doLogin() {
     const username = document.getElementById('loginUsername').value.trim();
     const password = document.getElementById('loginPassword').value;
     const btn = document.getElementById('loginBtn');
     document.getElementById('loginError').style.display = 'none';
     if (!username || !password) { showLoginError('Please enter username and password.'); return; }
-    btn.disabled = true; btn.textContent = 'Authenticating…';
+    btn.disabled=true; btn.textContent='Authenticating…';
     try {
-        const res  = await fetch(`${AUTH_API}/login`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({username,password}) });
+        const res  = await fetch(`${AUTH_API}/login`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username,password})});
         const data = await res.json();
         if (data.success) {
             authToken = data.token;
             localStorage.setItem('malkhana_token', authToken);
             document.getElementById('userBadge').textContent = `⬤ ${data.user.username.toUpperCase()}`;
             toast('Login successful','success'); showApp();
-        } else { showLoginError(data.message || 'Invalid credentials.'); }
+        } else showLoginError(data.message||'Invalid credentials.');
     } catch { showLoginError('Cannot connect to server. Try again.'); }
-    btn.disabled = false; btn.textContent = 'Login → Malkhana System';
+    btn.disabled=false; btn.textContent='Login → Malkhana System';
 }
-
-function showLoginError(msg) { const el = document.getElementById('loginError'); el.textContent = msg; el.style.display = 'block'; }
-async function verifyToken() { try { const r = await fetch(`${AUTH_API}/verify`, {headers:authHeaders()}); return r.ok; } catch { return false; } }
+function showLoginError(msg) { const el=document.getElementById('loginError'); el.textContent=msg; el.style.display='block'; }
+async function verifyToken() { try { const r=await fetch(`${AUTH_API}/verify`,{headers:authHeaders()}); return r.ok; } catch { return false; } }
 async function doLogout() {
-    try { await fetch(`${AUTH_API}/logout`, {method:'POST', headers:authHeaders()}); } catch {}
-    authToken = null; localStorage.removeItem('malkhana_token');
-    toast('Logged out','info'); showLogin();
+    try { await fetch(`${AUTH_API}/logout`,{method:'POST',headers:authHeaders()}); } catch {}
+    authToken=null; localStorage.removeItem('malkhana_token'); toast('Logged out','info'); showLogin();
 }
 function authHeaders(extra={}) { return {'Authorization':`Bearer ${authToken}`,...extra}; }
 async function apiFetch(url,opts={}) {
@@ -804,35 +643,29 @@ async function apiFetch(url,opts={}) {
     return res;
 }
 
-// ── RECORDS ────────────────────────────────────────────
+// ── RECORDS ───────────────────────────────────────────
 async function loadRecords() {
-    document.getElementById('tableBody').innerHTML = '<tr class="loading-row"><td colspan="13">Loading records…</td></tr>';
+    document.getElementById('tableBody').innerHTML='<tr class="loading-row"><td colspan="12">Loading records…</td></tr>';
     try {
-        const res  = await apiFetch(API_BASE);
-        const data = await res.json();
-        if (data.success) { allRecords = data.data; displayRecords(allRecords); updateStats(allRecords); }
-    } catch(e) { if(e.message!=='Unauthorized') document.getElementById('tableBody').innerHTML = '<tr class="empty-row"><td colspan="13">Failed to connect to server.</td></tr>'; }
+        const res=await apiFetch(API_BASE);
+        const data=await res.json();
+        if (data.success) { allRecords=data.data; displayRecords(allRecords); updateStats(allRecords); }
+    } catch(e) { if(e.message!=='Unauthorized') document.getElementById('tableBody').innerHTML='<tr class="empty-row"><td colspan="12">Failed to connect to server.</td></tr>'; }
 }
 
 function displayRecords(records) {
     const tbody = document.getElementById('tableBody');
     document.getElementById('showingCount').textContent = records.length;
-    if (!records.length) { tbody.innerHTML = '<tr class="empty-row"><td colspan="13">No records found.</td></tr>'; return; }
-
+    if (!records.length) { tbody.innerHTML='<tr class="empty-row"><td colspan="12">No records found.</td></tr>'; return; }
     tbody.innerHTML = records.map(r => {
-        const photoCount = (r.photos||[]).length;
-        let photoCell = photoCount===0
+        const pc = (r.photos||[]).length;
+        const photoCell = pc===0
             ? `<span style="font-family:monospace;font-size:11px;color:var(--text-muted)">—</span>`
-            : `<div class="photo-thumb-row">
-                ${r.photos.slice(0,3).map(p=>`<img class="photo-thumb" src="${API_BASE}/${r.entry_no}/photos/${p._id}" onerror="this.src=''" alt="" onclick="openLightboxFromThumb(this)">`).join('')}
-                ${photoCount>3?`<div class="photo-count" onclick="openPhotoModal(${r.entry_no})">+${photoCount-3}</div>`:''}
-               </div>`;
-
+            : `<div class="photo-thumb-row">${r.photos.slice(0,3).map(p=>`<img class="photo-thumb" src="${API_BASE}/${r.entry_no}/photos/${p._id}" onerror="this.src=''" alt="" onclick="openLightboxFromThumb(this)">`).join('')}${pc>3?`<div class="photo-count" onclick="openPhotoModal(${r.entry_no})">+${pc-3}</div>`:''}</div>`;
         return `<tr>
             <td><span class="entry-no">${r.entry_no}</span></td>
             <td>${r.owner_name||'—'}</td>
             <td>${r.case_fir_no||'—'}${r.case_date?`<br><span style="font-size:11px;color:var(--text-muted)">${fmtDate(r.case_date)}</span>`:''}</td>
-            <td>${r.police_station||'—'}</td>
             <td>${r.property_type||'—'}</td>
             <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.property_description||''}">${r.property_description||'—'}</td>
             <td>${r.property_value||'—'}</td>
@@ -841,14 +674,12 @@ function displayRecords(records) {
             <td>${r.storage_location||'—'}</td>
             <td>${r.disposal_method||'—'}${r.disposal_date?`<br><span style="font-size:11px;color:var(--text-muted)">${fmtDate(r.disposal_date)}</span>`:''}</td>
             <td>${photoCell}</td>
-            <td>
-                <div class="action-cell">
-                    <button class="btn-xs btn-edit"   onclick="editRecord(${r.entry_no})">✏ Edit</button>
-                    <button class="btn-xs btn-photo"  onclick="openPhotoModal(${r.entry_no})">📷 ${photoCount}</button>
-                    <button class="btn-xs btn-qr"     onclick="openQrModal(${r.entry_no},'${r.case_fir_no||''}','${r.police_station||''}')">⬡ QR</button>
-                    <button class="btn-xs btn-delete" onclick="deleteRecord(${r.entry_no})">🗑</button>
-                </div>
-            </td>
+            <td><div class="action-cell">
+                <button class="btn-xs btn-edit"   onclick="editRecord(${r.entry_no})">✏ Edit</button>
+                <button class="btn-xs btn-photo"  onclick="openPhotoModal(${r.entry_no})">📷 ${pc}</button>
+                <button class="btn-xs btn-qr"     onclick="openQrModal(${r.entry_no},'${r.case_fir_no||''}')">⬡ QR</button>
+                <button class="btn-xs btn-delete" onclick="deleteRecord(${r.entry_no})">🗑</button>
+            </div></td>
         </tr>`;
     }).join('');
     loadThumbsWithAuth();
@@ -856,390 +687,295 @@ function displayRecords(records) {
 
 function loadThumbsWithAuth() {
     document.querySelectorAll('.photo-thumb').forEach(img => {
-        const src = img.src;
-        if (!src || src.startsWith('blob:') || src.startsWith('data:')) return;
-        img.src = '';
+        const src=img.src; if(!src||src.startsWith('blob:')||src.startsWith('data:')) return;
+        img.src='';
         fetch(src,{headers:authHeaders()}).then(r=>r.blob()).then(b=>{img.src=URL.createObjectURL(b);}).catch(()=>{});
     });
 }
-
 function updateStats(records) {
     document.getElementById('totalRecords').textContent = records.length;
     document.getElementById('withPhotos').textContent   = records.filter(r=>r.photos&&r.photos.length>0).length;
     document.getElementById('showingCount').textContent = records.length;
 }
-
 function fmtDate(d) { return new Date(d).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}); }
-
 function searchRecords() {
-    const q = document.getElementById('searchInput').value.toLowerCase().trim();
-    if (!q) { displayRecords(allRecords); return; }
-    const f = allRecords.filter(r =>
-        [r.case_fir_no, r.police_station, r.property_type, r.found_by_officer,
-         r.owner_name, r.buyer_name, String(r.entry_no)]
-        .some(v => v && v.toLowerCase().includes(q))
-    );
-    displayRecords(f);
-    document.getElementById('showingCount').textContent = f.length;
+    const q=document.getElementById('searchInput').value.toLowerCase().trim();
+    if(!q) { displayRecords(allRecords); return; }
+    const f=allRecords.filter(r=>[r.case_fir_no,r.property_type,r.found_by_officer,r.owner_name,r.buyer_name,String(r.entry_no)].some(v=>v&&v.toLowerCase().includes(q)));
+    displayRecords(f); document.getElementById('showingCount').textContent=f.length;
 }
 
-// ── RECORD MODAL ───────────────────────────────────────
-const ALL_FIELDS = [
-    'entry_no','owner_name','owner_address',
-    'case_fir_no','case_date','police_station',
-    'property_type','property_description','identification_mark',
-    'property_value',
-    'found_place','found_date','found_by_officer','found_circumstances',
-    'received_at_police_station_date',
-    'storage_location',
-    'disposal_date','disposal_method',
-    'receipt_file_entry_no','sale_amount','buyer_name','buyer_address','receipt_check_no','receipt_check_date',
-    'accusation_remarks',
-    'custody_receipt_no',
-    'delay_reason','remarks'
-];
-
+// ── RECORD MODAL ──────────────────────────────────────
 function openRecordModal() {
     isEditMode=false; editingEntryNo=null;
-    document.getElementById('modalTitle').textContent = 'Add New Record';
-    document.getElementById('saveBtn').textContent    = '💾 Save Record';
+    document.getElementById('modalTitle').textContent='Add New Record';
+    document.getElementById('saveBtn').textContent='💾 Save Record';
     clearForm(); clearInlinePhotos();
-    document.getElementById('entry_no').disabled = false;
-    document.getElementById('recordModal').style.display = 'block';
+    document.getElementById('entry_no').disabled=false;
+    document.getElementById('recordModal').style.display='block';
 }
-
 function closeRecordModal() { document.getElementById('recordModal').style.display='none'; clearInlinePhotos(); }
 
 async function editRecord(entryNo) {
     try {
-        const res  = await apiFetch(`${API_BASE}/${entryNo}`);
-        const data = await res.json();
-        if (!data.success) return toast('Failed to load record','error');
-        const r = data.data;
+        const res=await apiFetch(`${API_BASE}/${entryNo}`);
+        const data=await res.json();
+        if(!data.success) return toast('Failed to load record','error');
+        const r=data.data;
         isEditMode=true; editingEntryNo=entryNo;
-        document.getElementById('modalTitle').textContent = `Edit Record — Entry #${entryNo}`;
-        document.getElementById('saveBtn').textContent    = '💾 Update Record';
-
-        setField('entry_no', r.entry_no);
-        document.getElementById('entry_no').disabled = true;
-        setField('owner_name',    r.owner_name);
-        setField('owner_address', r.owner_address);
-        setField('case_fir_no',   r.case_fir_no);
-        setField('case_date',     r.case_date ? r.case_date.split('T')[0] : '');
-        setField('police_station', r.police_station);
-        setField('property_type', r.property_type);
-        setField('property_description', r.property_description);
-        setField('identification_mark',  r.identification_mark);
-        setField('property_value', r.property_value);
-        setField('found_place',    r.found_place);
-        setField('found_date',     r.found_date ? r.found_date.split('T')[0] : '');
-        setField('found_by_officer',   r.found_by_officer);
-        setField('found_circumstances', r.found_circumstances);
-        setField('received_at_police_station_date', r.received_at_police_station_date ? r.received_at_police_station_date.split('T')[0] : '');
-        setField('storage_location', r.storage_location);
-        setField('disposal_date',    r.disposal_date ? r.disposal_date.split('T')[0] : '');
-        setField('disposal_method',  r.disposal_method);
-        setField('receipt_file_entry_no', r.receipt_file_entry_no);
-        setField('sale_amount',   r.sale_amount);
-        setField('buyer_name',    r.buyer_name);
-        setField('buyer_address', r.buyer_address);
-        setField('receipt_check_no',   r.receipt_check_no);
-        setField('receipt_check_date', r.receipt_check_date ? r.receipt_check_date.split('T')[0] : '');
-        setField('accusation_remarks', r.accusation_remarks);
-        setField('custody_receipt_no', r.custody_receipt_no);
-        setField('delay_reason', r.delay_reason);
-        setField('remarks',      r.remarks);
-
-        document.getElementById('recordModal').style.display = 'block';
+        document.getElementById('modalTitle').textContent=`Edit Record — Entry #${entryNo}`;
+        document.getElementById('saveBtn').textContent='💾 Update Record';
+        setField('entry_no',r.entry_no); document.getElementById('entry_no').disabled=true;
+        setField('owner_name',r.owner_name); setField('owner_address',r.owner_address);
+        setField('case_fir_no',r.case_fir_no); setField('case_date',r.case_date?r.case_date.split('T')[0]:'');
+        setField('property_type',r.property_type); setField('property_description',r.property_description); setField('identification_mark',r.identification_mark);
+        setField('property_value',r.property_value);
+        setField('found_place',r.found_place); setField('found_date',r.found_date?r.found_date.split('T')[0]:'');
+        setField('found_by_officer',r.found_by_officer); setField('found_circumstances',r.found_circumstances);
+        setField('received_at_police_station_date',r.received_at_police_station_date?r.received_at_police_station_date.split('T')[0]:'');
+        setField('storage_location',r.storage_location);
+        setField('disposal_date',r.disposal_date?r.disposal_date.split('T')[0]:''); setField('disposal_method',r.disposal_method);
+        setField('receipt_file_entry_no',r.receipt_file_entry_no); setField('sale_amount',r.sale_amount);
+        setField('buyer_name',r.buyer_name); setField('buyer_address',r.buyer_address);
+        setField('receipt_check_no',r.receipt_check_no); setField('receipt_check_date',r.receipt_check_date?r.receipt_check_date.split('T')[0]:'');
+        setField('custody_receipt_no',r.custody_receipt_no); setField('delay_reason',r.delay_reason);
+        document.getElementById('recordModal').style.display='block';
     } catch {}
 }
 
 async function saveRecord() {
-    const entryNoVal = document.getElementById('entry_no').value;
-    if (!entryNoVal) { toast('Entry No is required','error'); return; }
-    const btn = document.getElementById('saveBtn');
+    const entryNoVal=document.getElementById('entry_no').value;
+    if(!entryNoVal) { toast('Entry No is required','error'); return; }
+    const btn=document.getElementById('saveBtn');
     btn.disabled=true; btn.textContent='Saving…';
-
     try {
-        const url    = isEditMode ? `${API_BASE}/${editingEntryNo}` : API_BASE;
-        const method = isEditMode ? 'PUT' : 'POST';
-        let res, data;
+        const url    = isEditMode?`${API_BASE}/${editingEntryNo}`:API_BASE;
+        const method = isEditMode?'PUT':'POST';
 
         const bodyObj = {
-            entry_no:                         parseInt(entryNoVal),
-            owner_name:                        getField('owner_name'),
-            owner_address:                     getField('owner_address'),
-            case_fir_no:                       getField('case_fir_no'),
-            case_date:                         getField('case_date')||null,
-            police_station:                    getField('police_station'),
-            property_type:                     getField('property_type'),
-            property_description:              getField('property_description'),
-            identification_mark:               getField('identification_mark'),
-            property_value:                    getField('property_value'),
-            found_place:                       getField('found_place'),
-            found_date:                        getField('found_date')||null,
-            found_by_officer:                  getField('found_by_officer'),
-            found_circumstances:               getField('found_circumstances'),
-            received_at_police_station_date:   getField('received_at_police_station_date')||null,
-            storage_location:                  getField('storage_location'),
-            disposal_date:                     getField('disposal_date')||null,
-            disposal_method:                   getField('disposal_method'),
-            receipt_file_entry_no:             getField('receipt_file_entry_no'),
-            sale_amount:                       getField('sale_amount'),
-            buyer_name:                        getField('buyer_name'),
-            buyer_address:                     getField('buyer_address'),
-            receipt_check_no:                  getField('receipt_check_no'),
-            receipt_check_date:                getField('receipt_check_date')||null,
-            accusation_remarks:                getField('accusation_remarks'),
-            custody_receipt_no:                getField('custody_receipt_no'),
-            delay_reason:                      getField('delay_reason'),
-            remarks:                           getField('remarks'),
+            entry_no:                        parseInt(entryNoVal),
+            owner_name:                      getField('owner_name'),
+            owner_address:                   getField('owner_address'),
+            case_fir_no:                     getField('case_fir_no'),
+            case_date:                       getField('case_date')||null,
+            property_type:                   getField('property_type'),
+            property_description:            getField('property_description'),
+            identification_mark:             getField('identification_mark'),
+            property_value:                  getField('property_value'),
+            found_place:                     getField('found_place'),
+            found_date:                      getField('found_date')||null,
+            found_by_officer:                getField('found_by_officer'),
+            found_circumstances:             getField('found_circumstances'),
+            received_at_police_station_date: getField('received_at_police_station_date')||null,
+            storage_location:                getField('storage_location'),
+            disposal_date:                   getField('disposal_date')||null,
+            disposal_method:                 getField('disposal_method'),
+            receipt_file_entry_no:           getField('receipt_file_entry_no'),
+            sale_amount:                     getField('sale_amount'),
+            buyer_name:                      getField('buyer_name'),
+            buyer_address:                   getField('buyer_address'),
+            receipt_check_no:                getField('receipt_check_no'),
+            receipt_check_date:              getField('receipt_check_date')||null,
+            custody_receipt_no:              getField('custody_receipt_no'),
+            delay_reason:                    getField('delay_reason'),
         };
 
+        let res;
         if (!isEditMode && inlinePhotosQueue.length > 0) {
             const fd = new FormData();
-            Object.entries(bodyObj).forEach(([k,v]) => { if (v !== null) fd.append(k, v); });
+            Object.entries(bodyObj).forEach(([k,v]) => { if (v !== null) fd.append(k, String(v)); });
             inlinePhotosQueue.forEach(item => fd.append('photos', item.file));
             res = await apiFetch(url, {method, body: fd});
         } else {
-            res = await apiFetch(url, {method, headers:{'Content-Type':'application/json'}, body: JSON.stringify(bodyObj)});
+            res = await apiFetch(url, {method, headers:{'Content-Type':'application/json'}, body:JSON.stringify(bodyObj)});
         }
 
-        data = await res.json();
-
+        const data = await res.json();
         if (data.success) {
             if (isEditMode && inlinePhotosQueue.length > 0) {
-                btn.textContent = 'Uploading photos…';
-                const fd = new FormData();
-                inlinePhotosQueue.forEach(item => fd.append('photos', item.file));
-                try { await apiFetch(`${API_BASE}/${editingEntryNo}/photos`, {method:'POST', body:fd}); } catch {}
+                btn.textContent='Uploading photos…';
+                const fd=new FormData(); inlinePhotosQueue.forEach(item=>fd.append('photos',item.file));
+                try { await apiFetch(`${API_BASE}/${editingEntryNo}/photos`,{method:'POST',body:fd}); } catch {}
             }
-            toast(isEditMode ? 'Record updated successfully' : 'Record added successfully','success');
+            toast(isEditMode?'Record updated successfully':'Record added successfully','success');
             clearInlinePhotos(); closeRecordModal(); loadRecords();
             if (!isEditMode && data.public_token) {
-                setTimeout(() => openQrModal(data.data.entry_no, data.data.case_fir_no||'', data.data.police_station||'', data.public_token), 400);
+                setTimeout(()=>openQrModal(data.data.entry_no, data.data.case_fir_no||'', data.public_token), 400);
             }
-        } else { toast(data.message||'Failed to save record','error'); }
+        } else toast(data.message||'Failed to save record','error');
     } catch(e) { if(e.message!=='Unauthorized') toast('Failed to save record','error'); }
-
-    btn.disabled=false; btn.textContent = isEditMode ? '💾 Update Record' : '💾 Save Record';
+    btn.disabled=false; btn.textContent=isEditMode?'💾 Update Record':'💾 Save Record';
 }
 
 async function deleteRecord(entryNo) {
-    if (!confirm(`Delete Entry #${entryNo} and all its photos?\nThis cannot be undone.`)) return;
+    if(!confirm(`Delete Entry #${entryNo} and all its photos?\nThis cannot be undone.`)) return;
     try {
-        const res  = await apiFetch(`${API_BASE}/${entryNo}`,{method:'DELETE'});
-        const data = await res.json();
-        if (data.success) { toast('Record deleted','success'); loadRecords(); }
+        const res=await apiFetch(`${API_BASE}/${entryNo}`,{method:'DELETE'});
+        const data=await res.json();
+        if(data.success) { toast('Record deleted','success'); loadRecords(); }
         else toast(data.message||'Delete failed','error');
     } catch {}
 }
 
-// ── PHOTO MODAL ────────────────────────────────────────
+// ── PHOTO MODAL ───────────────────────────────────────
 async function openPhotoModal(entryNo) {
     currentPhotoEntryNo=entryNo; newPhotosQueue=[];
-    document.getElementById('photoEntryLabel').textContent = entryNo;
-    document.getElementById('newPhotoPreview').innerHTML   = '';
-    document.getElementById('photoFileInput').value        = '';
-    document.getElementById('photoModal').style.display    = 'block';
+    document.getElementById('photoEntryLabel').textContent=entryNo;
+    document.getElementById('newPhotoPreview').innerHTML='';
+    document.getElementById('photoFileInput').value='';
+    document.getElementById('photoModal').style.display='block';
     await loadExistingPhotos(entryNo);
 }
-
 function closePhotoModal() { document.getElementById('photoModal').style.display='none'; currentPhotoEntryNo=null; newPhotosQueue=[]; document.getElementById('newPhotoPreview').innerHTML=''; }
 
 async function loadExistingPhotos(entryNo) {
-    const grid = document.getElementById('existingPhotos');
-    grid.innerHTML = '<p style="font-family:monospace;font-size:12px;color:var(--text-muted);">Loading…</p>';
+    const grid=document.getElementById('existingPhotos');
+    grid.innerHTML='<p style="font-family:monospace;font-size:12px;color:var(--text-muted);">Loading…</p>';
     try {
-        const res    = await apiFetch(`${API_BASE}/${entryNo}/photos`);
-        const data   = await res.json();
-        const photos = data.photos||[];
+        const res=await apiFetch(`${API_BASE}/${entryNo}/photos`);
+        const data=await res.json();
+        const photos=data.photos||[];
         updateSlotBar(photos.length,0);
-        if (!photos.length) { grid.innerHTML='<p style="font-family:monospace;font-size:12px;color:var(--text-muted);grid-column:1/-1;">No photos saved yet.</p>'; toggleUploadSection(true); return; }
-        grid.innerHTML = photos.map(p=>`<div class="existing-photo" id="ep_${p._id}"><img src="" data-src="${API_BASE}/${entryNo}/photos/${p._id}" alt="${p.filename}" onclick="openLightboxFromThumb(this)"><button class="photo-del" onclick="deletePhoto('${p._id}','${entryNo}')">×</button></div>`).join('');
-        grid.querySelectorAll('img[data-src]').forEach(img=>{ fetch(img.dataset.src,{headers:authHeaders()}).then(r=>r.blob()).then(b=>{img.src=URL.createObjectURL(b);}).catch(()=>{}); });
+        if(!photos.length) { grid.innerHTML='<p style="font-family:monospace;font-size:12px;color:var(--text-muted);grid-column:1/-1;">No photos saved yet.</p>'; toggleUploadSection(true); return; }
+        grid.innerHTML=photos.map(p=>`<div class="existing-photo" id="ep_${p._id}"><img src="" data-src="${API_BASE}/${entryNo}/photos/${p._id}" alt="${p.filename}" onclick="openLightboxFromThumb(this)"><button class="photo-del" onclick="deletePhoto('${p._id}','${entryNo}')">×</button></div>`).join('');
+        grid.querySelectorAll('img[data-src]').forEach(img=>{fetch(img.dataset.src,{headers:authHeaders()}).then(r=>r.blob()).then(b=>{img.src=URL.createObjectURL(b);}).catch(()=>{});});
         toggleUploadSection(photos.length<5);
     } catch {}
 }
-
 function toggleUploadSection(show) {
-    document.getElementById('uploadZone').style.display    = show?'block':'none';
-    document.getElementById('uploadSection').style.display = show?'block':'none';
-    document.getElementById('uploadBtn').style.display     = show?'block':'none';
+    document.getElementById('uploadZone').style.display=show?'block':'none';
+    document.getElementById('uploadSection').style.display=show?'block':'none';
+    document.getElementById('uploadBtn').style.display=show?'block':'none';
 }
-
 function updateSlotBar(used,pending) {
-    document.getElementById('slotInfo').textContent = `Slots used: ${used} / 5${pending?` (+${pending} pending)`:''}`;
-    for (let i=0;i<5;i++) {
-        const dot = document.getElementById(`slot${i}`);
-        dot.className='slot-dot';
-        if (i<used) dot.classList.add('used');
-        else if (i<used+pending) dot.classList.add('pending');
-    }
+    document.getElementById('slotInfo').textContent=`Slots used: ${used} / 5${pending?` (+${pending} pending)`:''}`;
+    for(let i=0;i<5;i++){const d=document.getElementById(`slot${i}`); d.className='slot-dot'; if(i<used) d.classList.add('used'); else if(i<used+pending) d.classList.add('pending');}
 }
-
 function onFilesSelected(e) { addFilesToQueue(Array.from(e.target.files)); }
 function onDragOver(e)  { e.preventDefault(); document.getElementById('uploadZone').classList.add('drag-over'); }
 function onDragLeave()  { document.getElementById('uploadZone').classList.remove('drag-over'); }
 function onDrop(e) { e.preventDefault(); document.getElementById('uploadZone').classList.remove('drag-over'); addFilesToQueue(Array.from(e.dataTransfer.files).filter(f=>f.type.startsWith('image/'))); }
-
 async function addFilesToQueue(files) {
-    const r    = await apiFetch(`${API_BASE}/${currentPhotoEntryNo}/photos`);
-    const d    = await r.json();
-    const used = (d.photos||[]).length;
-    const avail = 5 - used - newPhotosQueue.length;
-    if (avail<=0) { toast('Maximum 5 photos reached','error'); return; }
-    const toAdd = files.slice(0,avail);
-    if (files.length>avail) toast(`Only ${avail} slot(s) remaining. Some files skipped.`,'info');
-    for (const f of toAdd) {
-        if (f.size>5*1024*1024) { toast(`${f.name} exceeds 5 MB limit`,'error'); continue; }
-        newPhotosQueue.push({file:f, previewUrl:URL.createObjectURL(f)});
-    }
+    const r=await apiFetch(`${API_BASE}/${currentPhotoEntryNo}/photos`);
+    const d=await r.json(); const used=(d.photos||[]).length;
+    const avail=5-used-newPhotosQueue.length;
+    if(avail<=0) { toast('Maximum 5 photos reached','error'); return; }
+    const toAdd=files.slice(0,avail);
+    if(files.length>avail) toast(`Only ${avail} slot(s) remaining. Some files skipped.`,'info');
+    for(const f of toAdd){if(f.size>5*1024*1024){toast(`${f.name} exceeds 5 MB limit`,'error');continue;} newPhotosQueue.push({file:f,previewUrl:URL.createObjectURL(f)});}
     renderNewPreviews(used);
 }
-
 function renderNewPreviews(existingCount) {
-    document.getElementById('newPhotoPreview').innerHTML = newPhotosQueue.map((item,i)=>`<div class="preview-item"><img src="${item.previewUrl}" alt=""><button class="preview-remove" onclick="removeFromQueue(${i})">×</button></div>`).join('');
+    document.getElementById('newPhotoPreview').innerHTML=newPhotosQueue.map((item,i)=>`<div class="preview-item"><img src="${item.previewUrl}" alt=""><button class="preview-remove" onclick="removeFromQueue(${i})">×</button></div>`).join('');
     updateSlotBar(existingCount,newPhotosQueue.length);
 }
-
 function removeFromQueue(idx) {
     URL.revokeObjectURL(newPhotosQueue[idx].previewUrl); newPhotosQueue.splice(idx,1);
     apiFetch(`${API_BASE}/${currentPhotoEntryNo}/photos`).then(r=>r.json()).then(d=>renderNewPreviews((d.photos||[]).length));
 }
-
 async function uploadNewPhotos() {
-    if (!newPhotosQueue.length) { toast('No photos selected','info'); return; }
-    const btn = document.getElementById('uploadBtn');
-    btn.disabled=true; btn.textContent='Uploading…';
-    const fd = new FormData();
-    newPhotosQueue.forEach(item=>fd.append('photos',item.file));
+    if(!newPhotosQueue.length) { toast('No photos selected','info'); return; }
+    const btn=document.getElementById('uploadBtn'); btn.disabled=true; btn.textContent='Uploading…';
+    const fd=new FormData(); newPhotosQueue.forEach(item=>fd.append('photos',item.file));
     try {
-        const res  = await apiFetch(`${API_BASE}/${currentPhotoEntryNo}/photos`,{method:'POST',body:fd});
-        const data = await res.json();
-        if (data.success) { toast(`${newPhotosQueue.length} photo(s) uploaded`,'success'); newPhotosQueue=[]; document.getElementById('newPhotoPreview').innerHTML=''; document.getElementById('photoFileInput').value=''; await loadExistingPhotos(currentPhotoEntryNo); loadRecords(); }
+        const res=await apiFetch(`${API_BASE}/${currentPhotoEntryNo}/photos`,{method:'POST',body:fd});
+        const data=await res.json();
+        if(data.success){toast(`${newPhotosQueue.length} photo(s) uploaded`,'success');newPhotosQueue=[];document.getElementById('newPhotoPreview').innerHTML='';document.getElementById('photoFileInput').value='';await loadExistingPhotos(currentPhotoEntryNo);loadRecords();}
         else toast(data.message||'Upload failed','error');
     } catch(e) { if(e.message!=='Unauthorized') toast('Upload failed','error'); }
     btn.disabled=false; btn.textContent='📤 Upload Photos';
 }
-
 async function deletePhoto(photoId,entryNo) {
-    if (!confirm('Delete this photo?')) return;
+    if(!confirm('Delete this photo?')) return;
     try {
-        const res  = await apiFetch(`${API_BASE}/${entryNo}/photos/${photoId}`,{method:'DELETE'});
-        const data = await res.json();
-        if (data.success) { toast('Photo deleted','success'); await loadExistingPhotos(entryNo); loadRecords(); }
+        const res=await apiFetch(`${API_BASE}/${entryNo}/photos/${photoId}`,{method:'DELETE'});
+        const data=await res.json();
+        if(data.success){toast('Photo deleted','success');await loadExistingPhotos(entryNo);loadRecords();}
         else toast('Delete failed','error');
     } catch {}
 }
 
-// ── INLINE PHOTOS (inside form) ────────────────────────
+// ── INLINE PHOTOS ─────────────────────────────────────
 function inlineDragOver(e)  { e.preventDefault(); document.getElementById('inlineUploadZone').classList.add('drag-over'); }
 function inlineDragLeave()  { document.getElementById('inlineUploadZone').classList.remove('drag-over'); }
 function inlineDrop(e) { e.preventDefault(); document.getElementById('inlineUploadZone').classList.remove('drag-over'); addInlineFiles(Array.from(e.dataTransfer.files).filter(f=>f.type.startsWith('image/'))); }
 function inlineFilesSelected(e) { addInlineFiles(Array.from(e.target.files)); e.target.value=''; }
-
 function addInlineFiles(files) {
-    const avail = 5 - inlinePhotosQueue.length;
-    if (avail<=0) { toast('Maximum 5 photos allowed','error'); return; }
-    const toAdd = files.slice(0,avail);
-    if (files.length>avail) toast(`Only ${avail} slot(s) left`,'info');
-    toAdd.forEach(file => {
-        if (file.size>5*1024*1024) { toast(`${file.name} exceeds 5 MB`,'error'); return; }
-        inlinePhotosQueue.push({file, previewUrl:URL.createObjectURL(file)});
-    });
+    const avail=5-inlinePhotosQueue.length;
+    if(avail<=0){toast('Maximum 5 photos allowed','error');return;}
+    const toAdd=files.slice(0,avail);
+    if(files.length>avail) toast(`Only ${avail} slot(s) left`,'info');
+    toAdd.forEach(file=>{if(file.size>5*1024*1024){toast(`${file.name} exceeds 5 MB`,'error');return;} inlinePhotosQueue.push({file,previewUrl:URL.createObjectURL(file)});});
     renderInlinePreviews();
 }
-
 function renderInlinePreviews() {
-    const used = inlinePhotosQueue.length;
-    document.getElementById('inlinePreviewGrid').innerHTML = inlinePhotosQueue.map((item,i)=>
-        `<div class="inline-preview-item">
-            <img src="${item.previewUrl}" alt="">
-            <button class="rm-btn" onclick="removeInlinePhoto(${i})">×</button>
-            <div class="photo-label">${item.file.name}</div>
-         </div>`
-    ).join('');
-    for (let i=0;i<5;i++) {
-        const dot = document.getElementById(`is${i}`);
-        if (!dot) continue;
-        dot.className = 'slot-dot';
-        if (i<used) dot.classList.add('pending');
-    }
-    document.getElementById('inlineSlotsLabel').textContent = `${used} / 5 slots used`;
-    document.getElementById('inlineUploadZone').style.display = used>=5?'none':'block';
+    const used=inlinePhotosQueue.length;
+    document.getElementById('inlinePreviewGrid').innerHTML=inlinePhotosQueue.map((item,i)=>`<div class="inline-preview-item"><img src="${item.previewUrl}" alt=""><button class="rm-btn" onclick="removeInlinePhoto(${i})">×</button><div class="photo-label">${item.file.name}</div></div>`).join('');
+    for(let i=0;i<5;i++){const d=document.getElementById(`is${i}`);if(d){d.className='slot-dot';if(i<used)d.classList.add('pending');}}
+    document.getElementById('inlineSlotsLabel').textContent=`${used} / 5 slots used`;
+    document.getElementById('inlineUploadZone').style.display=used>=5?'none':'block';
+}
+function removeInlinePhoto(idx) { URL.revokeObjectURL(inlinePhotosQueue[idx].previewUrl); inlinePhotosQueue.splice(idx,1); renderInlinePreviews(); }
+function clearInlinePhotos() {
+    inlinePhotosQueue.forEach(item=>URL.revokeObjectURL(item.previewUrl)); inlinePhotosQueue=[];
+    document.getElementById('inlinePreviewGrid').innerHTML='';
+    const z=document.getElementById('inlineUploadZone'); if(z) z.style.display='block';
+    for(let i=0;i<5;i++){const d=document.getElementById(`is${i}`);if(d)d.className='slot-dot';}
+    document.getElementById('inlineSlotsLabel').textContent='0 / 5 slots used';
 }
 
-function removeInlinePhoto(idx) { URL.revokeObjectURL(inlinePhotosQueue[idx].previewUrl); inlinePhotosQueue.splice(idx,1); renderInlinePreviews(); }
-function clearInlinePhotos() { inlinePhotosQueue.forEach(item=>URL.revokeObjectURL(item.previewUrl)); inlinePhotosQueue=[]; document.getElementById('inlinePreviewGrid').innerHTML=''; const z=document.getElementById('inlineUploadZone'); if(z) z.style.display='block'; for(let i=0;i<5;i++){const d=document.getElementById(`is${i}`);if(d)d.className='slot-dot';} document.getElementById('inlineSlotsLabel').textContent='0 / 5 slots used'; }
-
-// ── LIGHTBOX ───────────────────────────────────────────
+// ── LIGHTBOX ──────────────────────────────────────────
 function openLightboxFromThumb(img) { document.getElementById('lightboxImg').src=img.src; document.getElementById('lightbox').classList.add('active'); }
 function closeLightbox() { document.getElementById('lightbox').classList.remove('active'); }
-document.getElementById('lightbox').addEventListener('click',e=>{ if(e.target===document.getElementById('lightbox')) closeLightbox(); });
+document.getElementById('lightbox').addEventListener('click',e=>{if(e.target===document.getElementById('lightbox'))closeLightbox();});
 
-// ── HELPERS ────────────────────────────────────────────
-function clearForm() { ALL_FIELDS.forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; }); }
+// ── HELPERS ───────────────────────────────────────────
+function clearForm() { ALL_FIELDS.forEach(id=>{const el=document.getElementById(id);if(el)el.value='';}); }
 function setField(id,val) { const el=document.getElementById(id); if(el) el.value=val||''; }
 function getField(id)     { const el=document.getElementById(id); return el?el.value.trim():''; }
 function toast(msg,type='info') { const el=document.createElement('div'); el.className=`toast-item toast-${type}`; el.textContent=msg; document.getElementById('toast').appendChild(el); setTimeout(()=>el.remove(),3500); }
 
-// ── QR CODE ────────────────────────────────────────────
-let currentQrUrl = '';
-
-async function openQrModal(entryNo,firNo,station,tokenOverride=null) {
-    document.getElementById('qrEntryLabel').textContent = entryNo;
-    document.getElementById('qrEntryNo').textContent    = entryNo;
-    document.getElementById('qrFirNo').textContent      = firNo||'—';
-    document.getElementById('qrStation').textContent    = station||'—';
+// ── QR CODE ───────────────────────────────────────────
+let currentQrUrl='';
+async function openQrModal(entryNo,firNo,tokenOverride=null) {
+    document.getElementById('qrEntryLabel').textContent=entryNo;
+    document.getElementById('qrEntryNo').textContent=entryNo;
+    document.getElementById('qrFirNo').textContent=firNo||'—';
     document.getElementById('qrCanvas').getContext('2d').clearRect(0,0,300,300);
-    document.getElementById('qrUrlText').textContent = 'Generating…';
-    document.getElementById('qrModal').style.display = 'block';
-    let token = tokenOverride;
-    if (!token) {
-        try {
-            const res  = await apiFetch(`${API_BASE}/${entryNo}/qr-token`,{method:'POST'});
-            const data = await res.json();
-            if (!data.success) { toast('Failed to generate QR','error'); return; }
-            token = data.token;
-        } catch { return; }
-    }
-    const PUBLIC_BASE = 'https://pachrukhimalkhana.vercel.app';
-    currentQrUrl = `${PUBLIC_BASE}/view.html?t=${token}`;
-    document.getElementById('qrUrlText').textContent = currentQrUrl;
-    if (window.QRCode) drawQR(currentQrUrl);
-    else { const s=document.createElement('script'); s.src='https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js'; s.onload=()=>drawQR(currentQrUrl); document.head.appendChild(s); }
+    document.getElementById('qrUrlText').textContent='Generating…';
+    document.getElementById('qrModal').style.display='block';
+    let token=tokenOverride;
+    if(!token){try{const res=await apiFetch(`${API_BASE}/${entryNo}/qr-token`,{method:'POST'});const data=await res.json();if(!data.success){toast('Failed to generate QR','error');return;}token=data.token;}catch{return;}}
+    const PUBLIC_BASE='https://pachrukhimalkhana.vercel.app';
+    currentQrUrl=`${PUBLIC_BASE}/view.html?t=${token}`;
+    document.getElementById('qrUrlText').textContent=currentQrUrl;
+    if(window.QRCode) drawQR(currentQrUrl);
+    else{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';s.onload=()=>drawQR(currentQrUrl);document.head.appendChild(s);}
 }
-
 function drawQR(url) {
     const canvas=document.getElementById('qrCanvas'); canvas.width=220; canvas.height=220;
     const tmp=document.createElement('div');
     new QRCode(tmp,{text:url,width:220,height:220,colorDark:'#0a1628',colorLight:'#faf7f0',correctLevel:QRCode.CorrectLevel.H});
-    setTimeout(()=>{
-        const gen=tmp.querySelector('canvas');
-        if(gen) canvas.getContext('2d').drawImage(gen,0,0);
-        else { const img=tmp.querySelector('img'); if(img){const i=new Image(); i.onload=()=>canvas.getContext('2d').drawImage(i,0,0,220,220); i.src=img.src;} }
-    },150);
+    setTimeout(()=>{const gen=tmp.querySelector('canvas');if(gen)canvas.getContext('2d').drawImage(gen,0,0);else{const img=tmp.querySelector('img');if(img){const i=new Image();i.onload=()=>canvas.getContext('2d').drawImage(i,0,0,220,220);i.src=img.src;}}},150);
 }
-
-function closeQrModal()  { document.getElementById('qrModal').style.display='none'; }
-function copyQRLink()    { if(!currentQrUrl) return; navigator.clipboard.writeText(currentQrUrl).then(()=>toast('Link copied to clipboard','success')).catch(()=>toast('Copy failed','info')); }
+function closeQrModal() { document.getElementById('qrModal').style.display='none'; }
+function copyQRLink()   { if(!currentQrUrl)return; navigator.clipboard.writeText(currentQrUrl).then(()=>toast('Link copied','success')).catch(()=>toast('Copy failed','info')); }
 function printQR() {
     const card=document.getElementById('qrCardInner').cloneNode(true);
-    const printArea=document.getElementById('printArea');
-    printArea.style.cssText='position:fixed;inset:0;z-index:99999;background:white;display:flex;align-items:center;justify-content:center;';
-    const wrap=document.createElement('div'); wrap.style.cssText='border:2px solid #0a1628;border-radius:4px;padding:24px;max-width:340px;width:100%;text-align:center;'; wrap.appendChild(card);
-    printArea.innerHTML=''; printArea.appendChild(wrap); window.print();
-    setTimeout(()=>{ printArea.style.display='none'; printArea.innerHTML=''; },1000);
+    const pa=document.getElementById('printArea');
+    pa.style.cssText='position:fixed;inset:0;z-index:99999;background:white;display:flex;align-items:center;justify-content:center;';
+    const w=document.createElement('div'); w.style.cssText='border:2px solid #0a1628;border-radius:4px;padding:24px;max-width:340px;width:100%;text-align:center;';
+    w.appendChild(card); pa.innerHTML=''; pa.appendChild(w); window.print();
+    setTimeout(()=>{pa.style.display='none';pa.innerHTML='';},1000);
 }
 
 ['recordModal','photoModal','qrModal'].forEach(id=>{
     document.getElementById(id).addEventListener('click',e=>{
-        if(e.target.id===id){ if(id==='recordModal') closeRecordModal(); else if(id==='photoModal') closePhotoModal(); else closeQrModal(); }
+        if(e.target.id===id){if(id==='recordModal')closeRecordModal();else if(id==='photoModal')closePhotoModal();else closeQrModal();}
     });
 });
 
-document.getElementById('loginPassword').addEventListener('keydown',e=>{ if(e.key==='Enter') doLogin(); });
+document.getElementById('loginPassword').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 </script>
 </body>
 </html>
